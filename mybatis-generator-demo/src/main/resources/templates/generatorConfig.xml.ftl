@@ -25,11 +25,11 @@
         <!--<plugin type="com.zheng.common.plugin.PaginationPlugin"></plugin>-->
 
         <!-- 生成的代码去掉注释 -->
-        <#--<commentGenerator type="com.lee9213.generator.plugin.CommentGenerator">-->
-            <#--<property name="suppressAllComments" value="true"/>-->
-            <#--<property name="suppressDate" value="true"/>-->
-            <#--<property name="user.name" value="${global.author}"/>-->
-        <#--</commentGenerator>-->
+        <commentGenerator type="com.lee9213.mybatis.generator.plugin.CommentGenerator">
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="user.name" value="${global.author}"/>
+        </commentGenerator>
 
         <!-- 数据库连接 -->
         <jdbcConnection driverClass="${datasource.driverName}" connectionURL="${datasource.url}"
