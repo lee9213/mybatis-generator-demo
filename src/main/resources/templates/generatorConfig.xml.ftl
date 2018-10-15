@@ -25,7 +25,7 @@
         <!--<plugin type="com.zheng.common.plugin.PaginationPlugin"></plugin>-->
 
         <!-- 生成的代码去掉注释 -->
-        <commentGenerator type="com.lee9213.mybatis.generator.plugin.CommentGenerator">
+        <commentGenerator type="com.lee9213.mybatis.generator.plugin.mybatis.CommentGenerator">
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
             <property name="user.name" value="${global.author}"/>
@@ -33,7 +33,12 @@
 
         <!-- 数据库连接 -->
         <jdbcConnection driverClass="${datasource.driverName}" connectionURL="${datasource.url}"
-                        userId="${datasource.username}" password="${datasource.password}"/>
+                        userId="${datasource.username}" password="${datasource.password}">
+            <!--设置可以获取tables remarks信息-->
+            <property name="useInformationSchema" value="true"/>
+            <!--设置可以获取remarks信息-->
+            <property name="remarks" value="true"/>
+        </jdbcConnection>
         <!-- 类型转换 -->
         <javaTypeResolver>
             <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
@@ -83,7 +88,9 @@
                        enableDeleteByExample = "true"
                        enableCountByExample="true"
                        enableUpdateByExample="true"
-                       mapperName="${table.mapperName}" ></table>
+                       mapperName="${table.mapperName}" >
+                    <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+                </table>
             </#if>
         </#list>
     </context>
