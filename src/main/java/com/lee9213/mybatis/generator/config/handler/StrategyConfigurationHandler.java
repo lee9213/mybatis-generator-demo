@@ -4,19 +4,20 @@ import com.lee9213.mybatis.generator.config.DataSourceConfiguration;
 import com.lee9213.mybatis.generator.config.GlobalConfiguration;
 import com.lee9213.mybatis.generator.config.StrategyConfiguration;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
-import com.lee9213.mybatis.generator.config.po.DbType;
 import com.lee9213.mybatis.generator.config.po.TableInfo;
 import com.lee9213.mybatis.generator.query.IDbQuery;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.NamingStrategy;
-import com.lee9213.mybatis.generator.util.StringPool;
 import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author libo
@@ -26,44 +27,16 @@ import java.util.*;
 public class StrategyConfigurationHandler implements ConfigurationHandler {
     @Override
     public void handler(ConfigurationBuilder configBuilder) {
-        List<TableInfo> tableInfoList = getTablesInfo(configBuilder);
+        List<TableInfo> tableInfoList = getTableInfo(configBuilder);
         configBuilder.setTableInfoList(tableInfoList);
     }
-
-    /**
-     * <p>
-     * 处理superClassName,IdClassType,IdStrategy配置
-     * </p>
-     *
-     * @param config 策略配置
-     */
-//    private void processTypes(StrategyConfiguration config) {
-//        if (StringUtils.isEmpty(config.getSuperServiceClass())) {
-//            superServiceClass = Constant.SUPER_SERVICE_CLASS;
-//        } else {
-//            superServiceClass = config.getSuperServiceClass();
-//        }
-//        if (StringUtils.isEmpty(config.getSuperServiceImplClass())) {
-//            superServiceImplClass = Constant.SUPER_SERVICE_IMPL_CLASS;
-//        } else {
-//            superServiceImplClass = config.getSuperServiceImplClass();
-//        }
-//        if (StringUtils.isEmpty(config.getSuperMapperClass())) {
-//            superMapperClass = Constant.SUPER_MAPPER_CLASS;
-//        } else {
-//            superMapperClass = config.getSuperMapperClass();
-//        }
-//        superEntityClass = config.getSuperEntityClass();
-//        superControllerClass = config.getSuperControllerClass();
-//    }
 
     /**
      * <p>
      * 获取所有的数据库表信息
      * </p>
      */
-    private List<TableInfo> getTablesInfo(ConfigurationBuilder configBuilder) {
-//        processTypes(config);
+    private List<TableInfo> getTableInfo(ConfigurationBuilder configBuilder) {
         StrategyConfiguration strategyConfiguration = configBuilder.getStrategyConfiguration();
         DataSourceConfiguration dataSourceConfiguration = configBuilder.getDataSourceConfiguration();
         boolean isInclude = (null != strategyConfiguration.getInclude() && strategyConfiguration.getInclude().length > 0);
@@ -85,38 +58,6 @@ public class StrategyConfigurationHandler implements ConfigurationHandler {
         PreparedStatement preparedStatement = null;
         try {
             String tablesSql = dbQuery.tablesSql();
-            if (DbType.POSTGRE_SQL == dbQuery.dbType()) {
-                String schema = dataSourceConfiguration.getSchemaName();
-                if (schema == null) {
-                    //pg默认schema=public
-                    schema = "public";
-                    dataSourceConfiguration.setSchemaName(schema);
-                }
-                tablesSql = String.format(tablesSql, schema);
-            }
-            //oracle数据库表太多，出现最大游标错误
-            else if (DbType.ORACLE == dbQuery.dbType()) {
-                String schema = dataSourceConfiguration.getSchemaName();
-                //oracle默认用户的schema=username
-                if (schema == null) {
-                    schema = dataSourceConfiguration.getUsername().toUpperCase();
-                    dataSourceConfiguration.setSchemaName(schema);
-                }
-                tablesSql = String.format(tablesSql, schema);
-                if (isInclude) {
-                    StringBuilder sb = new StringBuilder(tablesSql);
-                    sb.append(" AND ").append(dbQuery.tableName()).append(" IN (");
-                    Arrays.stream(strategyConfiguration.getInclude()).forEach(tbname -> sb.append(StringPool.SINGLE_QUOTE).append(tbname.toUpperCase()).append("',"));
-                    sb.replace(sb.length() - 1, sb.length(), StringPool.RIGHT_BRACKET);
-                    tablesSql = sb.toString();
-                } else if (isExclude) {
-                    StringBuilder sb = new StringBuilder(tablesSql);
-                    sb.append(" AND ").append(dbQuery.tableName()).append(" NOT IN (");
-                    Arrays.stream(strategyConfiguration.getExclude()).forEach(tbname -> sb.append(StringPool.SINGLE_QUOTE).append(tbname.toUpperCase()).append("',"));
-                    sb.replace(sb.length() - 1, sb.length(), StringPool.RIGHT_BRACKET);
-                    tablesSql = sb.toString();
-                }
-            }
             preparedStatement = connection.prepareStatement(tablesSql);
             ResultSet results = preparedStatement.executeQuery();
             TableInfo tableInfo;
@@ -326,4 +267,66 @@ public class StrategyConfigurationHandler implements ConfigurationHandler {
             });
         }*/
     }
+
+
+//    /**
+//     * <p>
+//     * 开放表信息、预留子类重写
+//     * </p>
+//     *
+//     * @param config 配置信息
+//     * @return
+//     */
+//    protected List<TableInfo> getAllTableInfoList(ConfigurationBuilder config) {
+//        return config.getTableInfoList();
+//    }
+//
+//    /**
+//     * <p>
+//     * 预处理配置
+//     * </p>
+//     *
+//     * @param config 总配置信息
+//     * @return 解析数据结果集
+//     */
+//    protected ConfigurationBuilder pretreatmentConfigBuilder(ConfigurationBuilder config) {
+//        /**
+//         * 表信息列表
+//         */
+//        List<TableInfo> tableList = this.getAllTableInfoList(config);
+//
+//        for (TableInfo tableInfo : tableList) {
+////            /* ---------- 添加导入包 ---------- */
+////            if (config.getGlobalConfig().isActiveRecord()) {
+////                // 开启 ActiveRecord 模式
+////                tableInfo.setImportPackages(Model.class.getCanonicalName());
+////            }
+//            if (tableInfo.isConvert()) {
+//                // 表注解
+//                tableInfo.setImportPackages(TableName.class.getCanonicalName());
+//            }
+////            if (config.getStrategyConfig().getLogicDeleteFieldName() != null && tableInfo.isLogicDelete(config.getStrategyConfig().getLogicDeleteFieldName())) {
+////                // 逻辑删除注解
+////                tableInfo.setImportPackages(TableLogic.class.getCanonicalName());
+////            }
+////            if (StringUtils.isNotEmpty(config.getStrategyConfig().getVersionFieldName())) {
+////                // 乐观锁注解
+////                tableInfo.setImportPackages(Version.class.getCanonicalName());
+////            }
+////            if (StringUtils.isNotEmpty(config.getSuperEntityClass())) {
+////                // 父实体
+////                tableInfo.setImportPackages(config.getSuperEntityClass());
+////            } else {
+////                tableInfo.setImportPackages(Serializable.class.getCanonicalName());
+////            }
+////            // Boolean类型is前缀处理
+////            if (config.getStrategyConfig().isEntityBooleanColumnRemoveIsPrefix()) {
+////                tableInfo.getFields().stream().filter(field -> "boolean".equalsIgnoreCase(field.getPropertyType()))
+////                        .filter(field -> field.getPropertyName().startsWith("is"))
+////                        .forEach(field -> field.setPropertyName(config.getStrategyConfig(),
+////                                StringUtils.removePrefixAfterPrefixToLower(field.getPropertyName(), 2)));
+////            }
+//        }
+//        return config.setTableInfoList(tableList);
+//    }
 }

@@ -57,21 +57,6 @@ public class DataSourceConfiguration extends AbstractConfiguration {
     public IDbQuery getDbQuery() {
         if (null == dbQuery) {
             switch (getDbType()) {
-//                case ORACLE:
-//                    dbQuery = new OracleQuery();
-//                    break;
-//                case SQL_SERVER:
-//                    dbQuery = new SqlServerQuery();
-//                    break;
-//                case POSTGRE_SQL:
-//                    dbQuery = new PostgreSqlQuery();
-//                    break;
-//                case DB2:
-//                    dbQuery = new DB2Query();
-//                    break;
-//                case MARIADB:
-//                    dbQuery = new MariadbQuery();
-//                    break;
                 default:
                     // 默认 MYSQL
                     dbQuery = new MySqlQuery();
