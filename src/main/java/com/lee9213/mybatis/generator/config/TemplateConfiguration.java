@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "templates")
 @Data
-public class TemplateConfiguration {
+public class TemplateConfiguration extends AbstractConfiguration {
 
     private String generator = Constant.GENERATOR_CONFIG;
 

@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "strategy")
-public class StrategyConfiguration {
+public class StrategyConfiguration extends AbstractConfiguration {
 
     /**
      * 是否大写命名

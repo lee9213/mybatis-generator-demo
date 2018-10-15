@@ -2,11 +2,11 @@ package com.lee9213.mybatis.generator;
 
 import ch.qos.logback.classic.db.names.TableName;
 import com.lee9213.mybatis.generator.config.*;
-import com.lee9213.mybatis.generator.config.builder.ConfigBuilder;
+import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
 import com.lee9213.mybatis.generator.config.po.TableInfo;
 import com.lee9213.mybatis.generator.engine.AbstractTemplateEngine;
 import com.lee9213.mybatis.generator.engine.FreemarkerTemplateEngine;
-import lombok.Data;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,58 +18,51 @@ import java.util.List;
  * @version 1.0
  * @date 2018-10-14 0:07
  */
-@Data
+@Setter
 @Accessors(chain = true)
 public class AutoGenerator {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /**
-     * 配置信息
-     */
-    protected ConfigBuilder config;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * 数据源配置
      */
-    private DataSourceConfiguration dataSource;
+    private DataSourceConfiguration dataSourceConfiguration;
     /**
      * 数据库表配置
      */
-    private StrategyConfiguration strategy;
+    private StrategyConfiguration strategyConfiguration;
     /**
      * 包 相关配置
      */
-    private PackageConfiguration packageInfo;
+    private PackageConfiguration packageConfiguration;
     /**
      * 模板 相关配置
      */
-    private TemplateConfiguration template;
+    private TemplateConfiguration templateConfiguration;
     /**
      * 全局 相关配置
      */
-    private GlobalConfiguration globalConfig;
+    private GlobalConfiguration globalConfiguration;
     /**
      * 模板引擎
      */
     private AbstractTemplateEngine templateEngine;
 
-
     /**
      * 生成代码
      */
     public void execute() {
-        logger.debug("==========================准备生成文件...==========================");
+        logger.info("==========================准备生成文件...==========================");
         // 初始化配置
-        if (null == config) {
-            config = new ConfigBuilder(globalConfig, template, packageInfo, dataSource, strategy);
-        }
+        ConfigurationBuilder config = new ConfigurationBuilder(globalConfiguration, templateConfiguration, packageConfiguration, dataSourceConfiguration, strategyConfiguration);
         if (null == templateEngine) {
-            // 为了兼容之前逻辑，采用 Velocity 引擎 【 默认 】
+            // 采用 Freemarker 引擎 【 默认 】
             templateEngine = new FreemarkerTemplateEngine();
         }
 
         // 模板引擎初始化执行文件输出
         templateEngine.init(this.pretreatmentConfigBuilder(config)).mkdirs().batchOutput().open();
-        logger.debug("==========================文件生成完成！！！==========================");
+        logger.info("==========================文件生成完成！！！==========================");
     }
 
     /**
@@ -80,7 +73,7 @@ public class AutoGenerator {
      * @param config 配置信息
      * @return
      */
-    protected List<TableInfo> getAllTableInfoList(ConfigBuilder config) {
+    protected List<TableInfo> getAllTableInfoList(ConfigurationBuilder config) {
         return config.getTableInfoList();
     }
 
@@ -92,7 +85,7 @@ public class AutoGenerator {
      * @param config 总配置信息
      * @return 解析数据结果集
      */
-    protected ConfigBuilder pretreatmentConfigBuilder(ConfigBuilder config) {
+    protected ConfigurationBuilder pretreatmentConfigBuilder(ConfigurationBuilder config) {
         /**
          * 表信息列表
          */

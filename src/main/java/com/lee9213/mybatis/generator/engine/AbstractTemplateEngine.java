@@ -16,8 +16,7 @@
 package com.lee9213.mybatis.generator.engine;
 
 
-import com.lee9213.mybatis.generator.config.builder.ConfigBuilder;
-import com.lee9213.mybatis.generator.config.po.TableInfo;
+import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
 import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.plugin.generator.GeneratorConfigXmlGenerator;
 import com.lee9213.mybatis.generator.util.Constant;
@@ -34,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +51,7 @@ public abstract class AbstractTemplateEngine {
     /**
      * 配置信息
      */
-    private ConfigBuilder configBuilder;
+    private ConfigurationBuilder configBuilder;
 
 
     /**
@@ -61,7 +59,7 @@ public abstract class AbstractTemplateEngine {
      * 模板引擎初始化
      * </p>
      */
-    public AbstractTemplateEngine init(ConfigBuilder configBuilder) {
+    public AbstractTemplateEngine init(ConfigurationBuilder configBuilder) {
         this.configBuilder = configBuilder;
         return this;
     }
@@ -74,7 +72,7 @@ public abstract class AbstractTemplateEngine {
         try {
             logger.info("========== 开始生成GeneratorConfig.xml ==========");
             GeneratorConfigXmlGenerator generatorConfigXmlGenerator = new GeneratorConfigXmlGenerator();
-            generatorConfigXmlGenerator.genertor(this);
+            generatorConfigXmlGenerator.generator(this);
             logger.info("========== 结束生成GeneratorConfig.xml ==========");
 
             logger.info("========== 开始运行MybatisGenerator ==========");
@@ -201,8 +199,8 @@ public abstract class AbstractTemplateEngine {
      * </p>
      */
     public void open() {
-        String outDir = getConfigBuilder().getGlobalConfig().getOutputDir();
-        if (getConfigBuilder().getGlobalConfig().isOpen()
+        String outDir = getConfigBuilder().getGlobalConfiguration().getOutputDir();
+        if (getConfigBuilder().getGlobalConfiguration().isOpen()
             && StringUtils.isNotEmpty(outDir)) {
             try {
                 String osName = System.getProperty("os.name");
@@ -219,28 +217,6 @@ public abstract class AbstractTemplateEngine {
                 e.printStackTrace();
             }
         }
-    }
-
-
-    /**
-     * <p>
-     * 渲染对象 MAP 信息
-     * </p>
-     *
-     * @param tableInfos 表信息对象
-     * @return
-     */
-    public Map<String, Object> getObjectMap(List<TableInfo> tableInfos) {
-        Map<String, Object> objectMap = new HashMap<>(30);
-        ConfigBuilder config = getConfigBuilder();
-        objectMap.put("datasource", config.getDataSourceConfig());
-        objectMap.put("global", config.getGlobalConfig());
-        objectMap.put("package", config.getPackageInfo());
-        objectMap.put("strategy", config.getStrategyConfig());
-        objectMap.put("templates", config.getTemplate());
-        objectMap.put("last_insert_id_tables", new HashMap<>());
-        objectMap.put("tables", tableInfos);
-        return objectMap;
     }
 
 
@@ -275,7 +251,7 @@ public abstract class AbstractTemplateEngine {
      * @return 是否
      */
     protected boolean isCreate(FileType fileType, String filePath) {
-        ConfigBuilder cb = getConfigBuilder();
+        ConfigurationBuilder cb = getConfigBuilder();
         // 自定义判断
 //        InjectionConfig ic = cb.getInjectionConfig();
 //        if (null != ic && null != ic.getFileCreate()) {
@@ -287,15 +263,15 @@ public abstract class AbstractTemplateEngine {
         if (!exist) {
             PackageHelper.mkDir(file.getParentFile());
         }
-        return !exist || getConfigBuilder().getGlobalConfig().isFileOverride();
+        return !exist || getConfigBuilder().getGlobalConfiguration().isFileOverride();
     }
 
 
-    public ConfigBuilder getConfigBuilder() {
+    public ConfigurationBuilder getConfigBuilder() {
         return configBuilder;
     }
 
-    public AbstractTemplateEngine setConfigBuilder(ConfigBuilder configBuilder) {
+    public AbstractTemplateEngine setConfigBuilder(ConfigurationBuilder configBuilder) {
         this.configBuilder = configBuilder;
         return this;
     }

@@ -14,7 +14,7 @@ import java.util.Map;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "package")
 @Data
-public class PackageConfiguration {
+public class PackageConfiguration extends AbstractConfiguration {
 
     /**
      * 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名

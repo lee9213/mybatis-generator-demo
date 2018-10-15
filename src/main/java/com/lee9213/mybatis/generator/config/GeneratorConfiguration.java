@@ -8,7 +8,7 @@ import org.springframework.boot.SpringBootConfiguration;
  * @date 2018-10-14 0:18
  */
 @SpringBootConfiguration
-public class GeneratorConfiguration {
+public class GeneratorConfiguration extends AbstractConfiguration {
 
 
 
