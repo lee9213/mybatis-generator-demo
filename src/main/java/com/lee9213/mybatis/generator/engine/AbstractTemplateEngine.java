@@ -19,7 +19,7 @@ package com.lee9213.mybatis.generator.engine;
 import com.lee9213.mybatis.generator.config.builder.ConfigBuilder;
 import com.lee9213.mybatis.generator.config.po.TableInfo;
 import com.lee9213.mybatis.generator.config.rules.FileType;
-import com.lee9213.mybatis.generator.plugin.GeneratorConfigXmlGenerator;
+import com.lee9213.mybatis.generator.plugin.generator.GeneratorConfigXmlGenerator;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.PackageHelper;
 import com.lee9213.mybatis.generator.util.StringPool;

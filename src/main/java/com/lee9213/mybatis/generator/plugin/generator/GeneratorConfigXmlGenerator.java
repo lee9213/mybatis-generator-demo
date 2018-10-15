@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.plugin;
+package com.lee9213.mybatis.generator.plugin.generator;
 
 import com.lee9213.mybatis.generator.config.TemplateConfiguration;
 import com.lee9213.mybatis.generator.config.builder.ConfigBuilder;
