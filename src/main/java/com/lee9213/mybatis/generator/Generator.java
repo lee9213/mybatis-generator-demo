@@ -1,7 +1,6 @@
 package com.lee9213.mybatis.generator;
 
 import com.lee9213.mybatis.generator.config.*;
-import com.lee9213.mybatis.generator.engine.FreemarkerTemplateEngine;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,23 +22,20 @@ public class Generator {
      */
     public static void main(String[] args) {
 
-
         ConfigurableApplicationContext applicationContext = new SpringApplicationBuilder(Generator.class)
                 .web(WebApplicationType.NONE)
                 .bannerMode(Banner.Mode.OFF).run(args);
         GlobalConfiguration globalConfiguration = (GlobalConfiguration) applicationContext.getBean("globalConfiguration");
+        TemplateConfiguration templateConfiguration = (TemplateConfiguration) applicationContext.getBean("templateConfiguration");
+        PackageConfiguration packageConfiguration = (PackageConfiguration) applicationContext.getBean("packageConfiguration");
         DataSourceConfiguration dataSourceConfiguration = (DataSourceConfiguration) applicationContext.getBean("dataSourceConfiguration");
         StrategyConfiguration strategyConfiguration = (StrategyConfiguration) applicationContext.getBean("strategyConfiguration");
-        PackageConfiguration packageConfiguration = (PackageConfiguration) applicationContext.getBean("packageConfiguration");
-        TemplateConfiguration templateConfiguration = (TemplateConfiguration) applicationContext.getBean("templateConfiguration");
 
-        AutoGenerator mpg = new AutoGenerator().setGlobalConfig(globalConfiguration)
-                .setDataSource(dataSourceConfiguration)
-                .setStrategy(strategyConfiguration)
-                .setPackageInfo(packageConfiguration)
-                .setTemplate(templateConfiguration);
-
-        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
+        AutoGenerator mpg = new AutoGenerator().setGlobalConfiguration(globalConfiguration)
+                .setDataSourceConfiguration(dataSourceConfiguration)
+                .setStrategyConfiguration(strategyConfiguration)
+                .setPackageConfiguration(packageConfiguration)
+                .setTemplateConfiguration(templateConfiguration);
         mpg.execute();
 
 //

@@ -16,7 +16,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "global")
 @Data
-public class GlobalConfiguration {
+public class GlobalConfiguration extends AbstractConfiguration {
 
     /**
      * 生成文件的输出目录

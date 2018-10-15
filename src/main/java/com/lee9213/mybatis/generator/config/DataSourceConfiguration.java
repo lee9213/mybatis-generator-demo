@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "datasource")
 @Data
-public class DataSourceConfiguration {
+public class DataSourceConfiguration extends AbstractConfiguration {
 
     /**
      * 数据库信息查询

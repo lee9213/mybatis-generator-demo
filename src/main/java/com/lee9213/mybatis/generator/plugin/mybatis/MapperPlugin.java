@@ -1,49 +1,44 @@
-//package com.lee9213.mybatis.generator.plugin;
-//
-//import org.mybatis.generator.api.IntrospectedTable;
-//import org.mybatis.generator.api.PluginAdapter;
-//import org.mybatis.generator.api.dom.java.*;
-//import org.mybatis.generator.api.dom.xml.Attribute;
-//import org.mybatis.generator.api.dom.xml.Document;
-//import org.mybatis.generator.api.dom.xml.TextElement;
-//import org.mybatis.generator.api.dom.xml.XmlElement;
-//import org.mybatis.generator.internal.util.StringUtility;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//
-//import java.text.SimpleDateFormat;
-//import java.util.*;
-//
-///**
-// * mapper生成器
-// *
-// * @author lee9213@163.com
-// * @version 1.0
-// * @date 2017/3/29 16:21
-// */
-//public class MapperPlugin extends PluginAdapter {
-//
-//    private static Logger LOGGER = LoggerFactory.getLogger(MapperPlugin.class);
-//    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    private Set<String> mappers = new HashSet<>();
-//    private String author = "";
-//
-//    @Override
-//    public void setProperties(Properties properties) {
-//        super.setProperties(properties);
-//        String mappers = this.properties.getProperty("mappers");
-//        if (StringUtility.stringHasValue(mappers)) {
-//            String[] caseSensitive = mappers.split(",");
-//            int beginningDelimiter = caseSensitive.length;
-//            String schema;
-//            for (int endingDelimiter = 0; endingDelimiter < beginningDelimiter; ++endingDelimiter) {
-//                schema = caseSensitive[endingDelimiter];
-//                this.mappers.add(schema);
-//            }
-//        }
-//        author = properties.getProperty("user.name");
-//    }
-//
+package com.lee9213.mybatis.generator.plugin.mybatis;
+
+import org.mybatis.generator.api.PluginAdapter;
+import org.mybatis.generator.api.dom.java.Interface;
+import org.mybatis.generator.internal.util.StringUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+/**
+ * mapper生成器
+ *
+ * @author lee9213@163.com
+ * @version 1.0
+ * @date 2017/3/29 16:21
+ */
+public class MapperPlugin extends PluginAdapter {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(MapperPlugin.class);
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private Set<String> mappers = new HashSet<>();
+    private String author = "";
+
+    @Override
+    public void setProperties(Properties properties) {
+        super.setProperties(properties);
+        String mappers = this.properties.getProperty("mappers");
+        if (StringUtility.stringHasValue(mappers)) {
+            String[] caseSensitive = mappers.split(",");
+            int beginningDelimiter = caseSensitive.length;
+            String schema;
+            for (int endingDelimiter = 0; endingDelimiter < beginningDelimiter; ++endingDelimiter) {
+                schema = caseSensitive[endingDelimiter];
+                this.mappers.add(schema);
+            }
+        }
+        author = properties.getProperty("user.name");
+    }
+
 //    /**
 //     * Entity生成
 //     *
@@ -70,7 +65,7 @@
 //
 //        return true;
 //    }
-//
+
 //    /**
 //     * Mapper生成
 //     *
@@ -94,7 +89,7 @@
 //            interfaze.addImportedType(new FullyQualifiedJavaType(mapper));
 //            interfaze.addSuperInterface(new FullyQualifiedJavaType(mapper + "<" + entityType.getShortName() + ">"));
 //        }
-//        addInterfaceJavaDoc(interfaze,author,introspectedTable.getFullyQualifiedTable().getRemarks());
+//        addInterfaceJavaDoc(interfaze,author,introspectedTable.getRemarks());
 //        List<Method> methods = interfaze.getMethods();
 //        for (int i = 0; i < methods.size();) {
 //            if (methods.size() == 0)
@@ -103,7 +98,7 @@
 //        }
 //        return true;
 //    }
-//
+
 //    /**
 //     * xml生成
 //     *
@@ -135,19 +130,19 @@
 //
 //        return super.sqlMapDocumentGenerated(document, introspectedTable);
 //    }
-//
-//    @Override
-//    public boolean validate(List<String> list) {
-//        return true;
-//    }
-//
-//    private void addInterfaceJavaDoc(Interface interfaze, String author, String remarks){
-//        interfaze.addJavaDocLine("/**");
-//        interfaze.addJavaDocLine(" * " + remarks);
-//        interfaze.addJavaDocLine(" *");
-//        interfaze.addJavaDocLine(" * @author " + author);
-//        interfaze.addJavaDocLine(" * @version 1.0");
-//        interfaze.addJavaDocLine(" * @date " + format.format(new Date()));
-//        interfaze.addJavaDocLine(" */");
-//    }
-//}
+
+    @Override
+    public boolean validate(List<String> list) {
+        return true;
+    }
+
+    private void addInterfaceJavaDoc(Interface interfaze, String author, String remarks){
+        interfaze.addJavaDocLine("/**");
+        interfaze.addJavaDocLine(" * " + remarks);
+        interfaze.addJavaDocLine(" *");
+        interfaze.addJavaDocLine(" * @author " + author);
+        interfaze.addJavaDocLine(" * @version 1.0");
+        interfaze.addJavaDocLine(" * @date " + format.format(new Date()));
+        interfaze.addJavaDocLine(" */");
+    }
+}
