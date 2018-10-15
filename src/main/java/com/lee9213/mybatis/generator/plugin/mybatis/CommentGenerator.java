@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.plugin;
+package com.lee9213.mybatis.generator.plugin.mybatis;
 
 import com.lee9213.mybatis.generator.util.StringUtils;
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -55,7 +55,7 @@ public class CommentGenerator extends DefaultCommentGenerator {
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         topLevelClass.addJavaDocLine("/**");
-//        topLevelClass.addJavaDocLine(" * " + introspectedTable.getFullyQualifiedTable().getRemarks());
+        topLevelClass.addJavaDocLine(" * " + introspectedTable.getRemarks());
         topLevelClass.addJavaDocLine(" *");
         topLevelClass.addJavaDocLine(" * @author " + author);
         topLevelClass.addJavaDocLine(" * @version 1.0");
