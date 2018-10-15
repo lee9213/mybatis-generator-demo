@@ -45,23 +45,6 @@ public class ConfigurationBuilder {
      */
     private PackageConfiguration packageConfiguration;
 
-//    /**
-//     * SQL连接
-//     */
-//    private Connection connection;
-//    /**
-//     * SQL语句类型
-//     */
-//    private IDbQuery dbQuery;
-//    private String superEntityClass;
-//    private String superMapperClass;
-//    /**
-//     * service超类定义
-//     */
-//    private String superServiceClass;
-//    private String superServiceImplClass;
-//    private String superControllerClass;
-
     /**
      * 数据库表信息
      */
