@@ -1,10 +1,10 @@
 package ${package.ServiceImpl};
 
-import ${package.Entity}.${entity};
+import ${package.Entity}.${table.entityName};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
-<#if superServiceImplClass??>
-import ${superServiceImplClassPackage};
+<#if strategy.superServiceImplClass?default("")?length gt 1>
+import ${strategy.superServiceImplClass};
 </#if>
 import org.springframework.stereotype.Service;
 
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
  * ${table.comment!} 服务实现类
  * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @author ${global.author}
+ * @since ${global.date}
  */
 @Service
-<#if superServiceImplClass??>
-public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+<#if strategy.superServiceImplClass?default("")?length gt 1>
+public class ${table.serviceImplName} extends ${strategy.superServiceImplClass}<${table.mapperName}, ${table.entityName}> implements ${table.serviceName} {
 
 }
 <#else>

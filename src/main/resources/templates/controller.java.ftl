@@ -1,15 +1,14 @@
 package ${package.Controller};
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-<#if restControllerStyle>
+<#if strategy.restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
 import org.springframework.stereotype.Controller;
 </#if>
-<#if superControllerClassPackage??>
-import ${superControllerClassPackage};
+import org.springframework.web.bind.annotation.RequestMapping;
+<#if strategy.superControllerClass?default("")?length gt 1>
+import ${strategy.superControllerClass};
 </#if>
 
 /**
@@ -17,17 +16,17 @@ import ${superControllerClassPackage};
  * ${table.comment!} 前端控制器
  * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @author ${global.author}
+ * @since ${global.date}
  */
-<#if restControllerStyle>
+<#if strategy.restControllerStyle>
 @RestController
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
-<#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
+@RequestMapping("<#if package.ModuleName?default("")?length gt 1>/${package.ModuleName}</#if>/<#if strategy.controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+<#if strategy.superControllerClass?default("")?length gt 1>
+public class ${table.controllerName} extends ${strategy.superControllerClass} {
 <#else>
 public class ${table.controllerName} {
 </#if>

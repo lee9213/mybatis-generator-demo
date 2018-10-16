@@ -1,20 +1,22 @@
 package ${package.Service};
 
-import ${package.Entity}.${entity};
-import ${superServiceClassPackage};
+import ${package.Entity}.${table.entityName};
+<#if strategy.superServiceClass?default("")?length gt 1>
+import ${strategy.superServiceClass};
+</#if>
 
 /**
  * <p>
  * ${table.comment!} 服务类
  * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @author ${global.author}
+ * @since ${global.date}
  */
-<#if superServiceClass??>
-public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+<#if strategy.superServiceClass?default("")?length gt 1>
+public interface ${table.serviceName} extends ${strategy.superServiceClass}<${table.entityName}> {
 <#else>
 public interface ${table.serviceName} {
+</#if>
 
 }
-</#if>

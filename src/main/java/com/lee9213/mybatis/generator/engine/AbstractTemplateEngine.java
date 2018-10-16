@@ -16,13 +16,19 @@
 package com.lee9213.mybatis.generator.engine;
 
 
+import com.google.common.collect.Maps;
+import com.lee9213.mybatis.generator.config.StrategyConfiguration;
+import com.lee9213.mybatis.generator.config.TemplateConfiguration;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
+import com.lee9213.mybatis.generator.config.po.TableInfo;
 import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.plugin.generator.GeneratorConfigXmlGenerator;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.PackageHelper;
 import com.lee9213.mybatis.generator.util.StringPool;
 import com.lee9213.mybatis.generator.util.StringUtils;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
@@ -45,6 +51,8 @@ import java.util.Map;
  * @author hubin
  * @since 2018-01-10
  */
+@Data
+@Accessors(chain = true)
 public abstract class AbstractTemplateEngine {
 
     protected static final Logger logger = LoggerFactory.getLogger(AbstractTemplateEngine.class);
@@ -90,6 +98,39 @@ public abstract class AbstractTemplateEngine {
             }
             logger.info("========== 结束运行MybatisGenerator ==========");
 
+            logger.info("========== 开始生成Service、ServiceImpl、Controller ==========");
+            TemplateConfiguration templateConfiguration = getConfigBuilder().getTemplateConfiguration();
+            List<TableInfo> tableInfoList = getConfigBuilder().getTableInfoList();
+            for (TableInfo tableInfo : tableInfoList) {
+                Map<String, Object> objectMap = getObjectMap(tableInfo);
+
+                String entityName = tableInfo.getEntityName();
+                // 生成Service
+                if (null != tableInfo.getServiceName() && null != pathInfo.get(Constant.SERVICE_PATH)) {
+                    String serviceFile = String.format((pathInfo.get(Constant.SERVICE_PATH) + File.separator + tableInfo.getServiceName() + Constant.JAVA_SUFFIX), entityName);
+                    if (isCreate(FileType.SERVICE, serviceFile)) {
+                        writer(objectMap, templateFilePath(templateConfiguration.getService()), serviceFile);
+                    }
+                }
+
+                // 生成ServiceImpl
+                if (null != tableInfo.getServiceImplName() && null != pathInfo.get(Constant.SERVICE_IMPL_PATH)) {
+                    String implFile = String.format((pathInfo.get(Constant.SERVICE_IMPL_PATH) + File.separator + tableInfo.getServiceImplName() + Constant.JAVA_SUFFIX), entityName);
+                    if (isCreate(FileType.SERVICE_IMPL, implFile)) {
+                        writer(objectMap, templateFilePath(templateConfiguration.getServiceImpl()), implFile);
+                    }
+                }
+
+                // 生成Controller
+                if (null != tableInfo.getControllerName() && null != pathInfo.get(Constant.CONTROLLER_PATH)) {
+                    String controllerFile = String.format((pathInfo.get(Constant.CONTROLLER_PATH) + File.separator + tableInfo.getControllerName() + Constant.JAVA_SUFFIX), entityName);
+                    if (isCreate(FileType.CONTROLLER, controllerFile)) {
+                        writer(objectMap, templateFilePath(templateConfiguration.getController()), controllerFile);
+                    }
+                }
+            }
+
+            logger.info("========== 结束生成Service、ServiceImpl、Controller ==========");
 
 
 
@@ -134,32 +175,29 @@ public abstract class AbstractTemplateEngine {
 //                        writer(objectMap, templateFilePath(template.getXml()), xmlFile);
 //                    }
 //                }
-//                // IMpService.java
-//                if (null != tableInfo.getServiceName() && null != pathInfo.get(Constant.SERVICE_PATH)) {
-//                    String serviceFile = String.format((pathInfo.get(Constant.SERVICE_PATH) + File.separator + tableInfo.getServiceName() + suffixJavaOrKt()), entityName);
-//                    if (isCreate(FileType.SERVICE, serviceFile)) {
-//                        writer(objectMap, templateFilePath(template.getService()), serviceFile);
-//                    }
-//                }
-//                // MpServiceImpl.java
-//                if (null != tableInfo.getServiceImplName() && null != pathInfo.get(Constant.SERVICE_IMPL_PATH)) {
-//                    String implFile = String.format((pathInfo.get(Constant.SERVICE_IMPL_PATH) + File.separator + tableInfo.getServiceImplName() + suffixJavaOrKt()), entityName);
-//                    if (isCreate(FileType.SERVICE_IMPL, implFile)) {
-//                        writer(objectMap, templateFilePath(template.getServiceImpl()), implFile);
-//                    }
-//                }
-//                // MpController.java
-//                if (null != tableInfo.getControllerName() && null != pathInfo.get(Constant.CONTROLLER_PATH)) {
-//                    String controllerFile = String.format((pathInfo.get(Constant.CONTROLLER_PATH) + File.separator + tableInfo.getControllerName() + suffixJavaOrKt()), entityName);
-//                    if (isCreate(FileType.CONTROLLER, controllerFile)) {
-//                        writer(objectMap, templateFilePath(template.getController()), controllerFile);
-//                    }
-//                }
 //            }
         } catch (Exception e) {
             logger.error("无法创建文件，请检查配置信息！", e);
         }
         return this;
+    }
+
+    protected Map<String, Object> getObjectMap(TableInfo tableInfo) {
+        Map<String, Object> objectMap = Maps.newHashMapWithExpectedSize(8);
+        objectMap.put("table", tableInfo);
+        objectMap.put("datasource", configBuilder.getDataSourceConfiguration());
+        objectMap.put("global", configBuilder.getGlobalConfiguration());
+        objectMap.put("package", configBuilder.getPackageInfo());
+        objectMap.put("templates", configBuilder.getTemplateConfiguration());
+
+        StrategyConfiguration strategyConfiguration = configBuilder.getStrategyConfiguration();
+        objectMap.put("strategy", strategyConfiguration);
+        if (strategyConfiguration.isControllerMappingHyphenStyle()) {
+            objectMap.put("controllerMappingHyphen", StringUtils.camelToHyphen(tableInfo.getEntityPath()));
+        }else{
+            objectMap.put("controllerMappingHyphen", "");
+        }
+        return objectMap;
     }
 
 
@@ -265,15 +303,4 @@ public abstract class AbstractTemplateEngine {
         }
         return !exist || getConfigBuilder().getGlobalConfiguration().isFileOverride();
     }
-
-
-    public ConfigurationBuilder getConfigBuilder() {
-        return configBuilder;
-    }
-
-    public AbstractTemplateEngine setConfigBuilder(ConfigurationBuilder configBuilder) {
-        this.configBuilder = configBuilder;
-        return this;
-    }
-
 }
