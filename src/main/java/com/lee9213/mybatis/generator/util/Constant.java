@@ -18,7 +18,7 @@ public interface Constant {
     String SERVICE = "Service";
     String SERVICE_IMPL = "ServiceImpl";
     String MAPPER = "Mapper";
-    String XML = "Xml";
+    String MAPPER_XML = "MapperXml";
     String CONTROLLER = "Controller";
 
     String GENERATOR_PATH = "generator_path";
@@ -26,7 +26,7 @@ public interface Constant {
     String SERVICE_PATH = "service_path";
     String SERVICE_IMPL_PATH = "service_impl_path";
     String MAPPER_PATH = "mapper_path";
-    String XML_PATH = "xml_path";
+    String MAPPER_XML_PATH = "xml_path";
     String CONTROLLER_PATH = "controller_path";
 
     String JAVA_TMPDIR = "java.io.tmpdir";

@@ -48,7 +48,7 @@ public class PackageConfiguration extends AbstractConfiguration {
     /**
      * Mapper XML包名
      */
-    private String xml = "mapper.xml";
+    private String mapperXml = "mybatis";
 
     /**
      * Controller包名

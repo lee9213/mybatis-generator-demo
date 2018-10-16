@@ -22,7 +22,7 @@ import com.lee9213.mybatis.generator.config.TemplateConfiguration;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
 import com.lee9213.mybatis.generator.config.po.TableInfo;
 import com.lee9213.mybatis.generator.config.rules.FileType;
-import com.lee9213.mybatis.generator.plugin.generator.GeneratorConfigXmlGenerator;
+import com.lee9213.mybatis.generator.engine.generator.GeneratorConfigXmlGenerator;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.PackageHelper;
 import com.lee9213.mybatis.generator.util.StringPool;
@@ -78,12 +78,11 @@ public abstract class AbstractTemplateEngine {
      */
     public AbstractTemplateEngine batchOutput() {
         try {
-            logger.info("========== 开始生成GeneratorConfig.xml ==========");
+            // 生成GeneratorConfig.xml
             GeneratorConfigXmlGenerator generatorConfigXmlGenerator = new GeneratorConfigXmlGenerator();
             generatorConfigXmlGenerator.generator(this);
-            logger.info("========== 结束生成GeneratorConfig.xml ==========");
 
-            logger.info("========== 开始运行MybatisGenerator ==========");
+            // 生成entity、mapper、mapper.xml
             Map<String, String> pathInfo = getConfigBuilder().getPathInfo();
             String generatorConfigXml = pathInfo.get(Constant.GENERATOR_PATH) + File.separator + Constant.GENERATOR_NAME;
             List<String> warnings = new ArrayList<>();
@@ -96,9 +95,8 @@ public abstract class AbstractTemplateEngine {
             for (String warning : warnings) {
                 logger.info(warning);
             }
-            logger.info("========== 结束运行MybatisGenerator ==========");
 
-            logger.info("========== 开始生成Service、ServiceImpl、Controller ==========");
+            // 生成Service、ServiceImpl、Controller
             TemplateConfiguration templateConfiguration = getConfigBuilder().getTemplateConfiguration();
             List<TableInfo> tableInfoList = getConfigBuilder().getTableInfoList();
             for (TableInfo tableInfo : tableInfoList) {
@@ -129,10 +127,6 @@ public abstract class AbstractTemplateEngine {
                     }
                 }
             }
-
-            logger.info("========== 结束生成Service、ServiceImpl、Controller ==========");
-
-
 
 //            List<TableInfo> tableInfoList = getConfigBuilder().getTableInfoList();
 //            for (TableInfo tableInfo : tableInfoList) {
