@@ -1,2 +1,4 @@
-rootProject.name = 'mybatis-generator-demo'
+rootProject.name = 'mybatis-generator'
+include 'mybatis-generator-core'
+include 'mybatis-generator-demo'
 
