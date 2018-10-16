@@ -1,6 +1,6 @@
-package ${package.Service};
+package ${package.service};
 
-import ${package.Entity}.${table.entityName};
+import ${package.entity}.${table.entityName};
 <#if strategy.superServiceClass?default("")?length gt 1>
 import ${strategy.superServiceClass};
 </#if>

@@ -1,6 +1,6 @@
 package com.lee9213.mybatis.generator.engine.generator;
 
-import com.lee9213.mybatis.generator.config.TemplateConfiguration;
+import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
 import com.lee9213.mybatis.generator.engine.AbstractTemplateEngine;
 import com.lee9213.mybatis.generator.util.Constant;
@@ -32,8 +32,8 @@ public class GeneratorConfigXmlGenerator implements BaseGenerator {
     @Override
     public void generator(AbstractTemplateEngine templateEngine) {
         ConfigurationBuilder configBuilder = templateEngine.getConfigBuilder();
-        TemplateConfiguration template = configBuilder.getTemplateConfiguration();
-        String generatorConfigXml = configBuilder.getPathInfo().get(Constant.GENERATOR_PATH) + File.separator + Constant.GENERATOR_NAME;
+        TemplateProperties template = configBuilder.getTemplateProperties();
+        String generatorConfigXml = configBuilder.getPathInfo().getGeneratorPath() + File.separator + Constant.GENERATOR_NAME;
         try {
             templateEngine.writer(getObjectMap(configBuilder), templateEngine.templateFilePath(template.getGenerator()), generatorConfigXml);
         } catch (Exception e) {
@@ -52,11 +52,11 @@ public class GeneratorConfigXmlGenerator implements BaseGenerator {
     @Override
     public Map<String, Object> getObjectMap(ConfigurationBuilder configBuilder) {
         Map<String, Object> objectMap = new HashMap<>(8);
-        objectMap.put("datasource", configBuilder.getDataSourceConfiguration());
-        objectMap.put("global", configBuilder.getGlobalConfiguration());
+        objectMap.put("datasource", configBuilder.getDataSourceProperties());
+        objectMap.put("global", configBuilder.getGlobalProperties());
         objectMap.put("package", configBuilder.getPackageInfo());
-        objectMap.put("strategy", configBuilder.getStrategyConfiguration());
-        objectMap.put("templates", configBuilder.getTemplateConfiguration());
+        objectMap.put("strategy", configBuilder.getStrategyProperties());
+        objectMap.put("templates", configBuilder.getTemplateProperties());
         objectMap.put("last_insert_id_tables", new HashMap<>(1));
         objectMap.put("tables", configBuilder.getTableInfoList());
         return objectMap;

@@ -1,17 +1,19 @@
 package com.lee9213.mybatis.generator.config.handler;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-import com.lee9213.mybatis.generator.config.GlobalConfiguration;
-import com.lee9213.mybatis.generator.config.PackageConfiguration;
-import com.lee9213.mybatis.generator.config.TemplateConfiguration;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
+import com.lee9213.mybatis.generator.config.domain.PackageInfo;
+import com.lee9213.mybatis.generator.config.domain.PathInfo;
+import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
+import com.lee9213.mybatis.generator.config.properties.PackageProperties;
+import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.StringPool;
 import com.lee9213.mybatis.generator.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Map;
 
 /**
  * @author libo
@@ -19,40 +21,59 @@ import java.util.Map;
  * @date 2018/10/15 16:06
  */
 public class PackageConfigurationHandler implements ConfigurationHandler {
+    protected static final Logger logger = LoggerFactory.getLogger(PackageConfigurationHandler.class);
 
     @Override
     public void handler(ConfigurationBuilder configBuilder) {
 
-        GlobalConfiguration globalConfiguration = configBuilder.getGlobalConfiguration();
-        PackageConfiguration packageConfiguration = configBuilder.getPackageConfiguration();
-        TemplateConfiguration templateConfiguration = configBuilder.getTemplateConfiguration();
+        GlobalProperties globalConfiguration = configBuilder.getGlobalProperties();
+        PackageProperties packageConfiguration = configBuilder.getPackageProperties();
+        TemplateProperties templateConfiguration = configBuilder.getTemplateProperties();
         // 包信息
-        Map<String, String> packageInfo = Maps.newHashMapWithExpectedSize(8);
-        packageInfo.put(Constant.GENERATOR, "");
-        packageInfo.put(Constant.MODULE_NAME, packageConfiguration.getModuleName());
-        packageConfiguration.setParent(joinPackage(packageConfiguration.getParent(),packageConfiguration.getModuleName()));
-        packageInfo.put(Constant.ENTITY, joinPackage(packageConfiguration.getParent(), packageConfiguration.getEntity()));
-        packageInfo.put(Constant.MAPPER, joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapper()));
-        packageInfo.put(Constant.MAPPER_XML, joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapperXml()));
-        packageInfo.put(Constant.SERVICE, joinPackage(packageConfiguration.getParent(), packageConfiguration.getService()));
-        packageInfo.put(Constant.SERVICE_IMPL, joinPackage(packageConfiguration.getParent(), packageConfiguration.getServiceImpl()));
-        packageInfo.put(Constant.CONTROLLER, joinPackage(packageConfiguration.getParent(), packageConfiguration.getController()));
+        packageConfiguration.setParent(joinPackage(packageConfiguration.getParent(), packageConfiguration.getModuleName()));
+        PackageInfo packageInfo = new PackageInfo()
+                .setModuleName(packageConfiguration.getModuleName())
+                .setEntity(joinPackage(packageConfiguration.getParent(), packageConfiguration.getEntity()))
+                .setMapper(joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapper()))
+                .setMapperXml(joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapperXml()))
+                .setService(joinPackage(packageConfiguration.getParent(), packageConfiguration.getService()))
+                .setServiceImpl(joinPackage(packageConfiguration.getParent(), packageConfiguration.getServiceImpl()))
+                .setController(joinPackage(packageConfiguration.getParent(), packageConfiguration.getController()));
         configBuilder.setPackageInfo(packageInfo);
-        // 自定义路径
-        Map<String, String> pathInfo = packageConfiguration.getPathInfo();
-        if (pathInfo == null) {
-            pathInfo = Maps.newHashMapWithExpectedSize(8);
-            // 生成路径信息
-            // TODO 优化路径
-            String outputDir = globalConfiguration.getOutputDir();
-            setPathInfo(pathInfo, templateConfiguration.getGenerator(), outputDir + "\\src\\main\\resources", Constant.GENERATOR_PATH, packageInfo.get(Constant.GENERATOR));
-            setPathInfo(pathInfo, templateConfiguration.getEntity(), outputDir + "\\src\\main\\java", Constant.ENTITY_PATH, packageInfo.get(Constant.ENTITY));
-            setPathInfo(pathInfo, templateConfiguration.getMapper(), outputDir + "\\src\\main\\java", Constant.MAPPER_PATH, packageInfo.get(Constant.MAPPER));
-            setPathInfo(pathInfo, templateConfiguration.getXml(), outputDir + "\\src\\main\\resources", Constant.MAPPER_XML_PATH, packageInfo.get(Constant.MAPPER_XML));
-            setPathInfo(pathInfo, templateConfiguration.getService(), outputDir + "\\src\\main\\java", Constant.SERVICE_PATH, packageInfo.get(Constant.SERVICE));
-            setPathInfo(pathInfo, templateConfiguration.getServiceImpl(), outputDir + "\\src\\main\\java", Constant.SERVICE_IMPL_PATH, packageInfo.get(Constant.SERVICE_IMPL));
-            setPathInfo(pathInfo, templateConfiguration.getController(), outputDir + "\\src\\main\\java", Constant.CONTROLLER_PATH, packageInfo.get(Constant.CONTROLLER));
-            configBuilder.setPathInfo(pathInfo);
+
+        // 生成路径信息
+        // TODO 优化路径
+        String outputDir = globalConfiguration.getOutputDir();
+        PathInfo pathInfo = new PathInfo()
+                .setGeneratorPath(getPathInfo(templateConfiguration.getGenerator(), outputDir + "\\src\\main\\resources", packageInfo.getGenerator()))
+                .setEntityPath(getPathInfo(templateConfiguration.getEntity(), outputDir + "\\src\\main\\java", packageInfo.getEntity()))
+                .setMapperPath(getPathInfo(templateConfiguration.getMapper(), outputDir + "\\src\\main\\java", packageInfo.getMapper()))
+                .setMapperXmlPath(getPathInfo(templateConfiguration.getXml(), outputDir + "\\src\\main\\resources", packageInfo.getMapperXml()))
+                .setServicePath(getPathInfo(templateConfiguration.getService(), outputDir + "\\src\\main\\java", packageInfo.getService()))
+                .setServiceImplPath(getPathInfo(templateConfiguration.getServiceImpl(), outputDir + "\\src\\main\\java", packageInfo.getServiceImpl()))
+                .setControllerPath(getPathInfo(templateConfiguration.getController(), outputDir + "\\src\\main\\java", packageInfo.getController()));
+        configBuilder.setPathInfo(pathInfo);
+
+        mkdir(pathInfo.getGeneratorPath());
+        mkdir(pathInfo.getEntityPath());
+        mkdir(pathInfo.getMapperPath());
+        mkdir(pathInfo.getMapperXmlPath());
+        mkdir(pathInfo.getServicePath());
+        mkdir(pathInfo.getServiceImplPath());
+        mkdir(pathInfo.getControllerPath());
+    }
+    /**
+     * <p>
+     * 处理输出目录
+     * </p>
+     */
+    private void mkdir(String path){
+        File dir = new File(path);
+        if (!dir.exists()) {
+            boolean result = dir.mkdirs();
+            if (result) {
+                logger.debug("创建目录： [" + path + "]");
+            }
         }
     }
 
@@ -72,10 +93,11 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
         return parent + StringPool.DOT + subPackage;
     }
 
-    private void setPathInfo(Map<String, String> pathInfo, String template, String outputDir, String path, String packageInfo) {
+    private String getPathInfo(String template, String outputDir, String packageInfo) {
         if (!Strings.isNullOrEmpty(template)) {
-            pathInfo.put(path, joinPath(outputDir, packageInfo));
+            return joinPath(outputDir, packageInfo);
         }
+        return null;
     }
 
     /**

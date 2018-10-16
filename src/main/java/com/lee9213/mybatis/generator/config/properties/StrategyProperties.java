@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config;
+package com.lee9213.mybatis.generator.config.properties;
 
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.NamingStrategy;
@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "strategy")
-public class StrategyConfiguration extends AbstractConfiguration {
+public class StrategyProperties {
 
     /**
      * 是否大写命名
@@ -76,14 +76,18 @@ public class StrategyConfiguration extends AbstractConfiguration {
     private String superControllerClass;
 
     /**
-     * 需要包含的表名，允许正则表达式（与exclude二选一配置）
+     * 需要包含的表名
      */
-    private String[] include = null;
+    private String[] includeTables = null;
+    /**
+     * 需要包含的表名的前缀
+     */
+    private String[] includeTablePrefixs = null;
 
     /**
-     * 需要排除的表名，允许正则表达式
+     * 需要排除的表名
      */
-    private String[] exclude = null;
+    private String[] excludeTables = null;
     /**
      * 【实体】是否生成字段常量（默认 false）<br>
      * -----------------------------------<br>
@@ -181,7 +185,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return isCapitalMode;
     }
 
-    public StrategyConfiguration setCapitalMode(boolean isCapitalMode) {
+    public StrategyProperties setCapitalMode(boolean isCapitalMode) {
         this.isCapitalMode = isCapitalMode;
         return this;
     }
@@ -190,7 +194,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return skipView;
     }
 
-    public StrategyConfiguration setSkipView(boolean skipView) {
+    public StrategyProperties setSkipView(boolean skipView) {
         this.skipView = skipView;
         return this;
     }
@@ -199,7 +203,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return naming;
     }
 
-    public StrategyConfiguration setNaming(NamingStrategy naming) {
+    public StrategyProperties setNaming(NamingStrategy naming) {
         this.naming = naming;
         return this;
     }
@@ -212,7 +216,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return columnNaming;
     }
 
-    public StrategyConfiguration setColumnNaming(NamingStrategy columnNaming) {
+    public StrategyProperties setColumnNaming(NamingStrategy columnNaming) {
         this.columnNaming = columnNaming;
         return this;
     }
@@ -221,7 +225,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return tablePrefix;
     }
 
-    public StrategyConfiguration setTablePrefix(String... tablePrefix) {
+    public StrategyProperties setTablePrefix(String... tablePrefix) {
         this.tablePrefix = tablePrefix;
         return this;
     }
@@ -230,7 +234,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return superEntityClass;
     }
 
-    public StrategyConfiguration setSuperEntityClass(String superEntityClass) {
+    public StrategyProperties setSuperEntityClass(String superEntityClass) {
         this.superEntityClass = superEntityClass;
         return this;
     }
@@ -250,7 +254,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return superEntityColumns;
     }
 
-    public StrategyConfiguration setSuperEntityColumns(String... superEntityColumns) {
+    public StrategyProperties setSuperEntityColumns(String... superEntityColumns) {
         this.superEntityColumns = superEntityColumns;
         return this;
     }
@@ -259,7 +263,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return superMapperClass;
     }
 
-    public StrategyConfiguration setSuperMapperClass(String superMapperClass) {
+    public StrategyProperties setSuperMapperClass(String superMapperClass) {
         this.superMapperClass = superMapperClass;
         return this;
     }
@@ -268,7 +272,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return superServiceClass;
     }
 
-    public StrategyConfiguration setSuperServiceClass(String superServiceClass) {
+    public StrategyProperties setSuperServiceClass(String superServiceClass) {
         this.superServiceClass = superServiceClass;
         return this;
     }
@@ -277,7 +281,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return superServiceImplClass;
     }
 
-    public StrategyConfiguration setSuperServiceImplClass(String superServiceImplClass) {
+    public StrategyProperties setSuperServiceImplClass(String superServiceImplClass) {
         this.superServiceImplClass = superServiceImplClass;
         return this;
     }
@@ -286,26 +290,39 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return superControllerClass;
     }
 
-    public StrategyConfiguration setSuperControllerClass(String superControllerClass) {
+    public StrategyProperties setSuperControllerClass(String superControllerClass) {
         this.superControllerClass = superControllerClass;
         return this;
     }
 
-    public String[] getInclude() {
-        return include;
+    public String[] getIncludeTables() {
+        return includeTables;
     }
 
-    public StrategyConfiguration setInclude(String... include) {
-        this.include = include;
+    public StrategyProperties setIncludeTables(String... includeTables) {
+        this.includeTables = includeTables;
         return this;
     }
 
-    public String[] getExclude() {
-        return exclude;
+    public String[] getIncludeTablePrefixs() {
+        return includeTablePrefixs;
     }
 
-    public StrategyConfiguration setExclude(String... exclude) {
-        this.exclude = exclude;
+    public StrategyProperties setIncludeTablePrefixs(String... includeTablePrefixs) {
+        this.includeTablePrefixs = includeTablePrefixs;
+        return this;
+    }
+
+    public String[] getExcludeTables() {
+        return excludeTables;
+    }
+
+    public StrategyProperties setExcludeTables(String... excludeTables) {
+        this.excludeTables = excludeTables;
+        return this;
+    }
+    public StrategyProperties setExcludeTabless(String[] excludeTables) {
+        this.excludeTables = excludeTables;
         return this;
     }
 
@@ -313,7 +330,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return entityColumnConstant;
     }
 
-    public StrategyConfiguration setEntityColumnConstant(boolean entityColumnConstant) {
+    public StrategyProperties setEntityColumnConstant(boolean entityColumnConstant) {
         this.entityColumnConstant = entityColumnConstant;
         return this;
     }
@@ -322,7 +339,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return entityBuilderModel;
     }
 
-    public StrategyConfiguration setEntityBuilderModel(boolean entityBuilderModel) {
+    public StrategyProperties setEntityBuilderModel(boolean entityBuilderModel) {
         this.entityBuilderModel = entityBuilderModel;
         return this;
     }
@@ -331,7 +348,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return entityLombokModel;
     }
 
-    public StrategyConfiguration setEntityLombokModel(boolean entityLombokModel) {
+    public StrategyProperties setEntityLombokModel(boolean entityLombokModel) {
         this.entityLombokModel = entityLombokModel;
         return this;
     }
@@ -340,7 +357,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return entityBooleanColumnRemoveIsPrefix;
     }
 
-    public StrategyConfiguration setEntityBooleanColumnRemoveIsPrefix(boolean entityBooleanColumnRemoveIsPrefix) {
+    public StrategyProperties setEntityBooleanColumnRemoveIsPrefix(boolean entityBooleanColumnRemoveIsPrefix) {
         this.entityBooleanColumnRemoveIsPrefix = entityBooleanColumnRemoveIsPrefix;
         return this;
     }
@@ -349,7 +366,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return restControllerStyle;
     }
 
-    public StrategyConfiguration setRestControllerStyle(boolean restControllerStyle) {
+    public StrategyProperties setRestControllerStyle(boolean restControllerStyle) {
         this.restControllerStyle = restControllerStyle;
         return this;
     }
@@ -358,7 +375,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return controllerMappingHyphenStyle;
     }
 
-    public StrategyConfiguration setControllerMappingHyphenStyle(boolean controllerMappingHyphenStyle) {
+    public StrategyProperties setControllerMappingHyphenStyle(boolean controllerMappingHyphenStyle) {
         this.controllerMappingHyphenStyle = controllerMappingHyphenStyle;
         return this;
     }
@@ -373,7 +390,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
      * @param logicDeleteFieldName 数据库字段
      * @return
      */
-    public StrategyConfiguration setLogicDeleteFieldName(String logicDeleteFieldName) {
+    public StrategyProperties setLogicDeleteFieldName(String logicDeleteFieldName) {
         this.logicDeleteFieldName = logicDeleteFieldName;
         return this;
     }
@@ -388,7 +405,7 @@ public class StrategyConfiguration extends AbstractConfiguration {
      * @param versionFieldName 数据库字段
      * @return
      */
-    public StrategyConfiguration setVersionFieldName(String versionFieldName) {
+    public StrategyProperties setVersionFieldName(String versionFieldName) {
         this.versionFieldName = versionFieldName;
         return this;
     }
@@ -406,12 +423,12 @@ public class StrategyConfiguration extends AbstractConfiguration {
         return fieldPrefix;
     }
 
-    public StrategyConfiguration setFieldPrefix(String... fieldPrefixs) {
+    public StrategyProperties setFieldPrefix(String... fieldPrefixs) {
         this.fieldPrefix = fieldPrefixs;
         return this;
     }
 
-    public StrategyConfiguration entityTableFieldAnnotationEnable(boolean isEnableAnnotation) {
+    public StrategyProperties entityTableFieldAnnotationEnable(boolean isEnableAnnotation) {
         entityTableFieldAnnotationEnable = isEnableAnnotation;
         return this;
     }

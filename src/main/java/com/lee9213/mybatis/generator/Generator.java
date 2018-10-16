@@ -1,6 +1,6 @@
 package com.lee9213.mybatis.generator;
 
-import com.lee9213.mybatis.generator.config.*;
+import com.lee9213.mybatis.generator.config.properties.*;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,17 +25,17 @@ public class Generator {
         ConfigurableApplicationContext applicationContext = new SpringApplicationBuilder(Generator.class)
                 .web(WebApplicationType.NONE)
                 .bannerMode(Banner.Mode.OFF).run(args);
-        GlobalConfiguration globalConfiguration = (GlobalConfiguration) applicationContext.getBean("globalConfiguration");
-        TemplateConfiguration templateConfiguration = (TemplateConfiguration) applicationContext.getBean("templateConfiguration");
-        PackageConfiguration packageConfiguration = (PackageConfiguration) applicationContext.getBean("packageConfiguration");
-        DataSourceConfiguration dataSourceConfiguration = (DataSourceConfiguration) applicationContext.getBean("dataSourceConfiguration");
-        StrategyConfiguration strategyConfiguration = (StrategyConfiguration) applicationContext.getBean("strategyConfiguration");
+        GlobalProperties globalConfiguration = (GlobalProperties) applicationContext.getBean("globalProperties");
+        TemplateProperties templateConfiguration = (TemplateProperties) applicationContext.getBean("templateProperties");
+        PackageProperties packageConfiguration = (PackageProperties) applicationContext.getBean("packageProperties");
+        DataSourceProperties dataSourceConfiguration = (DataSourceProperties) applicationContext.getBean("dataSourceProperties");
+        StrategyProperties strategyConfiguration = (StrategyProperties) applicationContext.getBean("strategyProperties");
 
-        AutoGenerator mpg = new AutoGenerator().setGlobalConfiguration(globalConfiguration)
-                .setDataSourceConfiguration(dataSourceConfiguration)
-                .setStrategyConfiguration(strategyConfiguration)
-                .setPackageConfiguration(packageConfiguration)
-                .setTemplateConfiguration(templateConfiguration);
+        AutoGenerator mpg = new AutoGenerator().setGlobalProperties(globalConfiguration)
+                .setDataSourceProperties(dataSourceConfiguration)
+                .setStrategyProperties(strategyConfiguration)
+                .setPackageProperties(packageConfiguration)
+                .setTemplateProperties(templateConfiguration);
         mpg.execute();
 
 //

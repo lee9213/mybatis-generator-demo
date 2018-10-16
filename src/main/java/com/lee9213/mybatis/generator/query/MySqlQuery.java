@@ -17,9 +17,12 @@ package com.lee9213.mybatis.generator.query;
 
 
 import com.lee9213.mybatis.generator.config.po.DbType;
+import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -39,8 +42,36 @@ public class MySqlQuery extends AbstractDbQuery {
 
 
     @Override
-    public String tablesSql() {
-        return "show table status";
+    public String tablesSql(StrategyProperties strategyProperties) {
+
+        boolean isIncludeTables = (null != strategyProperties.getIncludeTables() && strategyProperties.getIncludeTables().length > 0);
+        boolean isIncludeTablePrefixs = (null != strategyProperties.getIncludeTablePrefixs() && strategyProperties.getIncludeTablePrefixs().length > 0);
+        boolean isExcludeTables = (null != strategyProperties.getExcludeTables() && strategyProperties.getExcludeTables().length > 0);
+        StringBuilder builder = new StringBuilder();
+        builder.append("show table status where 1=1 ");
+        if (isIncludeTables && isIncludeTablePrefixs) {
+            String includeTables = Arrays.stream(strategyProperties.getIncludeTables()).map(item -> "'" + item + "',").collect(Collectors.joining());
+            includeTables = includeTables.substring(0, includeTables.lastIndexOf(","));
+            builder.append(" and (name in (").append(includeTables).append(")");
+            Arrays.stream(strategyProperties.getIncludeTablePrefixs()).forEach(item -> builder.append(" or name like '" + item + "%'"));
+            builder.append(")");
+        } else if (isIncludeTables) {
+            String includeTables = Arrays.stream(strategyProperties.getIncludeTables()).map(item -> "'" + item + "',").collect(Collectors.joining());
+            includeTables = includeTables.substring(0, includeTables.lastIndexOf(","));
+            builder.append(" and name in (").append(includeTables).append(")");
+        } else if (isIncludeTablePrefixs) {
+            builder.append(" and (");
+            String includeTablePrefixs = Arrays.stream(strategyProperties.getIncludeTablePrefixs()).map(item -> " name like '" + item + "%' or").collect(Collectors.joining());
+            includeTablePrefixs = includeTablePrefixs.substring(0, includeTablePrefixs.lastIndexOf("or"));
+            builder.append(includeTablePrefixs);
+            builder.append(" )");
+        }
+        if (isExcludeTables) {
+            String excludeTables = Arrays.stream(strategyProperties.getExcludeTables()).map(item -> "'" + item + "',").collect(Collectors.joining());
+            excludeTables = excludeTables.substring(0, excludeTables.lastIndexOf(","));
+            builder.append(" and name not in (").append(excludeTables).append(")");
+        }
+        return builder.toString();
     }
 
 

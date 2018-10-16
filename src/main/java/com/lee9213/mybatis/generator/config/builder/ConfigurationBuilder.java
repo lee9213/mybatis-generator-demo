@@ -1,14 +1,15 @@
 package com.lee9213.mybatis.generator.config.builder;
 
-import com.lee9213.mybatis.generator.config.*;
+import com.lee9213.mybatis.generator.config.domain.PackageInfo;
+import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.handler.PackageConfigurationHandler;
 import com.lee9213.mybatis.generator.config.handler.StrategyConfigurationHandler;
 import com.lee9213.mybatis.generator.config.po.TableInfo;
+import com.lee9213.mybatis.generator.config.properties.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -26,24 +27,24 @@ public class ConfigurationBuilder {
     /**
      * 模板路径配置信息
      */
-    private TemplateConfiguration templateConfiguration;
+    private TemplateProperties templateProperties;
     /**
      * 数据库配置
      */
-    private DataSourceConfiguration dataSourceConfiguration;
+    private DataSourceProperties dataSourceProperties;
     /**
      * 策略配置
      */
-    private StrategyConfiguration strategyConfiguration;
+    private StrategyProperties strategyProperties;
     /**
      * 全局配置信息
      */
-    private GlobalConfiguration globalConfiguration;
+    private GlobalProperties globalProperties;
 
     /**
      * 包配置
      */
-    private PackageConfiguration packageConfiguration;
+    private PackageProperties packageProperties;
 
     /**
      * 数据库表信息
@@ -52,11 +53,11 @@ public class ConfigurationBuilder {
     /**
      * 包配置详情
      */
-    private Map<String, String> packageInfo;
+    private PackageInfo packageInfo;
     /**
      * 路径配置信息
      */
-    private Map<String, String> pathInfo;
+    private PathInfo pathInfo;
 
 
     /**
@@ -64,44 +65,44 @@ public class ConfigurationBuilder {
      * 在构造器中处理配置
      * </p>
      *
-     * @param packageConfiguration    包配置
-     * @param dataSourceConfiguration 数据源配置
-     * @param strategyConfiguration   表配置
-     * @param templateConfiguration   模板配置
-     * @param globalConfiguration     全局配置
+     * @param packageProperties    包配置
+     * @param dataSourceProperties 数据源配置
+     * @param strategyProperties   表配置
+     * @param templateProperties   模板配置
+     * @param globalProperties     全局配置
      */
-    public ConfigurationBuilder(GlobalConfiguration globalConfiguration, TemplateConfiguration templateConfiguration,
-                                PackageConfiguration packageConfiguration, DataSourceConfiguration dataSourceConfiguration,
-                                StrategyConfiguration strategyConfiguration) {
+    public ConfigurationBuilder(GlobalProperties globalProperties, TemplateProperties templateProperties,
+                                PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
+                                StrategyProperties strategyProperties) {
         // 全局配置
-        if (null == globalConfiguration) {
-            this.globalConfiguration = new GlobalConfiguration();
+        if (null == globalProperties) {
+            this.globalProperties = new GlobalProperties();
         } else {
-            this.globalConfiguration = globalConfiguration;
+            this.globalProperties = globalProperties;
         }
         // 模板配置
-        if (null == templateConfiguration) {
-            this.templateConfiguration = new TemplateConfiguration();
+        if (null == templateProperties) {
+            this.templateProperties = new TemplateProperties();
         } else {
-            this.templateConfiguration = templateConfiguration;
+            this.templateProperties = templateProperties;
         }
 
         // 包配置
-        if (null == packageConfiguration) {
-            this.packageConfiguration = new PackageConfiguration();
+        if (null == packageProperties) {
+            this.packageProperties = new PackageProperties();
         } else {
-            this.packageConfiguration = packageConfiguration;
+            this.packageProperties = packageProperties;
         }
         new PackageConfigurationHandler().handler(this);
 
         // 数据库配置
-        this.dataSourceConfiguration = dataSourceConfiguration;
+        this.dataSourceProperties = dataSourceProperties;
 
         // 策略配置
-        if (null == strategyConfiguration) {
-            this.strategyConfiguration = new StrategyConfiguration();
+        if (null == strategyProperties) {
+            this.strategyProperties = new StrategyProperties();
         } else {
-            this.strategyConfiguration = strategyConfiguration;
+            this.strategyProperties = strategyProperties;
         }
         new StrategyConfigurationHandler().handler(this);
     }
