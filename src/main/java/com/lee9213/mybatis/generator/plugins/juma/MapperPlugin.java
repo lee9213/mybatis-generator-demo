@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.plugins;
+package com.lee9213.mybatis.generator.plugins.juma;
 
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.Interface;
