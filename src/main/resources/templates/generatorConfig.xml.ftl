@@ -13,7 +13,9 @@
         <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
         <!-- 格式化XML代码 -->
         <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
-
+        
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
         <#--<plugin type="com.lee9213.generator.plugin.MapperPlugin">-->
             <#--<#if strategy.superMapperClass??>-->
             <#--<property name="mappers" value="${strategy.superMapperClass}"/>-->
