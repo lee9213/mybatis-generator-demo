@@ -13,10 +13,36 @@
         <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
         <!-- 格式化XML代码 -->
         <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
-        
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
-        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
-        <#--<plugin type="com.lee9213.generator.plugin.MapperPlugin">-->
+
+        <!-- 【实体】重写toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 【实体】实现Serializable接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 【实体】重写equals方法和hashcode方法-->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <!-- 【实体】修改为构建者模型-->
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
+        <!-- 【实体】修改Example的名字-->
+        <!--
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="ScmTransactionTypeExample"/>
+            <property name="replaceString" value="TransactionTypeExample"/>
+        </plugin>
+        -->
+        <!-- 【XML】添加二级缓存-->
+        <!--
+        <plugin type="org.mybatis.generator.plugins.CachePlugin">
+            <property name="cache_type" value="org.mybatis.caches.ehcache.LoggingEhcache"></property>
+        </plugin>
+        -->
+        <!-- 【XML】重写覆盖xml-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+        <!-- 【Mapper】增加@Mapper注解-->
+        <!--<plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>-->
+        <!-- 忽略大小写 -->
+        <!--<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"/>-->
+
+    <#--<plugin type="com.lee9213.generator.plugin.MapperPlugin">-->
             <#--<#if strategy.superMapperClass??>-->
             <#--<property name="mappers" value="${strategy.superMapperClass}"/>-->
             <#--</#if>-->
@@ -27,7 +53,7 @@
         <!--<plugin type="com.zheng.common.plugin.PaginationPlugin"></plugin>-->
 
         <!-- 生成的代码去掉注释 -->
-        <commentGenerator type="com.lee9213.mybatis.generator.plugin.mybatis.CommentGenerator">
+        <commentGenerator type="com.lee9213.mybatis.generator.internal.CommentGenerator">
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
             <property name="user.name" value="${global.author}"/>
@@ -56,7 +82,7 @@
         </javaModelGenerator>
 
         <!-- MapperXML生成 -->
-        <sqlMapGenerator targetPackage="mybatis" targetProject="${global.outputDir}\src\main\resources"/>
+        <sqlMapGenerator targetPackage="${package.MapperXml}" targetProject="${global.outputDir}\src\main\resources"/>
 
         <!-- Mapper接口生成 -->
         <javaClientGenerator targetPackage="${package.Mapper}" targetProject="${global.outputDir}\src\main\java"

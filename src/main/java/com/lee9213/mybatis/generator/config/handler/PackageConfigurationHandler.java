@@ -33,7 +33,7 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
         packageConfiguration.setParent(joinPackage(packageConfiguration.getParent(),packageConfiguration.getModuleName()));
         packageInfo.put(Constant.ENTITY, joinPackage(packageConfiguration.getParent(), packageConfiguration.getEntity()));
         packageInfo.put(Constant.MAPPER, joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapper()));
-        packageInfo.put(Constant.XML, joinPackage(packageConfiguration.getParent(), packageConfiguration.getXml()));
+        packageInfo.put(Constant.MAPPER_XML, joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapperXml()));
         packageInfo.put(Constant.SERVICE, joinPackage(packageConfiguration.getParent(), packageConfiguration.getService()));
         packageInfo.put(Constant.SERVICE_IMPL, joinPackage(packageConfiguration.getParent(), packageConfiguration.getServiceImpl()));
         packageInfo.put(Constant.CONTROLLER, joinPackage(packageConfiguration.getParent(), packageConfiguration.getController()));
@@ -48,7 +48,7 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
             setPathInfo(pathInfo, templateConfiguration.getGenerator(), outputDir + "\\src\\main\\resources", Constant.GENERATOR_PATH, packageInfo.get(Constant.GENERATOR));
             setPathInfo(pathInfo, templateConfiguration.getEntity(), outputDir + "\\src\\main\\java", Constant.ENTITY_PATH, packageInfo.get(Constant.ENTITY));
             setPathInfo(pathInfo, templateConfiguration.getMapper(), outputDir + "\\src\\main\\java", Constant.MAPPER_PATH, packageInfo.get(Constant.MAPPER));
-            setPathInfo(pathInfo, templateConfiguration.getXml(), outputDir + "\\src\\main\\resources", Constant.XML_PATH, packageInfo.get(Constant.XML));
+            setPathInfo(pathInfo, templateConfiguration.getXml(), outputDir + "\\src\\main\\resources", Constant.MAPPER_XML_PATH, packageInfo.get(Constant.MAPPER_XML));
             setPathInfo(pathInfo, templateConfiguration.getService(), outputDir + "\\src\\main\\java", Constant.SERVICE_PATH, packageInfo.get(Constant.SERVICE));
             setPathInfo(pathInfo, templateConfiguration.getServiceImpl(), outputDir + "\\src\\main\\java", Constant.SERVICE_IMPL_PATH, packageInfo.get(Constant.SERVICE_IMPL));
             setPathInfo(pathInfo, templateConfiguration.getController(), outputDir + "\\src\\main\\java", Constant.CONTROLLER_PATH, packageInfo.get(Constant.CONTROLLER));
