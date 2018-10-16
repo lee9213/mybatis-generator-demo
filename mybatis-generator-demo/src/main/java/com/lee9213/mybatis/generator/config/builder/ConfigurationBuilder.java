@@ -4,7 +4,7 @@ import com.lee9213.mybatis.generator.config.domain.PackageInfo;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.handler.PackageConfigurationHandler;
 import com.lee9213.mybatis.generator.config.handler.StrategyConfigurationHandler;
-import com.lee9213.mybatis.generator.config.po.TableInfo;
+import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.config.properties.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
