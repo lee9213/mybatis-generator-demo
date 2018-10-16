@@ -26,32 +26,32 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
     @Override
     public void handler(ConfigurationBuilder configBuilder) {
 
-        GlobalProperties globalConfiguration = configBuilder.getGlobalProperties();
-        PackageProperties packageConfiguration = configBuilder.getPackageProperties();
-        TemplateProperties templateConfiguration = configBuilder.getTemplateProperties();
+        GlobalProperties globalProperties = configBuilder.getGlobalProperties();
+        PackageProperties packageProperties = configBuilder.getPackageProperties();
+        TemplateProperties templateProperties = configBuilder.getTemplateProperties();
         // 包信息
-        packageConfiguration.setParent(joinPackage(packageConfiguration.getParent(), packageConfiguration.getModuleName()));
+        packageProperties.setParent(joinPackage(packageProperties.getParent(), packageProperties.getModuleName()));
         PackageInfo packageInfo = new PackageInfo()
-                .setModuleName(packageConfiguration.getModuleName())
-                .setEntity(joinPackage(packageConfiguration.getParent(), packageConfiguration.getEntity()))
-                .setMapper(joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapper()))
-                .setMapperXml(joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapperXml()))
-                .setService(joinPackage(packageConfiguration.getParent(), packageConfiguration.getService()))
-                .setServiceImpl(joinPackage(packageConfiguration.getParent(), packageConfiguration.getServiceImpl()))
-                .setController(joinPackage(packageConfiguration.getParent(), packageConfiguration.getController()));
+                .setModuleName(packageProperties.getModuleName())
+                .setEntity(joinPackage(packageProperties.getParent(), packageProperties.getEntity()))
+                .setMapper(joinPackage(packageProperties.getParent(), packageProperties.getMapper()))
+                .setMapperXml(joinPackage(packageProperties.getParent(), packageProperties.getMapperXml()))
+                .setService(joinPackage(packageProperties.getParent(), packageProperties.getService()))
+                .setServiceImpl(joinPackage(packageProperties.getParent(), packageProperties.getServiceImpl()))
+                .setController(joinPackage(packageProperties.getParent(), packageProperties.getController()));
         configBuilder.setPackageInfo(packageInfo);
 
         // 生成路径信息
         // TODO 优化路径
-        String outputDir = globalConfiguration.getOutputDir();
+        String outputDir = globalProperties.getOutputDir();
         PathInfo pathInfo = new PathInfo()
-                .setGeneratorPath(getPathInfo(templateConfiguration.getGenerator(), outputDir + "\\src\\main\\resources", packageInfo.getGenerator()))
-                .setEntityPath(getPathInfo(templateConfiguration.getEntity(), outputDir + "\\src\\main\\java", packageInfo.getEntity()))
-                .setMapperPath(getPathInfo(templateConfiguration.getMapper(), outputDir + "\\src\\main\\java", packageInfo.getMapper()))
-                .setMapperXmlPath(getPathInfo(templateConfiguration.getXml(), outputDir + "\\src\\main\\resources", packageInfo.getMapperXml()))
-                .setServicePath(getPathInfo(templateConfiguration.getService(), outputDir + "\\src\\main\\java", packageInfo.getService()))
-                .setServiceImplPath(getPathInfo(templateConfiguration.getServiceImpl(), outputDir + "\\src\\main\\java", packageInfo.getServiceImpl()))
-                .setControllerPath(getPathInfo(templateConfiguration.getController(), outputDir + "\\src\\main\\java", packageInfo.getController()));
+                .setGeneratorPath(getPathInfo(templateProperties.getGenerator(), outputDir + "\\src\\main\\resources", packageInfo.getGenerator()))
+                .setEntityPath(getPathInfo(templateProperties.getEntity(), outputDir + "\\src\\main\\java", packageInfo.getEntity()))
+                .setMapperPath(getPathInfo(templateProperties.getMapper(), outputDir + "\\src\\main\\java", packageInfo.getMapper()))
+                .setMapperXmlPath(getPathInfo(templateProperties.getXml(), outputDir + "\\src\\main\\resources", packageInfo.getMapperXml()))
+                .setServicePath(getPathInfo(templateProperties.getService(), outputDir + "\\src\\main\\java", packageInfo.getService()))
+                .setServiceImplPath(getPathInfo(templateProperties.getServiceImpl(), outputDir + "\\src\\main\\java", packageInfo.getServiceImpl()))
+                .setControllerPath(getPathInfo(templateProperties.getController(), outputDir + "\\src\\main\\java", packageInfo.getController()));
         configBuilder.setPathInfo(pathInfo);
 
         mkdir(pathInfo.getGeneratorPath());

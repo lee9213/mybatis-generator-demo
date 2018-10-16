@@ -42,12 +42,12 @@
         <!-- 忽略大小写 -->
         <!--<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"/>-->
 
-    <#--<plugin type="com.lee9213.generator.plugin.MapperPlugin">-->
-            <#--<#if strategy.superMapperClass??>-->
-            <#--<property name="mappers" value="${strategy.superMapperClass}"/>-->
-            <#--</#if>-->
-            <#--<property name="user.name" value="${global.author}"/>-->
-        <#--</plugin>-->
+        <plugin type="com.lee9213.mybatis.generator.plugins.juma.MapperPlugin">
+            <#if strategy.superMapperClass??>
+            <property name="mappers" value="${strategy.superMapperClass}"/>
+            </#if>
+            <property name="user.name" value="${global.author}"/>
+        </plugin>
 
         <!-- 生成一个新的selectByExample方法，这个方法可以接收offset和limit参数，主要用来实现分页，只支持mysql(已使用pagehelper代替) -->
         <!--<plugin type="com.zheng.common.plugin.PaginationPlugin"></plugin>-->
