@@ -42,7 +42,7 @@
         <!-- 忽略大小写 -->
         <!--<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"/>-->
 
-        <plugin type="com.lee9213.mybatis.generator.plugins.juma.MapperPlugin">
+        <plugin type="com.lee9213.mybatis.generator.juma.MapperPlugin">
             <#if strategy.superMapperClass??>
             <property name="mappers" value="${strategy.superMapperClass}"/>
             </#if>

@@ -2,7 +2,7 @@ package com.lee9213.mybatis.generator.config.handler;
 
 import com.google.common.collect.Lists;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
-import com.lee9213.mybatis.generator.config.po.TableInfo;
+import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.config.properties.DataSourceProperties;
 import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;

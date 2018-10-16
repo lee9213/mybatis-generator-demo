@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.po;
+package com.lee9213.mybatis.generator.config.domain;
 
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 

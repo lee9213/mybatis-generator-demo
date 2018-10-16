@@ -1,6 +1,6 @@
 package com.lee9213.mybatis.generator.config.properties;
 
-import com.lee9213.mybatis.generator.config.po.DbType;
+import com.lee9213.mybatis.generator.config.domain.DbType;
 import com.lee9213.mybatis.generator.query.IDbQuery;
 import com.lee9213.mybatis.generator.query.MySqlQuery;
 import lombok.Data;

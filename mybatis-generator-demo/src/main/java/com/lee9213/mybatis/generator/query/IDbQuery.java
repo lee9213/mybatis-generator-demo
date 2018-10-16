@@ -16,7 +16,7 @@
 package com.lee9213.mybatis.generator.query;
 
 
-import com.lee9213.mybatis.generator.config.po.DbType;
+import com.lee9213.mybatis.generator.config.domain.DbType;
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 
 import java.sql.ResultSet;

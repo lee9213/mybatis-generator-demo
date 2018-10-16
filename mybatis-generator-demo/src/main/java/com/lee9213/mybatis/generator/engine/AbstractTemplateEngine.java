@@ -21,7 +21,7 @@ import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
-import com.lee9213.mybatis.generator.config.po.TableInfo;
+import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.engine.generator.GeneratorConfigXmlGenerator;
 import com.lee9213.mybatis.generator.util.Constant;
