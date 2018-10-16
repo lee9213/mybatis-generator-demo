@@ -1,5 +1,6 @@
 package com.lee9213.mybatis.generator.config.handler;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.lee9213.mybatis.generator.config.GlobalConfiguration;
 import com.lee9213.mybatis.generator.config.PackageConfiguration;
@@ -8,7 +9,6 @@ import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.StringPool;
 import com.lee9213.mybatis.generator.util.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 
 import java.io.File;
 import java.util.Map;
@@ -66,14 +66,14 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
      * @return 连接后的包名
      */
     private String joinPackage(String parent, String subPackage) {
-        if (Strings.isEmpty(parent)) {
+        if (Strings.isNullOrEmpty(parent)) {
             return subPackage;
         }
         return parent + StringPool.DOT + subPackage;
     }
 
     private void setPathInfo(Map<String, String> pathInfo, String template, String outputDir, String path, String packageInfo) {
-        if (Strings.isNotEmpty(template)) {
+        if (!Strings.isNullOrEmpty(template)) {
             pathInfo.put(path, joinPath(outputDir, packageInfo));
         }
     }
