@@ -33,7 +33,6 @@ dependencies {
         exclude module: 'spring-boot-starter-tomcat'
         exclude module: 'hibernate-validator'
         exclude module: 'spring-webmvc'
-        exclude module: 'spring-web'
     }
     compile('mysql:mysql-connector-java:8.0.12'){
         exclude module:'protobuf-java'

@@ -4,6 +4,9 @@ import lombok.Data;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * <p>
  * 全局配置
@@ -58,4 +61,5 @@ public class GlobalConfiguration extends AbstractConfiguration {
     private String serviceName = "%sService";
     private String serviceImplName = "%sServiceImpl";
     private String controllerName = "%sController";
+    private String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
 }
