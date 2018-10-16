@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config;
+package com.lee9213.mybatis.generator.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.SpringBootConfiguration;
@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "global")
 @Data
-public class GlobalConfiguration extends AbstractConfiguration {
+public class GlobalProperties {
 
     /**
      * 生成文件的输出目录
@@ -61,5 +61,5 @@ public class GlobalConfiguration extends AbstractConfiguration {
     private String serviceName = "%sService";
     private String serviceImplName = "%sServiceImpl";
     private String controllerName = "%sController";
-    private String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
+    private String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 }

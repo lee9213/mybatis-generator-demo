@@ -1,6 +1,6 @@
 package com.lee9213.mybatis.generator.config.po;
 
-import com.lee9213.mybatis.generator.config.StrategyConfiguration;
+import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +38,7 @@ public class TableInfo {
         return convert;
     }
 
-    protected void setConvert(StrategyConfiguration strategyConfig) {
+    protected void setConvert(StrategyProperties strategyConfig) {
         if (strategyConfig.containsTablePrefix(name)) {
             // 包含前缀
             this.convert = true;
@@ -93,7 +93,7 @@ public class TableInfo {
         this.entityName = entityName;
     }
 
-    public void setEntityName(StrategyConfiguration strategyConfig, String entityName) {
+    public void setEntityName(StrategyProperties strategyConfig, String entityName) {
         this.entityName = entityName;
         this.setConvert(strategyConfig);
     }

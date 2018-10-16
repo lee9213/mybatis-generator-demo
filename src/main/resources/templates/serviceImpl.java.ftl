@@ -1,8 +1,8 @@
-package ${package.ServiceImpl};
+package ${package.serviceImpl};
 
-import ${package.Entity}.${table.entityName};
-import ${package.Mapper}.${table.mapperName};
-import ${package.Service}.${table.serviceName};
+import ${package.entity}.${table.entityName};
+import ${package.mapper}.${table.mapperName};
+import ${package.service}.${table.serviceName};
 <#if strategy.superServiceImplClass?default("")?length gt 1>
 import ${strategy.superServiceImplClass};
 </#if>

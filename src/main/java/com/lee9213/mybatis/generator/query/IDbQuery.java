@@ -17,6 +17,7 @@ package com.lee9213.mybatis.generator.query;
 
 
 import com.lee9213.mybatis.generator.config.po.DbType;
+import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,7 +42,7 @@ public interface IDbQuery {
     /**
      * 表信息查询 SQL
      */
-    String tablesSql();
+    String tablesSql(StrategyProperties strategyProperties);
 
 
     /**

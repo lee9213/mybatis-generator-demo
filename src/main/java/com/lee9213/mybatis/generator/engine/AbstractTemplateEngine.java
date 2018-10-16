@@ -17,8 +17,9 @@ package com.lee9213.mybatis.generator.engine;
 
 
 import com.google.common.collect.Maps;
-import com.lee9213.mybatis.generator.config.StrategyConfiguration;
-import com.lee9213.mybatis.generator.config.TemplateConfiguration;
+import com.lee9213.mybatis.generator.config.domain.PathInfo;
+import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
+import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
 import com.lee9213.mybatis.generator.config.po.TableInfo;
 import com.lee9213.mybatis.generator.config.rules.FileType;
@@ -83,13 +84,13 @@ public abstract class AbstractTemplateEngine {
             generatorConfigXmlGenerator.generator(this);
 
             // 生成entity、mapper、mapper.xml
-            Map<String, String> pathInfo = getConfigBuilder().getPathInfo();
-            String generatorConfigXml = pathInfo.get(Constant.GENERATOR_PATH) + File.separator + Constant.GENERATOR_NAME;
+            PathInfo pathInfo = getConfigBuilder().getPathInfo();
+            String generatorConfigXml = pathInfo.getGeneratorPath() + File.separator + Constant.GENERATOR_NAME;
             List<String> warnings = new ArrayList<>();
             File configFile = new File(generatorConfigXml);
             ConfigurationParser cp = new ConfigurationParser(warnings);
             Configuration config = cp.parseConfiguration(configFile);
-            DefaultShellCallback callback = new DefaultShellCallback(true);
+            DefaultShellCallback callback = new DefaultShellCallback(getConfigBuilder().getGlobalProperties().isFileOverride());
             MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
             myBatisGenerator.generate(null);
             for (String warning : warnings) {
@@ -97,31 +98,31 @@ public abstract class AbstractTemplateEngine {
             }
 
             // 生成Service、ServiceImpl、Controller
-            TemplateConfiguration templateConfiguration = getConfigBuilder().getTemplateConfiguration();
+            TemplateProperties templateConfiguration = getConfigBuilder().getTemplateProperties();
             List<TableInfo> tableInfoList = getConfigBuilder().getTableInfoList();
             for (TableInfo tableInfo : tableInfoList) {
                 Map<String, Object> objectMap = getObjectMap(tableInfo);
 
                 String entityName = tableInfo.getEntityName();
                 // 生成Service
-                if (null != tableInfo.getServiceName() && null != pathInfo.get(Constant.SERVICE_PATH)) {
-                    String serviceFile = String.format((pathInfo.get(Constant.SERVICE_PATH) + File.separator + tableInfo.getServiceName() + Constant.JAVA_SUFFIX), entityName);
+                if (null != tableInfo.getServiceName() && null != pathInfo.getServicePath()) {
+                    String serviceFile = String.format((pathInfo.getServicePath() + File.separator + tableInfo.getServiceName() + Constant.JAVA_SUFFIX), entityName);
                     if (isCreate(FileType.SERVICE, serviceFile)) {
                         writer(objectMap, templateFilePath(templateConfiguration.getService()), serviceFile);
                     }
                 }
 
                 // 生成ServiceImpl
-                if (null != tableInfo.getServiceImplName() && null != pathInfo.get(Constant.SERVICE_IMPL_PATH)) {
-                    String implFile = String.format((pathInfo.get(Constant.SERVICE_IMPL_PATH) + File.separator + tableInfo.getServiceImplName() + Constant.JAVA_SUFFIX), entityName);
+                if (null != tableInfo.getServiceImplName() && null != pathInfo.getServiceImplPath()) {
+                    String implFile = String.format((pathInfo.getServiceImplPath() + File.separator + tableInfo.getServiceImplName() + Constant.JAVA_SUFFIX), entityName);
                     if (isCreate(FileType.SERVICE_IMPL, implFile)) {
                         writer(objectMap, templateFilePath(templateConfiguration.getServiceImpl()), implFile);
                     }
                 }
 
                 // 生成Controller
-                if (null != tableInfo.getControllerName() && null != pathInfo.get(Constant.CONTROLLER_PATH)) {
-                    String controllerFile = String.format((pathInfo.get(Constant.CONTROLLER_PATH) + File.separator + tableInfo.getControllerName() + Constant.JAVA_SUFFIX), entityName);
+                if (null != tableInfo.getControllerName() && null != pathInfo.getControllerPath()) {
+                    String controllerFile = String.format((pathInfo.getControllerPath() + File.separator + tableInfo.getControllerName() + Constant.JAVA_SUFFIX), entityName);
                     if (isCreate(FileType.CONTROLLER, controllerFile)) {
                         writer(objectMap, templateFilePath(templateConfiguration.getController()), controllerFile);
                     }
@@ -179,12 +180,12 @@ public abstract class AbstractTemplateEngine {
     protected Map<String, Object> getObjectMap(TableInfo tableInfo) {
         Map<String, Object> objectMap = Maps.newHashMapWithExpectedSize(8);
         objectMap.put("table", tableInfo);
-        objectMap.put("datasource", configBuilder.getDataSourceConfiguration());
-        objectMap.put("global", configBuilder.getGlobalConfiguration());
+        objectMap.put("datasource", configBuilder.getDataSourceProperties());
+        objectMap.put("global", configBuilder.getGlobalProperties());
         objectMap.put("package", configBuilder.getPackageInfo());
-        objectMap.put("templates", configBuilder.getTemplateConfiguration());
+        objectMap.put("templates", configBuilder.getTemplateProperties());
 
-        StrategyConfiguration strategyConfiguration = configBuilder.getStrategyConfiguration();
+        StrategyProperties strategyConfiguration = configBuilder.getStrategyProperties();
         objectMap.put("strategy", strategyConfiguration);
         if (strategyConfiguration.isControllerMappingHyphenStyle()) {
             objectMap.put("controllerMappingHyphen", StringUtils.camelToHyphen(tableInfo.getEntityPath()));
@@ -206,23 +207,7 @@ public abstract class AbstractTemplateEngine {
      */
     public abstract void writer(Map<String, Object> objectMap, String templatePath, String outputFile) throws Exception;
 
-    /**
-     * <p>
-     * 处理输出目录
-     * </p>
-     */
-    public AbstractTemplateEngine mkdirs() {
-        getConfigBuilder().getPathInfo().forEach((key, value) -> {
-            File dir = new File(value);
-            if (!dir.exists()) {
-                boolean result = dir.mkdirs();
-                if (result) {
-                    logger.debug("创建目录： [" + value + "]");
-                }
-            }
-        });
-        return this;
-    }
+
 
 
     /**
@@ -231,8 +216,8 @@ public abstract class AbstractTemplateEngine {
      * </p>
      */
     public void open() {
-        String outDir = getConfigBuilder().getGlobalConfiguration().getOutputDir();
-        if (getConfigBuilder().getGlobalConfiguration().isOpen()
+        String outDir = getConfigBuilder().getGlobalProperties().getOutputDir();
+        if (getConfigBuilder().getGlobalProperties().isOpen()
             && StringUtils.isNotEmpty(outDir)) {
             try {
                 String osName = System.getProperty("os.name");
@@ -295,6 +280,6 @@ public abstract class AbstractTemplateEngine {
         if (!exist) {
             PackageHelper.mkDir(file.getParentFile());
         }
-        return !exist || getConfigBuilder().getGlobalConfiguration().isFileOverride();
+        return !exist || getConfigBuilder().getGlobalProperties().isFileOverride();
     }
 }

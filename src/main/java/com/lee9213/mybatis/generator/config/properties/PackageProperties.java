@@ -1,10 +1,8 @@
-package com.lee9213.mybatis.generator.config;
+package com.lee9213.mybatis.generator.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.util.Map;
 
 /**
  * @author lee9213@163.com
@@ -14,7 +12,7 @@ import java.util.Map;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "package")
 @Data
-public class PackageConfiguration extends AbstractConfiguration {
+public class PackageProperties {
 
     /**
      * 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
@@ -54,9 +52,4 @@ public class PackageConfiguration extends AbstractConfiguration {
      * Controller包名
      */
     private String controller = "controller";
-
-    /**
-     * 路径配置信息
-     */
-    private Map<String, String> pathInfo;
 }

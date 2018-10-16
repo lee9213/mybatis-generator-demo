@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config;
+package com.lee9213.mybatis.generator.config.properties;
 
 import com.lee9213.mybatis.generator.config.po.DbType;
 import com.lee9213.mybatis.generator.query.IDbQuery;
@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "datasource")
 @Data
-public class DataSourceConfiguration extends AbstractConfiguration {
+public class DataSourceProperties {
 
     /**
      * 数据库信息查询

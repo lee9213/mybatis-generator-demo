@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config;
+package com.lee9213.mybatis.generator.config.properties;
 
 import com.lee9213.mybatis.generator.util.Constant;
 import lombok.Data;
@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "templates")
 @Data
-public class TemplateConfiguration extends AbstractConfiguration {
+public class TemplateProperties {
 
     private String generator = Constant.GENERATOR_CONFIG;
 
@@ -43,12 +43,12 @@ public class TemplateConfiguration extends AbstractConfiguration {
         return entity;
     }
 
-    public TemplateConfiguration setEntityKt(String entityKt) {
+    public TemplateProperties setEntityKt(String entityKt) {
         this.entityKt = entityKt;
         return this;
     }
 
-    public TemplateConfiguration setEntity(String entity) {
+    public TemplateProperties setEntity(String entity) {
         this.entity = entity;
         return this;
     }
@@ -57,7 +57,7 @@ public class TemplateConfiguration extends AbstractConfiguration {
         return service;
     }
 
-    public TemplateConfiguration setService(String service) {
+    public TemplateProperties setService(String service) {
         this.service = service;
         return this;
     }
@@ -66,7 +66,7 @@ public class TemplateConfiguration extends AbstractConfiguration {
         return serviceImpl;
     }
 
-    public TemplateConfiguration setServiceImpl(String serviceImpl) {
+    public TemplateProperties setServiceImpl(String serviceImpl) {
         this.serviceImpl = serviceImpl;
         return this;
     }
@@ -75,7 +75,7 @@ public class TemplateConfiguration extends AbstractConfiguration {
         return mapper;
     }
 
-    public TemplateConfiguration setMapper(String mapper) {
+    public TemplateProperties setMapper(String mapper) {
         this.mapper = mapper;
         return this;
     }
@@ -84,7 +84,7 @@ public class TemplateConfiguration extends AbstractConfiguration {
         return xml;
     }
 
-    public TemplateConfiguration setXml(String xml) {
+    public TemplateProperties setXml(String xml) {
         this.xml = xml;
         return this;
     }
@@ -93,7 +93,7 @@ public class TemplateConfiguration extends AbstractConfiguration {
         return controller;
     }
 
-    public TemplateConfiguration setController(String controller) {
+    public TemplateProperties setController(String controller) {
         this.controller = controller;
         return this;
     }

@@ -1,4 +1,4 @@
-package ${package.Controller};
+package ${package.controller};
 
 
 <#if strategy.restControllerStyle>

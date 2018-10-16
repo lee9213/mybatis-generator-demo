@@ -74,18 +74,18 @@
         </javaTypeResolver>
 
         <!-- model生成 -->
-        <javaModelGenerator targetPackage="${package.Entity}" targetProject="${global.outputDir}\src\main\java">
-            <!-- 设置一个根对象，-->
+        <javaModelGenerator targetPackage="${package.entity}" targetProject="${global.outputDir}\src\main\java" >
             <#if strategy.superEntityClass??>
-            <property name="rootClass" value="${strategy.superEntityClass}"/>
+                <!-- 设置一个根对象，-->
+                <property name="rootClass" value="${strategy.superEntityClass}"/>
             </#if>
         </javaModelGenerator>
 
         <!-- MapperXML生成 -->
-        <sqlMapGenerator targetPackage="${package.MapperXml}" targetProject="${global.outputDir}\src\main\resources"/>
+        <sqlMapGenerator targetPackage="${package.mapperXml}" targetProject="${global.outputDir}\src\main\resources"/>
 
         <!-- Mapper接口生成 -->
-        <javaClientGenerator targetPackage="${package.Mapper}" targetProject="${global.outputDir}\src\main\java"
+        <javaClientGenerator targetPackage="${package.mapper}" targetProject="${global.outputDir}\src\main\java"
                              type="XMLMAPPER">
         </javaClientGenerator>
 

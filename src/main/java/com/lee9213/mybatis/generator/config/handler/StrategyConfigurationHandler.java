@@ -1,23 +1,23 @@
 package com.lee9213.mybatis.generator.config.handler;
 
-import com.lee9213.mybatis.generator.config.DataSourceConfiguration;
-import com.lee9213.mybatis.generator.config.GlobalConfiguration;
-import com.lee9213.mybatis.generator.config.StrategyConfiguration;
+import com.google.common.collect.Lists;
 import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
 import com.lee9213.mybatis.generator.config.po.TableInfo;
+import com.lee9213.mybatis.generator.config.properties.DataSourceProperties;
+import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
+import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.query.IDbQuery;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.NamingStrategy;
 import com.lee9213.mybatis.generator.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author libo
@@ -25,6 +25,7 @@ import java.util.Set;
  * @date 2018/10/15 16:12
  */
 public class StrategyConfigurationHandler implements ConfigurationHandler {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Override
     public void handler(ConfigurationBuilder configBuilder) {
         List<TableInfo> tableInfoList = getTableInfo(configBuilder);
@@ -37,60 +38,29 @@ public class StrategyConfigurationHandler implements ConfigurationHandler {
      * </p>
      */
     private List<TableInfo> getTableInfo(ConfigurationBuilder configBuilder) {
-        StrategyConfiguration strategyConfiguration = configBuilder.getStrategyConfiguration();
-        DataSourceConfiguration dataSourceConfiguration = configBuilder.getDataSourceConfiguration();
-        boolean isInclude = (null != strategyConfiguration.getInclude() && strategyConfiguration.getInclude().length > 0);
-        boolean isExclude = (null != strategyConfiguration.getExclude() && strategyConfiguration.getExclude().length > 0);
-        if (isInclude && isExclude) {
-            throw new RuntimeException("<strategy> 标签中 <include> 与 <exclude> 只能配置一项！");
-        }
+        StrategyProperties strategyProperties = configBuilder.getStrategyProperties();
+        DataSourceProperties dataSourceConfiguration = configBuilder.getDataSourceProperties();
+        ArrayList<String> includeTableList = Lists.newArrayList(strategyProperties.getIncludeTables());
+
         //所有的表信息
         List<TableInfo> tableList = new ArrayList<>();
-
-        //需要反向生成或排除的表信息
-        List<TableInfo> includeTableList = new ArrayList<>();
-        List<TableInfo> excludeTableList = new ArrayList<>();
-
-        //不存在的表名
-        Set<String> notExistTables = new HashSet<>();
         IDbQuery dbQuery = dataSourceConfiguration.getDbQuery();
-        Connection connection = dataSourceConfiguration.getConn();
-        PreparedStatement preparedStatement = null;
-        try {
-            String tablesSql = dbQuery.tablesSql();
-            preparedStatement = connection.prepareStatement(tablesSql);
-            ResultSet results = preparedStatement.executeQuery();
+        String tablesSql = dbQuery.tablesSql(strategyProperties);
+        try (Connection connection = dataSourceConfiguration.getConn();
+             PreparedStatement preparedStatement = connection.prepareStatement(tablesSql);
+             ResultSet results = preparedStatement.executeQuery()){
             TableInfo tableInfo;
             while (results.next()) {
                 String tableName = results.getString(dbQuery.tableName());
                 if (StringUtils.isNotEmpty(tableName)) {
                     String tableComment = results.getString(dbQuery.tableComment());
-                    if (strategyConfiguration.isSkipView() && "VIEW".equals(tableComment)) {
+                    if (strategyProperties.isSkipView() && "VIEW".equals(tableComment)) {
                         // 跳过视图
                         continue;
                     }
                     tableInfo = new TableInfo();
                     tableInfo.setName(tableName);
                     tableInfo.setComment(tableComment);
-                    if (isInclude) {
-                        for (String includeTable : strategyConfiguration.getInclude()) {
-                            // 忽略大小写等于 或 正则 true
-                            if (tableNameMatches(includeTable, tableName)) {
-                                includeTableList.add(tableInfo);
-                            } else {
-                                notExistTables.add(includeTable);
-                            }
-                        }
-                    } else if (isExclude) {
-                        for (String excludeTable : strategyConfiguration.getExclude()) {
-                            // 忽略大小写等于 或 正则 true
-                            if (tableNameMatches(excludeTable, tableName)) {
-                                excludeTableList.add(tableInfo);
-                            } else {
-                                notExistTables.add(excludeTable);
-                            }
-                        }
-                    }
                     tableList.add(tableInfo);
                 } else {
                     System.err.println("当前数据库为空！！！");
@@ -99,55 +69,15 @@ public class StrategyConfigurationHandler implements ConfigurationHandler {
 
             // 将已经存在的表移除，获取配置中数据库不存在的表
             for (TableInfo tabInfo : tableList) {
-                notExistTables.remove(tabInfo.getName());
+                includeTableList.remove(tabInfo.getName());
             }
-            if (notExistTables.size() > 0) {
-                System.err.println("表 " + notExistTables + " 在数据库中不存在！！！");
+            if (includeTableList.size() > 0) {
+                System.err.println("表 " + includeTableList + " 在数据库中不存在！！！");
             }
-
-            // 需要反向生成的表信息
-            if (isExclude) {
-                tableList.removeAll(excludeTableList);
-                includeTableList = tableList;
-            }
-            if (!isInclude && !isExclude) {
-                includeTableList = tableList;
-            }
-            /**
-             * 性能优化，只处理需执行表字段 github issues/219
-             */
-//            includeTableList.forEach(ti -> convertTableFields(ti, config.getColumnNaming()));
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // 释放资源
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-        return processTable(includeTableList, configBuilder);
-    }
-
-
-    /**
-     * <p>
-     * 表名匹配
-     * </p>
-     *
-     * @param setTableName 设置表名
-     * @param dbTableName  数据库表单
-     * @return
-     */
-    private boolean tableNameMatches(String setTableName, String dbTableName) {
-        return setTableName.equals(dbTableName)
-                || StringUtils.matches(setTableName, dbTableName);
+        return processTable(tableList, configBuilder);
     }
 
     /**
@@ -195,9 +125,9 @@ public class StrategyConfigurationHandler implements ConfigurationHandler {
      * @return 补充完整信息后的表
      */
     private List<TableInfo> processTable(List<TableInfo> tableList, ConfigurationBuilder configurationBuilder) {
-        NamingStrategy strategy = configurationBuilder.getStrategyConfiguration().getNaming();
-        StrategyConfiguration strategyConfiguration = configurationBuilder.getStrategyConfiguration();
-        GlobalConfiguration globalConfiguration = configurationBuilder.getGlobalConfiguration();
+        NamingStrategy strategy = configurationBuilder.getStrategyProperties().getNaming();
+        StrategyProperties strategyConfiguration = configurationBuilder.getStrategyProperties();
+        GlobalProperties globalConfiguration = configurationBuilder.getGlobalProperties();
         String[] tablePrefix = strategyConfiguration.getTablePrefix();
         for (TableInfo tableInfo : tableList) {
             String entityName = NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix));
@@ -246,7 +176,7 @@ public class StrategyConfigurationHandler implements ConfigurationHandler {
      * @param tableInfo
      */
     private void checkImportPackages(TableInfo tableInfo, ConfigurationBuilder configurationBuilder) {
-        StrategyConfiguration strategyConfiguration = configurationBuilder.getStrategyConfiguration();
+        StrategyProperties strategyConfiguration = configurationBuilder.getStrategyProperties();
         if (StringUtils.isNotEmpty(strategyConfiguration.getSuperEntityClass())) {
             // 自定义父类
             tableInfo.getImportPackages().add(strategyConfiguration.getSuperEntityClass());
