@@ -33,13 +33,19 @@ dependencies {
         exclude module: 'spring-boot-starter-tomcat'
         exclude module: 'hibernate-validator'
         exclude module: 'spring-webmvc'
+        exclude module: 'snakeyaml'
+        exclude module: 'javax.annotation-api'
+        exclude module: 'jul-to-slf4j'
+        exclude module: 'log4j-to-slf4j'
     }
     compile('mysql:mysql-connector-java:8.0.12'){
         exclude module:'protobuf-java'
     }
-
-    compile('com.google.guava:guava:26.0-jre')
+    compile('com.google.guava:guava:26.0-jre'){
+        transitive = false
+    }
     compile('org.projectlombok:lombok:1.16.20')
     compile('org.freemarker:freemarker:2.3.9')
     compile('org.mybatis.generator:mybatis-generator-core:1.3.7')
+    compile('org.mybatis:mybatis:3.4.6')
 }
