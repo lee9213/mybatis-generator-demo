@@ -30,6 +30,7 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
         Map<String, String> packageInfo = Maps.newHashMapWithExpectedSize(8);
         packageInfo.put(Constant.GENERATOR, "");
         packageInfo.put(Constant.MODULE_NAME, packageConfiguration.getModuleName());
+        packageConfiguration.setParent(joinPackage(packageConfiguration.getParent(),packageConfiguration.getModuleName()));
         packageInfo.put(Constant.ENTITY, joinPackage(packageConfiguration.getParent(), packageConfiguration.getEntity()));
         packageInfo.put(Constant.MAPPER, joinPackage(packageConfiguration.getParent(), packageConfiguration.getMapper()));
         packageInfo.put(Constant.XML, joinPackage(packageConfiguration.getParent(), packageConfiguration.getXml()));
