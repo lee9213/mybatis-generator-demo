@@ -1,5 +1,6 @@
 package com.lee9213.mybatis.generator.extend.plugins.juma;
 
+import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.Interface;
@@ -95,5 +96,27 @@ public class MapperPlugin extends PluginAdapter {
         interfaze.addJavaDocLine(" * @version 1.0");
         interfaze.addJavaDocLine(" * @date " + format.format(new Date()));
         interfaze.addJavaDocLine(" */");
+    }
+
+
+    @Override
+    public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles() {
+        List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
+
+//        GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
+//                context.getJavaModelGeneratorConfiguration()
+//                        .getTargetProject(),
+//                context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
+//                context.getJavaFormatter());
+//        answer.add(gjf);
+//
+//        GeneratedJavaFile gjf1 = new GeneratedJavaFile(compilationUnit,
+//                context.getJavaClientGeneratorConfiguration()
+//                        .getTargetProject(),
+//                context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
+//                context.getJavaFormatter());
+//        answer.add(gjf1);
+
+        return answer;
     }
 }

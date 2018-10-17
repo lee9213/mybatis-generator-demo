@@ -1,6 +1,5 @@
-plugins {
-    id 'java'
-}
+apply plugin: 'java'
+apply plugin: 'eclipse'
 
 group 'com.mybatis.generator.extend'
 version '1.0.0'
