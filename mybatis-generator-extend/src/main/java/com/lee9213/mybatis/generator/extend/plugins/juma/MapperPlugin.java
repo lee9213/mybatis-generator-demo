@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.juma;
+package com.lee9213.mybatis.generator.extend.plugins.juma;
 
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;

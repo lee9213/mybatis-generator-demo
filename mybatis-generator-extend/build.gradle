@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group 'com.mybatis.generator.extend'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':mybatis-generator-core')
+    compile('com.google.guava:guava:26.0-jre'){
+        transitive = false
+    }
+}

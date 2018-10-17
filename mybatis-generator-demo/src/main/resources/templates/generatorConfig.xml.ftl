@@ -42,7 +42,7 @@
         <!-- 忽略大小写 -->
         <!--<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"/>-->
 
-        <plugin type="com.lee9213.mybatis.generator.juma.MapperPlugin">
+        <plugin type="com.lee9213.mybatis.generator.extend.plugins.juma.MapperPlugin">
             <#if strategy.superMapperClass??>
             <property name="mappers" value="${strategy.superMapperClass}"/>
             </#if>
@@ -53,7 +53,7 @@
         <!--<plugin type="com.zheng.common.plugin.PaginationPlugin"></plugin>-->
 
         <!-- 生成的代码去掉注释 -->
-        <commentGenerator type="com.lee9213.mybatis.generator.internal.CommentGenerator">
+        <commentGenerator type="com.lee9213.mybatis.generator.extend.internal.CommentGenerator">
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
             <property name="user.name" value="${global.author}"/>
