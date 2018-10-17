@@ -1,4 +1,5 @@
 rootProject.name = 'mybatis-generator'
 include 'mybatis-generator-core'
 include 'mybatis-generator-demo'
+include 'mybatis-generator-extend'
 

@@ -1,14 +1,14 @@
-package com.lee9213.mybatis.generator.internal;
+package com.lee9213.mybatis.generator.extend.internal;
 
-import com.lee9213.mybatis.generator.util.StringUtils;
+import com.google.common.base.Strings;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 /**
@@ -20,7 +20,6 @@ import java.util.Properties;
  */
 public class CommentGenerator extends DefaultCommentGenerator {
 
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String author;
 
     @Override
@@ -39,7 +38,7 @@ public class CommentGenerator extends DefaultCommentGenerator {
     @Override
     public void addFieldComment(Field field, IntrospectedTable introspectedTable,
                                 IntrospectedColumn introspectedColumn) {
-        if (StringUtils.isNotEmpty(introspectedColumn.getRemarks())) {
+        if (!Strings.isNullOrEmpty(introspectedColumn.getRemarks())) {
             field.addJavaDocLine("/**");
             field.addJavaDocLine(" * " + introspectedColumn.getRemarks());
             field.addJavaDocLine(" */");
@@ -59,7 +58,7 @@ public class CommentGenerator extends DefaultCommentGenerator {
         topLevelClass.addJavaDocLine(" *");
         topLevelClass.addJavaDocLine(" * @author " + author);
         topLevelClass.addJavaDocLine(" * @version 1.0");
-        topLevelClass.addJavaDocLine(" * @date " + format.format(new Date()));
+        topLevelClass.addJavaDocLine(" * @date " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         topLevelClass.addJavaDocLine(" */");
     }
 }
