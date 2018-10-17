@@ -1,50 +1,13 @@
-buildscript {
-    ext {
-        springBootVersion = '2.0.5.RELEASE'
-    }
-    repositories {
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 
-group 'com.mybatis.generator.demo'
+group 'com.mybatis.generator'
 version '1.0.0'
+
 sourceCompatibility = 1.8
 
 repositories {
     mavenLocal()
     maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile('org.springframework.boot:spring-boot-starter-web'){
-        exclude module: 'spring-boot-starter-json'
-        exclude module: 'spring-boot-starter-tomcat'
-        exclude module: 'hibernate-validator'
-        exclude module: 'spring-webmvc'
-        exclude module: 'snakeyaml'
-        exclude module: 'javax.annotation-api'
-    }
-    compile('mysql:mysql-connector-java:8.0.12'){
-        exclude module:'protobuf-java'
-    }
-    compile('com.google.guava:guava:26.0-jre'){
-        transitive = false
-    }
-    compile('log4j:log4j:1.2.17')
-    compile('org.projectlombok:lombok:1.16.20')
-    compile('org.freemarker:freemarker:2.3.9')
-    compile('org.mybatis.generator:mybatis-generator-core:1.3.7')
-    compile('org.mybatis:mybatis:3.4.6')
 }
