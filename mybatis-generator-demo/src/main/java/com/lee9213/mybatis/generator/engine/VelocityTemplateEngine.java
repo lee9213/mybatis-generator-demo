@@ -1,7 +1,7 @@
 //
 //package com.lee9213.mybatis.generator.engine;
 //
-//import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+//import com.lee9213.mybatis.generator.config.Configuration;
 //import com.lee9213.mybatis.generator.util.Constant;
 //import org.apache.logging.log4j.util.Strings;
 //import org.apache.velocity.Template;
@@ -29,8 +29,8 @@
 //    private VelocityEngine velocityEngine;
 //
 //    @Override
-//    public VelocityTemplateEngine init(ConfigBuilder configBuilder) {
-//        super.init(configBuilder);
+//    public VelocityTemplateEngine init(Configuration configuration) {
+//        super.init(configuration);
 //        if (null == velocityEngine) {
 //            Properties p = new Properties();
 //            p.setProperty(Constant.VM_LOAD_PATH_KEY, Constant.VM_LOAD_PATH_VALUE);

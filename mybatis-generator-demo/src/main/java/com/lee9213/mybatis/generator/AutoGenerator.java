@@ -57,7 +57,7 @@ public class AutoGenerator {
         }
 
         // 模板引擎初始化执行文件输出
-        templateEngine.init(configuration).batchOutput().open();
+        templateEngine.init(configuration).writer().open();
         logger.info("==========================文件生成完成！！！==========================");
     }
 }
