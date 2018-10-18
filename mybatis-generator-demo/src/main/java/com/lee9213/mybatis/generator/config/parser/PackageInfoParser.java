@@ -20,6 +20,7 @@ public class PackageInfoParser implements Parser {
         PackageInfo packageInfo = new PackageInfo()
                 .setModuleName(packageProperties.getModuleName())
                 .setEntity(joinPackage(packageProperties.getParent(), packageProperties.getEntity()))
+                .setVo(joinPackage(packageProperties.getParent(), packageProperties.getVo()))
                 .setMapper(joinPackage(packageProperties.getParent(), packageProperties.getMapper()))
                 .setMapperXml(joinPackage(packageProperties.getParent(), packageProperties.getMapperXml()))
                 .setService(joinPackage(packageProperties.getParent(), packageProperties.getService()))

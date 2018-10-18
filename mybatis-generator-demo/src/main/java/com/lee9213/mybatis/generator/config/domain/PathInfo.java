@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 public class PathInfo {
 
     private String generatorPath;
+    private String voPath;
     private String entityPath;
     private String mapperPath;
     private String mapperXmlPath;

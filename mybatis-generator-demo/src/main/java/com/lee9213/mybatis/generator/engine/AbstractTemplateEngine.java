@@ -90,6 +90,14 @@ public abstract class AbstractTemplateEngine {
                 Map<String, Object> objectMap = getObjectMap(tableInfo);
 
                 String entityName = tableInfo.getEntityName();
+                // 生成VO
+                if (null != tableInfo.getVoName() && null != pathInfo.getVoPath()) {
+                    String voFile = String.format((pathInfo.getVoPath() + File.separator + tableInfo.getVoName() + Constant.JAVA_SUFFIX), entityName);
+                    if (isCreate(FileType.VO, voFile)) {
+                        doWriter(objectMap, templateFilePath(templateConfiguration.getVo()), voFile);
+                    }
+                }
+
                 // 生成Service
                 if (null != tableInfo.getServiceName() && null != pathInfo.getServicePath()) {
                     String serviceFile = String.format((pathInfo.getServicePath() + File.separator + tableInfo.getServiceName() + Constant.JAVA_SUFFIX), entityName);

@@ -33,6 +33,7 @@ public class PathInfoParser implements Parser {
         PathInfo pathInfo = new PathInfo()
                 .setGeneratorPath(getPathInfo(templateProperties.getGenerator(), outputDir + "\\src\\main\\resources", packageInfo.getGenerator()))
                 .setEntityPath(getPathInfo(templateProperties.getEntity(), outputDir + "\\src\\main\\java", packageInfo.getEntity()))
+                .setVoPath(getPathInfo(templateProperties.getVo(), outputDir + "\\src\\main\\java", packageInfo.getVo()))
                 .setMapperPath(getPathInfo(templateProperties.getMapper(), outputDir + "\\src\\main\\java", packageInfo.getMapper()))
                 .setMapperXmlPath(getPathInfo(templateProperties.getXml(), outputDir + "\\src\\main\\resources", packageInfo.getMapperXml()))
                 .setServicePath(getPathInfo(templateProperties.getService(), outputDir + "\\src\\main\\java", packageInfo.getService()))
@@ -42,6 +43,7 @@ public class PathInfoParser implements Parser {
 
         mkdir(pathInfo.getGeneratorPath());
         mkdir(pathInfo.getEntityPath());
+        mkdir(pathInfo.getVoPath());
         mkdir(pathInfo.getMapperPath());
         mkdir(pathInfo.getMapperXmlPath());
         mkdir(pathInfo.getServicePath());

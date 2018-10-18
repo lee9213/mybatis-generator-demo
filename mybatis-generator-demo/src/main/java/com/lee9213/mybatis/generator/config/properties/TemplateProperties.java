@@ -19,6 +19,8 @@ public class TemplateProperties {
 
     private String entity = Constant.TEMPLATE_ENTITY_JAVA;
 
+    private String vo = Constant.TEMPLATE_VO_JAVA;
+
     private String entityKt = Constant.TEMPLATE_ENTITY_KT;
 
     private String service = Constant.TEMPLATE_SERVICE;

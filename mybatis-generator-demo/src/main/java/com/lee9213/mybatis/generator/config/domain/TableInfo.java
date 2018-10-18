@@ -23,6 +23,7 @@ public class TableInfo {
     private String comment;
 
     private String entityName;
+    private String voName;
     private String mapperName;
     private String xmlName;
     private String serviceName;
@@ -98,6 +99,14 @@ public class TableInfo {
     public void setEntityName(StrategyProperties strategyConfig, String entityName) {
         this.entityName = entityName;
         this.setConvert(strategyConfig);
+    }
+
+    public String getVoName() {
+        return voName;
+    }
+
+    public void setVoName(String voName) {
+        this.voName = voName;
     }
 
     public String getMapperName() {

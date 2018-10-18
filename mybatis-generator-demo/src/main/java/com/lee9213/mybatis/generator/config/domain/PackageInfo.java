@@ -17,6 +17,7 @@ public class PackageInfo {
     private String generator = "";
     private String moduleName;
     private String entity;
+    private String vo;
     private String mapper;
     private String mapperXml;
     private String service;

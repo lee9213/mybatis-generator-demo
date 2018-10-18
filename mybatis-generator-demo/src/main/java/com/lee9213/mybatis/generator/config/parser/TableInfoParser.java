@@ -80,6 +80,11 @@ public class TableInfoParser implements Parser {
             } else {
                 tableInfo.setEntityName(strategyProperties, entityName);
             }
+            if (StringUtils.isNotEmpty(globalProperties.getVoName())) {
+                tableInfo.setVoName(String.format(globalProperties.getVoName(), entityName));
+            } else {
+                tableInfo.setVoName(entityName + Constant.VO);
+            }
             if (StringUtils.isNotEmpty(globalProperties.getMapperName())) {
                 tableInfo.setMapperName(String.format(globalProperties.getMapperName(), entityName));
             } else {
@@ -93,7 +98,7 @@ public class TableInfoParser implements Parser {
             if (StringUtils.isNotEmpty(globalProperties.getServiceName())) {
                 tableInfo.setServiceName(String.format(globalProperties.getServiceName(), entityName));
             } else {
-                tableInfo.setServiceName("I" + entityName + Constant.SERVICE);
+                tableInfo.setServiceName(entityName + Constant.SERVICE);
             }
             if (StringUtils.isNotEmpty(globalProperties.getServiceImplName())) {
                 tableInfo.setServiceImplName(String.format(globalProperties.getServiceImplName(), entityName));

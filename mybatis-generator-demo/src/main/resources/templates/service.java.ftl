@@ -25,35 +25,40 @@ public interface ${table.serviceName} {
 
 
     /**
-	*  add 新增接口
-	*   @param  scmTransactionSourceVO
+	* 新增接口
+	*
+	* @param scmTransactionSourceVO
 	* @param loginEmployee
 	*/
 	${table.entityName} add(${table.entityName}VO scmTransactionSourceVO, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
-	* detail 详情接口
-	*   @param  id
+	* 详情接口
+	*
+	* @param id
 	* @param loginEmployee
 	*/
 	${table.entityName}VO detail(Integer id, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
-	* update 更新接口
-	*   @param  scmTransactionSourceVO
+	* 更新接口
+	*
+	* @param scmTransactionSourceVO
 	* @param loginEmployee
 	*/
 	void update(${table.entityName}VO scmTransactionSourceVO, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
-	*  delete  删除接口
-	*   @param  id
+	* 删除接口
+	*
+	* @param id
 	* @param loginEmployee
 	*/
 	void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException ;
 
 	/**
 	* 列表
+	*
 	* @param pageCondition
 	* @param loginEmployee
 	* @return
