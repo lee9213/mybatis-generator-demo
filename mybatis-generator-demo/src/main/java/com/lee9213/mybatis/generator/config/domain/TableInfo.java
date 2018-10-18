@@ -1,8 +1,10 @@
 package com.lee9213.mybatis.generator.config.domain;
 
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
+import com.lee9213.mybatis.generator.util.CollectionUtils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,11 +28,11 @@ public class TableInfo {
     private String serviceName;
     private String serviceImplName;
     private String controllerName;
-//    private List<TableField> fields;
+    private List<TableField> fields;
     /**
      * 公共字段
      */
-//    private List<TableField> commonFields;
+    private List<TableField> commonFields;
     private Set<String> importPackages = new HashSet<>();
     private String fieldNames;
 
@@ -138,14 +140,14 @@ public class TableInfo {
         this.controllerName = controllerName;
     }
 
-//    public List<TableField> getFields() {
-//        return fields;
-//    }
-//
-//    public void setFields(List<TableField> fields) {
-//        if (CollectionUtils.isNotEmpty(fields)) {
-//            this.fields = fields;
-//            // 收集导入包信息
+    public List<TableField> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<TableField> fields) {
+        if (CollectionUtils.isNotEmpty(fields)) {
+            this.fields = fields;
+            // 收集导入包信息
 //            for (TableField field : fields) {
 //                if (null != field.getColumnType() && null != field.getColumnType().getPkg()) {
 //                    importPackages.add(field.getColumnType().getPkg());
@@ -169,16 +171,16 @@ public class TableInfo {
 //                    importPackages.add(com.baomidou.mybatisplus.annotation.FieldFill.class.getCanonicalName());
 //                }
 //            }
-//        }
-//    }
+        }
+    }
 
-//    public List<TableField> getCommonFields() {
-//        return commonFields;
-//    }
-//
-//    public void setCommonFields(List<TableField> commonFields) {
-//        this.commonFields = commonFields;
-//    }
+    public List<TableField> getCommonFields() {
+        return commonFields;
+    }
+
+    public void setCommonFields(List<TableField> commonFields) {
+        this.commonFields = commonFields;
+    }
 
     public Set<String> getImportPackages() {
         return importPackages;

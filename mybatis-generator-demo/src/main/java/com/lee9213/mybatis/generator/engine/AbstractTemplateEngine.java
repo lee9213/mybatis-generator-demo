@@ -17,29 +17,25 @@ package com.lee9213.mybatis.generator.engine;
 
 
 import com.google.common.collect.Maps;
+import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
+import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
-import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
-import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.engine.generator.GeneratorConfigXmlGenerator;
+import com.lee9213.mybatis.generator.engine.generator.MybatisGenerator;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.PackageHelper;
 import com.lee9213.mybatis.generator.util.StringPool;
 import com.lee9213.mybatis.generator.util.StringUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.mybatis.generator.api.MyBatisGenerator;
-import org.mybatis.generator.config.Configuration;
-import org.mybatis.generator.config.xml.ConfigurationParser;
-import org.mybatis.generator.internal.DefaultShellCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +56,7 @@ public abstract class AbstractTemplateEngine {
     /**
      * 配置信息
      */
-    private ConfigurationBuilder configBuilder;
+    private Configuration configuration;
 
 
     /**
@@ -68,8 +64,8 @@ public abstract class AbstractTemplateEngine {
      * 模板引擎初始化
      * </p>
      */
-    public AbstractTemplateEngine init(ConfigurationBuilder configBuilder) {
-        this.configBuilder = configBuilder;
+    public AbstractTemplateEngine init(Configuration configuration) {
+        this.configuration = configuration;
         return this;
     }
     /**
@@ -84,22 +80,14 @@ public abstract class AbstractTemplateEngine {
             generatorConfigXmlGenerator.generator(this);
 
             // 生成entity、mapper、mapper.xml
-            PathInfo pathInfo = getConfigBuilder().getPathInfo();
-            String generatorConfigXml = pathInfo.getGeneratorPath() + File.separator + Constant.GENERATOR_NAME;
-            List<String> warnings = new ArrayList<>();
-            File configFile = new File(generatorConfigXml);
-            ConfigurationParser cp = new ConfigurationParser(warnings);
-            Configuration config = cp.parseConfiguration(configFile);
-            DefaultShellCallback callback = new DefaultShellCallback(getConfigBuilder().getGlobalProperties().isFileOverride());
-            MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
-            myBatisGenerator.generate(null);
-            for (String warning : warnings) {
-                logger.info(warning);
-            }
+            MybatisGenerator mybatisGenerator = new MybatisGenerator();
+            mybatisGenerator.generator(this);
+
 
             // 生成Service、ServiceImpl、Controller
-            TemplateProperties templateConfiguration = getConfigBuilder().getTemplateProperties();
-            List<TableInfo> tableInfoList = getConfigBuilder().getTableInfoList();
+            PathInfo pathInfo = configuration.getPathInfo();
+            TemplateProperties templateConfiguration = configuration.getTemplateProperties();
+            List<TableInfo> tableInfoList = configuration.getTableInfoList();
             for (TableInfo tableInfo : tableInfoList) {
                 Map<String, Object> objectMap = getObjectMap(tableInfo);
 
@@ -180,12 +168,12 @@ public abstract class AbstractTemplateEngine {
     protected Map<String, Object> getObjectMap(TableInfo tableInfo) {
         Map<String, Object> objectMap = Maps.newHashMapWithExpectedSize(8);
         objectMap.put("table", tableInfo);
-        objectMap.put("datasource", configBuilder.getDataSourceProperties());
-        objectMap.put("global", configBuilder.getGlobalProperties());
-        objectMap.put("package", configBuilder.getPackageInfo());
-        objectMap.put("templates", configBuilder.getTemplateProperties());
+        objectMap.put("datasource", configuration.getDataSourceProperties());
+        objectMap.put("global", configuration.getGlobalProperties());
+        objectMap.put("package", configuration.getPackageInfo());
+        objectMap.put("templates", configuration.getTemplateProperties());
 
-        StrategyProperties strategyConfiguration = configBuilder.getStrategyProperties();
+        StrategyProperties strategyConfiguration = configuration.getStrategyProperties();
         objectMap.put("strategy", strategyConfiguration);
         if (strategyConfiguration.isControllerMappingHyphenStyle()) {
             objectMap.put("controllerMappingHyphen", StringUtils.camelToHyphen(tableInfo.getEntityPath()));
@@ -216,8 +204,8 @@ public abstract class AbstractTemplateEngine {
      * </p>
      */
     public void open() {
-        String outDir = getConfigBuilder().getGlobalProperties().getOutputDir();
-        if (getConfigBuilder().getGlobalProperties().isOpen()
+        String outDir = configuration.getGlobalProperties().getOutputDir();
+        if (configuration.getGlobalProperties().isOpen()
             && StringUtils.isNotEmpty(outDir)) {
             try {
                 String osName = System.getProperty("os.name");
@@ -268,7 +256,7 @@ public abstract class AbstractTemplateEngine {
      * @return 是否
      */
     protected boolean isCreate(FileType fileType, String filePath) {
-        ConfigurationBuilder cb = getConfigBuilder();
+        Configuration cb = configuration;
         // 自定义判断
 //        InjectionConfig ic = cb.getInjectionConfig();
 //        if (null != ic && null != ic.getFileCreate()) {
@@ -280,6 +268,6 @@ public abstract class AbstractTemplateEngine {
         if (!exist) {
             PackageHelper.mkDir(file.getParentFile());
         }
-        return !exist || getConfigBuilder().getGlobalProperties().isFileOverride();
+        return !exist || configuration.getGlobalProperties().isFileOverride();
     }
 }

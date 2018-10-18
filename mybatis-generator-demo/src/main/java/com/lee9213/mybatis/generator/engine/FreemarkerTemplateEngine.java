@@ -15,10 +15,9 @@
  */
 package com.lee9213.mybatis.generator.engine;
 
-import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
+import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.StringPool;
-import freemarker.template.Configuration;
 import freemarker.template.Template;
 
 import java.io.File;
@@ -36,14 +35,14 @@ import java.util.Map;
  */
 public class FreemarkerTemplateEngine extends AbstractTemplateEngine {
 
-    private Configuration configuration;
+    private freemarker.template.Configuration configuration;
 
     @Override
-    public FreemarkerTemplateEngine init(ConfigurationBuilder configBuilder) {
-        super.init(configBuilder);
-        configuration = new Configuration();
-        configuration.setDefaultEncoding(Constant.UTF8);
-        configuration.setClassForTemplateLoading(FreemarkerTemplateEngine.class, StringPool.SLASH);
+    public FreemarkerTemplateEngine init(Configuration configuration) {
+        super.init(configuration);
+        this.configuration = new freemarker.template.Configuration();
+        this.configuration.setDefaultEncoding(Constant.UTF8);
+        this.configuration.setClassForTemplateLoading(FreemarkerTemplateEngine.class, StringPool.SLASH);
         return this;
     }
 

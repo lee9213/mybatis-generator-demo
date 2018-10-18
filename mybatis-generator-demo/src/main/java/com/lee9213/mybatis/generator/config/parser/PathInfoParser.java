@@ -1,11 +1,10 @@
-package com.lee9213.mybatis.generator.config.handler;
+package com.lee9213.mybatis.generator.config.parser;
 
 import com.google.common.base.Strings;
-import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
+import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.PackageInfo;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
-import com.lee9213.mybatis.generator.config.properties.PackageProperties;
 import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.StringPool;
@@ -17,30 +16,18 @@ import java.io.File;
 
 /**
  * @author libo
- * @version 1.0
- * @date 2018/10/15 16:06
+ * @date 2018/10/18 11:14
  */
-public class PackageConfigurationHandler implements ConfigurationHandler {
-    protected static final Logger logger = LoggerFactory.getLogger(PackageConfigurationHandler.class);
+public class PathInfoParser implements Parser {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public void handler(ConfigurationBuilder configBuilder) {
+    public void parser(Configuration configuration) {
 
-        GlobalProperties globalProperties = configBuilder.getGlobalProperties();
-        PackageProperties packageProperties = configBuilder.getPackageProperties();
-        TemplateProperties templateProperties = configBuilder.getTemplateProperties();
-        // 包信息
-        packageProperties.setParent(joinPackage(packageProperties.getParent(), packageProperties.getModuleName()));
-        PackageInfo packageInfo = new PackageInfo()
-                .setModuleName(packageProperties.getModuleName())
-                .setEntity(joinPackage(packageProperties.getParent(), packageProperties.getEntity()))
-                .setMapper(joinPackage(packageProperties.getParent(), packageProperties.getMapper()))
-                .setMapperXml(joinPackage(packageProperties.getParent(), packageProperties.getMapperXml()))
-                .setService(joinPackage(packageProperties.getParent(), packageProperties.getService()))
-                .setServiceImpl(joinPackage(packageProperties.getParent(), packageProperties.getServiceImpl()))
-                .setController(joinPackage(packageProperties.getParent(), packageProperties.getController()));
-        configBuilder.setPackageInfo(packageInfo);
-
+        PackageInfo packageInfo = configuration.getPackageInfo();
+        GlobalProperties globalProperties = configuration.getGlobalProperties();
+        TemplateProperties templateProperties = configuration.getTemplateProperties();
         // 生成路径信息
         // TODO 优化路径
         String outputDir = globalProperties.getOutputDir();
@@ -52,7 +39,7 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
                 .setServicePath(getPathInfo(templateProperties.getService(), outputDir + "\\src\\main\\java", packageInfo.getService()))
                 .setServiceImplPath(getPathInfo(templateProperties.getServiceImpl(), outputDir + "\\src\\main\\java", packageInfo.getServiceImpl()))
                 .setControllerPath(getPathInfo(templateProperties.getController(), outputDir + "\\src\\main\\java", packageInfo.getController()));
-        configBuilder.setPathInfo(pathInfo);
+        configuration.setPathInfo(pathInfo);
 
         mkdir(pathInfo.getGeneratorPath());
         mkdir(pathInfo.getEntityPath());
@@ -62,12 +49,20 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
         mkdir(pathInfo.getServiceImplPath());
         mkdir(pathInfo.getControllerPath());
     }
+
+    private String getPathInfo(String template, String outputDir, String packageInfo) {
+        if (!Strings.isNullOrEmpty(template)) {
+            return joinPath(outputDir, packageInfo);
+        }
+        return null;
+    }
+
     /**
      * <p>
      * 处理输出目录
      * </p>
      */
-    private void mkdir(String path){
+    private void mkdir(String path) {
         File dir = new File(path);
         if (!dir.exists()) {
             boolean result = dir.mkdirs();
@@ -75,29 +70,6 @@ public class PackageConfigurationHandler implements ConfigurationHandler {
                 logger.debug("创建目录： [" + path + "]");
             }
         }
-    }
-
-    /**
-     * <p>
-     * 连接父子包名
-     * </p>
-     *
-     * @param parent     父包名
-     * @param subPackage 子包名
-     * @return 连接后的包名
-     */
-    private String joinPackage(String parent, String subPackage) {
-        if (Strings.isNullOrEmpty(parent)) {
-            return subPackage;
-        }
-        return parent + StringPool.DOT + subPackage;
-    }
-
-    private String getPathInfo(String template, String outputDir, String packageInfo) {
-        if (!Strings.isNullOrEmpty(template)) {
-            return joinPath(outputDir, packageInfo);
-        }
-        return null;
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.lee9213.mybatis.generator;
 
-import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
+import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.properties.*;
 import com.lee9213.mybatis.generator.engine.AbstractTemplateEngine;
 import com.lee9213.mybatis.generator.engine.FreemarkerTemplateEngine;
@@ -50,14 +50,14 @@ public class AutoGenerator {
     public void execute() {
         logger.info("==========================准备生成文件...==========================");
         // 初始化配置
-        ConfigurationBuilder config = new ConfigurationBuilder(globalProperties, templateProperties, packageProperties, dataSourceProperties, strategyProperties);
+        Configuration configuration = new Configuration(globalProperties, templateProperties, packageProperties, dataSourceProperties, strategyProperties);
         if (null == templateEngine) {
             // 采用 Freemarker 引擎 【 默认 】
             templateEngine = new FreemarkerTemplateEngine();
         }
 
         // 模板引擎初始化执行文件输出
-        templateEngine.init(config).batchOutput().open();
+        templateEngine.init(configuration).batchOutput().open();
         logger.info("==========================文件生成完成！！！==========================");
     }
 }
