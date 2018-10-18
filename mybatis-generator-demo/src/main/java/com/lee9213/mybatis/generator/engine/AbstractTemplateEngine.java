@@ -71,7 +71,7 @@ public abstract class AbstractTemplateEngine {
      * 输出 java xml 文件
      * </p>
      */
-    public AbstractTemplateEngine batchOutput() {
+    public AbstractTemplateEngine writer() {
         try {
             // 生成GeneratorConfig.xml
             GeneratorConfigXmlGenerator generatorConfigXmlGenerator = new GeneratorConfigXmlGenerator();
@@ -94,7 +94,7 @@ public abstract class AbstractTemplateEngine {
                 if (null != tableInfo.getServiceName() && null != pathInfo.getServicePath()) {
                     String serviceFile = String.format((pathInfo.getServicePath() + File.separator + tableInfo.getServiceName() + Constant.JAVA_SUFFIX), entityName);
                     if (isCreate(FileType.SERVICE, serviceFile)) {
-                        writer(objectMap, templateFilePath(templateConfiguration.getService()), serviceFile);
+                        doWriter(objectMap, templateFilePath(templateConfiguration.getService()), serviceFile);
                     }
                 }
 
@@ -102,7 +102,7 @@ public abstract class AbstractTemplateEngine {
                 if (null != tableInfo.getServiceImplName() && null != pathInfo.getServiceImplPath()) {
                     String implFile = String.format((pathInfo.getServiceImplPath() + File.separator + tableInfo.getServiceImplName() + Constant.JAVA_SUFFIX), entityName);
                     if (isCreate(FileType.SERVICE_IMPL, implFile)) {
-                        writer(objectMap, templateFilePath(templateConfiguration.getServiceImpl()), implFile);
+                        doWriter(objectMap, templateFilePath(templateConfiguration.getServiceImpl()), implFile);
                     }
                 }
 
@@ -110,7 +110,7 @@ public abstract class AbstractTemplateEngine {
                 if (null != tableInfo.getControllerName() && null != pathInfo.getControllerPath()) {
                     String controllerFile = String.format((pathInfo.getControllerPath() + File.separator + tableInfo.getControllerName() + Constant.JAVA_SUFFIX), entityName);
                     if (isCreate(FileType.CONTROLLER, controllerFile)) {
-                        writer(objectMap, templateFilePath(templateConfiguration.getController()), controllerFile);
+                        doWriter(objectMap, templateFilePath(templateConfiguration.getController()), controllerFile);
                     }
                 }
             }
@@ -191,7 +191,7 @@ public abstract class AbstractTemplateEngine {
      * @param templatePath 模板文件
      * @param outputFile   文件生成的目录
      */
-    public abstract void writer(Map<String, Object> objectMap, String templatePath, String outputFile) throws Exception;
+    public abstract void doWriter(Map<String, Object> objectMap, String templatePath, String outputFile) throws Exception;
 
 
 
