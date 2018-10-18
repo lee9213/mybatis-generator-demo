@@ -145,6 +145,7 @@ public class TableInfo {
     }
 
     public void setFields(List<TableField> fields) {
+
         if (CollectionUtils.isNotEmpty(fields)) {
             this.fields = fields;
             // 收集导入包信息

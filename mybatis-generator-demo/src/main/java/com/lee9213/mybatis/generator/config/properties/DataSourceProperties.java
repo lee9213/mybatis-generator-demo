@@ -1,6 +1,7 @@
 package com.lee9213.mybatis.generator.config.properties;
 
 import com.lee9213.mybatis.generator.config.converts.ITypeConvert;
+import com.lee9213.mybatis.generator.config.converts.MySqlTypeConvert;
 import com.lee9213.mybatis.generator.config.domain.DbType;
 import com.lee9213.mybatis.generator.config.sql.query.IDbQuery;
 import com.lee9213.mybatis.generator.config.sql.query.MySqlQuery;
@@ -67,6 +68,20 @@ public class DataSourceProperties {
         return dbQuery;
     }
 
+    public ITypeConvert getTypeConvert() {
+        if (null == typeConvert) {
+            switch (getDbType()) {
+                case MARIADB:
+                    typeConvert = new MySqlTypeConvert();
+                    break;
+                default:
+                    // 默认 MYSQL
+                    typeConvert = new MySqlTypeConvert();
+                    break;
+            }
+        }
+        return typeConvert;
+    }
     /**
      * 判断数据库类型
      *
@@ -76,16 +91,6 @@ public class DataSourceProperties {
         if (null == dbType) {
             if (driverName.contains("mysql")) {
                 dbType = DbType.MYSQL;
-            } else if (driverName.contains("oracle")) {
-                dbType = DbType.ORACLE;
-            } else if (driverName.contains("postgresql")) {
-                dbType = DbType.POSTGRE_SQL;
-            } else if (driverName.contains("db2")) {
-                dbType = DbType.DB2;
-            } else if (driverName.contains("mariadb")) {
-                dbType = DbType.MARIADB;
-            } else {
-                throw new RuntimeException("Unknown type of database!");
             }
         }
         return dbType;

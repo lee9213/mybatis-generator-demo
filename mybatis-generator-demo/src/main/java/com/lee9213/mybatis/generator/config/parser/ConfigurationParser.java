@@ -28,6 +28,10 @@ public class ConfigurationParser {
 
         TableInfoParser tableInfoParser = new TableInfoParser();
         tableInfoParser.parser(configuration);
+
+        TableFieldParser tableFieldParser = new TableFieldParser();
+        tableFieldParser.parser(configuration);
+
     }
 
 //    /**

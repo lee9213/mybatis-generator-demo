@@ -43,7 +43,6 @@ public class MySqlQuery extends AbstractDbQuery {
 
     @Override
     public String tablesSql(StrategyProperties strategyProperties) {
-
         boolean isIncludeTables = (null != strategyProperties.getIncludeTables() && strategyProperties.getIncludeTables().length > 0);
         boolean isIncludeTablePrefixs = (null != strategyProperties.getIncludeTablePrefixs() && strategyProperties.getIncludeTablePrefixs().length > 0);
         boolean isExcludeTables = (null != strategyProperties.getExcludeTables() && strategyProperties.getExcludeTables().length > 0);
