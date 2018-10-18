@@ -42,8 +42,7 @@ dependencies {
     compile('com.google.guava:guava:26.0-jre'){
         transitive = false
     }
-    compile('mysql:mysql-connector-java:8.0.12'){
-        exclude module:'protobuf-java'
+    compile('mysql:mysql-connector-java:5.1.47'){
     }
     compile('org.projectlombok:lombok:1.16.20')
     compile('org.freemarker:freemarker:2.3.9')
