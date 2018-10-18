@@ -30,6 +30,11 @@ public class PackageProperties {
     private String entity = "entity";
 
     /**
+     * vo包名
+     */
+    private String vo = "vo";
+
+    /**
      * Service包名
      */
     private String service = "service";

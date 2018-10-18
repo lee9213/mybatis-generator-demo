@@ -25,6 +25,7 @@ package com.lee9213.mybatis.generator.config.rules;
  */
 public enum FileType {
     ENTITY,
+    VO,
     MAPPER,
     XML,
     SERVICE,

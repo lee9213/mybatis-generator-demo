@@ -87,6 +87,7 @@ public interface Constant {
     String GENERATOR = "Generator";
     String GENERATOR_NAME = "generatorConfig.xml";
     String ENTITY = "Entity";
+    String VO = "Vo";
     String SERVICE = "Service";
     String SERVICE_IMPL = "ServiceImpl";
     String MAPPER = "Mapper";
@@ -94,6 +95,7 @@ public interface Constant {
     String CONTROLLER = "Controller";
 
     String GENERATOR_PATH = "generator_path";
+    String VO_PATH = "vo_path";
     String ENTITY_PATH = "entity_path";
     String SERVICE_PATH = "service_path";
     String SERVICE_IMPL_PATH = "service_impl_path";
@@ -111,6 +113,7 @@ public interface Constant {
 
     String GENERATOR_CONFIG = "/templates/generatorConfig.xml";
     String TEMPLATE_ENTITY_JAVA = "/templates/entity.java";
+    String TEMPLATE_VO_JAVA = "/templates/vo.java";
     String TEMPLATE_ENTITY_KT = "/templates/entity.kt";
     String TEMPLATE_MAPPER = "/templates/mapper.java";
     String TEMPLATE_XML = "/templates/mapper.xml";
