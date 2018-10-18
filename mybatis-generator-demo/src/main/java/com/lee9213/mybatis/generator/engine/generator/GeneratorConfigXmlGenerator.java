@@ -1,7 +1,7 @@
 package com.lee9213.mybatis.generator.engine.generator;
 
 import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
-import com.lee9213.mybatis.generator.config.builder.ConfigurationBuilder;
+import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.engine.AbstractTemplateEngine;
 import com.lee9213.mybatis.generator.util.Constant;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class GeneratorConfigXmlGenerator implements BaseGenerator {
      */
     @Override
     public void generator(AbstractTemplateEngine templateEngine) {
-        ConfigurationBuilder configBuilder = templateEngine.getConfigBuilder();
+        Configuration configBuilder = templateEngine.getConfiguration();
         TemplateProperties template = configBuilder.getTemplateProperties();
         String generatorConfigXml = configBuilder.getPathInfo().getGeneratorPath() + File.separator + Constant.GENERATOR_NAME;
         try {
@@ -50,7 +50,7 @@ public class GeneratorConfigXmlGenerator implements BaseGenerator {
      * @return
      */
     @Override
-    public Map<String, Object> getObjectMap(ConfigurationBuilder configBuilder) {
+    public Map<String, Object> getObjectMap(Configuration configBuilder) {
         Map<String, Object> objectMap = new HashMap<>(8);
         objectMap.put("datasource", configBuilder.getDataSourceProperties());
         objectMap.put("global", configBuilder.getGlobalProperties());

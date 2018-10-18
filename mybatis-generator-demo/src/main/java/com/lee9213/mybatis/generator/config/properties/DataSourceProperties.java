@@ -1,8 +1,9 @@
 package com.lee9213.mybatis.generator.config.properties;
 
+import com.lee9213.mybatis.generator.config.converts.ITypeConvert;
 import com.lee9213.mybatis.generator.config.domain.DbType;
-import com.lee9213.mybatis.generator.query.IDbQuery;
-import com.lee9213.mybatis.generator.query.MySqlQuery;
+import com.lee9213.mybatis.generator.config.sql.query.IDbQuery;
+import com.lee9213.mybatis.generator.config.sql.query.MySqlQuery;
 import lombok.Data;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -33,10 +34,10 @@ public class DataSourceProperties {
      * PostgreSQL schemaName
      */
     private String schemaName;
-//    /**
-//     * 类型转换
-//     */
-//    private ITypeConvert typeConvert;
+    /**
+     * 类型转换
+     */
+    private ITypeConvert typeConvert;
     /**
      * 驱动连接的URL
      */

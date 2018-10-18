@@ -1,10 +1,9 @@
-package com.lee9213.mybatis.generator.config.builder;
+package com.lee9213.mybatis.generator.config;
 
 import com.lee9213.mybatis.generator.config.domain.PackageInfo;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
-import com.lee9213.mybatis.generator.config.handler.PackageConfigurationHandler;
-import com.lee9213.mybatis.generator.config.handler.StrategyConfigurationHandler;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
+import com.lee9213.mybatis.generator.config.parser.ConfigurationParser;
 import com.lee9213.mybatis.generator.config.properties.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -22,7 +21,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class ConfigurationBuilder {
+public class Configuration {
 
     /**
      * 模板路径配置信息
@@ -71,9 +70,9 @@ public class ConfigurationBuilder {
      * @param templateProperties   模板配置
      * @param globalProperties     全局配置
      */
-    public ConfigurationBuilder(GlobalProperties globalProperties, TemplateProperties templateProperties,
-                                PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
-                                StrategyProperties strategyProperties) {
+    public Configuration(GlobalProperties globalProperties, TemplateProperties templateProperties,
+                         PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
+                         StrategyProperties strategyProperties) {
         // 全局配置
         if (null == globalProperties) {
             this.globalProperties = new GlobalProperties();
@@ -93,9 +92,11 @@ public class ConfigurationBuilder {
         } else {
             this.packageProperties = packageProperties;
         }
-        new PackageConfigurationHandler().handler(this);
 
         // 数据库配置
+        if (null == dataSourceProperties) {
+            throw new RuntimeException("数据库配置错误");
+        }
         this.dataSourceProperties = dataSourceProperties;
 
         // 策略配置
@@ -104,6 +105,8 @@ public class ConfigurationBuilder {
         } else {
             this.strategyProperties = strategyProperties;
         }
-        new StrategyConfigurationHandler().handler(this);
+
+        ConfigurationParser configurationParser = new ConfigurationParser(this);
+        configurationParser.parser();
     }
 }

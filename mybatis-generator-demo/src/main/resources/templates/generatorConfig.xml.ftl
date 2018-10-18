@@ -116,8 +116,9 @@
                        enableDeleteByExample = "true"
                        enableCountByExample="true"
                        enableUpdateByExample="true"
-                       mapperName="${table.mapperName}" >
+                       mapperName="${table.mapperName}">
                     <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+                    <property name="useActualColumnNames" value="${strategy.}"/>
                 </table>
             </#if>
         </#list>

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.lee9213.mybatis.generator.query;
+package com.lee9213.mybatis.generator.config.sql.query;
 
 
 import com.lee9213.mybatis.generator.config.domain.DbType;
