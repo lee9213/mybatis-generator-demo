@@ -26,8 +26,6 @@ import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.engine.generator.GeneratorConfigXmlGenerator;
 import com.lee9213.mybatis.generator.engine.generator.MybatisGenerator;
 import com.lee9213.mybatis.generator.util.Constant;
-import com.lee9213.mybatis.generator.util.PackageHelper;
-import com.lee9213.mybatis.generator.util.StringPool;
 import com.lee9213.mybatis.generator.util.StringUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -235,7 +233,7 @@ public abstract class AbstractTemplateEngine {
         if (StringUtils.isEmpty(classPath)) {
             return null;
         }
-        return classPath.substring(classPath.lastIndexOf(StringPool.DOT) + 1);
+        return classPath.substring(classPath.lastIndexOf(Constant.DOT) + 1);
     }
 
 
@@ -266,8 +264,23 @@ public abstract class AbstractTemplateEngine {
         File file = new File(filePath);
         boolean exist = file.exists();
         if (!exist) {
-            PackageHelper.mkDir(file.getParentFile());
+            mkDir(file.getParentFile());
         }
         return !exist || configuration.getGlobalProperties().isFileOverride();
+    }
+    /**
+     * <p>
+     * 新建文件目录
+     * </p>
+     *
+     * @param file 文件
+     */
+    public static void mkDir(File file) {
+        if (file.getParentFile().exists()) {
+            file.mkdir();
+        } else {
+            mkDir(file.getParentFile());
+            file.mkdir();
+        }
     }
 }

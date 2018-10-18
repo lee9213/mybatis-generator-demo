@@ -7,7 +7,6 @@ import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
 import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.util.Constant;
-import com.lee9213.mybatis.generator.util.StringPool;
 import com.lee9213.mybatis.generator.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +87,7 @@ public class PathInfoParser implements Parser {
         if (!StringUtils.endsWith(parentDir, File.separator)) {
             parentDir += File.separator;
         }
-        packageName = packageName.replaceAll("\\.", StringPool.BACK_SLASH + File.separator);
+        packageName = packageName.replaceAll("\\.", Constant.BACK_SLASH + File.separator);
         return parentDir + packageName;
     }
 }

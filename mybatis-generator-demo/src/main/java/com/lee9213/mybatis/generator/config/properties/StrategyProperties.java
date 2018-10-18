@@ -1,7 +1,6 @@
 package com.lee9213.mybatis.generator.config.properties;
 
 import com.lee9213.mybatis.generator.util.Constant;
-import com.lee9213.mybatis.generator.util.NamingStrategy;
 import com.lee9213.mybatis.generator.util.StringUtils;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -26,17 +25,14 @@ public class StrategyProperties {
     private boolean skipView = false;
 
     /**
-     * 数据库表映射到实体的命名策略
+     * 数据库表映射到实体的命名策略，是否转换成驼峰
      */
-    private NamingStrategy naming = NamingStrategy.nochange;
+    private String underlineToCamelTableName = "true";
     /**
-     * 数据库表字段映射到实体的命名策略<br/>
-     * 未指定按照 naming 执行
+     * 数据库表字段映射到实体的命名，是否转换成驼峰
+     *
      */
-    private NamingStrategy columnNaming = null;
-
-
-    private boolean useActualColumnNames;
+    private String underlineToCamelColumnNames = "true";
 
     /**
      * 表前缀
@@ -202,35 +198,20 @@ public class StrategyProperties {
         return this;
     }
 
-    public NamingStrategy getNaming() {
-        return naming;
+    public String getUnderlineToCamelTableName() {
+        return underlineToCamelTableName;
     }
 
-    public StrategyProperties setNaming(NamingStrategy naming) {
-        this.naming = naming;
-        return this;
+    public void setUnderlineToCamelTableName(String underlineToCamelTableName) {
+        this.underlineToCamelTableName = underlineToCamelTableName;
     }
 
-    public NamingStrategy getColumnNaming() {
-        if (null == columnNaming) {
-            // 未指定以 naming 策略为准
-            return naming;
-        }
-        return columnNaming;
+    public String getUnderlineToCamelColumnNames() {
+        return underlineToCamelColumnNames;
     }
 
-    public StrategyProperties setColumnNaming(NamingStrategy columnNaming) {
-        this.columnNaming = columnNaming;
-        return this;
-    }
-
-    public boolean isUseActualColumnNames() {
-        NamingStrategy columnNaming = getColumnNaming();
-        return columnNaming.equals("underline_to_camel");
-    }
-
-    public void setUseActualColumnNames(boolean useActualColumnNames) {
-        this.useActualColumnNames = useActualColumnNames;
+    public void setUnderlineToCamelColumnNames(String underlineToCamelColumnNames) {
+        this.underlineToCamelColumnNames = underlineToCamelColumnNames;
     }
 
     public String[] getTablePrefix() {

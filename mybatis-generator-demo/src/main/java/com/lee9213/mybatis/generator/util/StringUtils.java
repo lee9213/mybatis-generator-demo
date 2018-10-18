@@ -3,10 +3,7 @@ package com.lee9213.mybatis.generator.util;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.joining;
@@ -159,27 +156,35 @@ public class StringUtils {
      * 字符串下划线转驼峰格式
      * </p>
      *
-     * @param param 需要转换的字符串
+     * @param name 需要转换的字符串
      * @return 转换好的字符串
      */
-    public static String underlineToCamel(String param) {
-        if (isEmpty(param)) {
-            return EMPTY;
+    public static String underlineToCamel(String name) {
+        // 快速检查
+        if (isEmpty(name)) {
+            // 没必要转换
+            return Constant.EMPTY;
         }
-        String temp = param.toLowerCase();
-        int len = temp.length();
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++) {
-            char c = temp.charAt(i);
-            if (c == UNDERLINE) {
-                if (++i < len) {
-                    sb.append(Character.toUpperCase(temp.charAt(i)));
-                }
+        String tempName = name;
+        // 大写数字下划线组成转为小写 , 允许混合模式转为小写
+        if (isCapitalMode(name) || isMixedMode(name)) {
+            tempName = name.toLowerCase();
+        }
+        StringBuilder result = new StringBuilder();
+        // 用下划线将原始字符串分割
+        String[] camels = tempName.split(Constant.UNDERLINE);
+        // 跳过原始字符串中开头、结尾的下换线或双重下划线
+        // 处理真正的驼峰片段
+        Arrays.stream(camels).filter(camel -> !isEmpty(camel)).forEach(camel -> {
+            if (result.length() == 0) {
+                // 第一个驼峰片段，全部字母都小写
+                result.append(camel);
             } else {
-                sb.append(c);
+                // 其他的驼峰片段，首字母大写
+                result.append(capitalFirst(camel));
             }
-        }
-        return sb.toString();
+        });
+        return result.toString();
     }
 
     /**
@@ -294,7 +299,7 @@ public class StringUtils {
      */
     public static String quotaMarkList(Collection<?> coll) {
         return coll.stream().map(StringUtils::quotaMark)
-                .collect(joining(StringPool.COMMA, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
+                .collect(joining(Constant.COMMA, Constant.LEFT_BRACKET, Constant.RIGHT_BRACKET));
     }
 
     /**
@@ -321,16 +326,53 @@ public class StringUtils {
 
     /**
      * <p>
-     * 字符串第一个字母大写
+     * 实体首字母大写
      * </p>
      *
-     * @param str
-     * @return
+     * @param name 待转换的字符串
+     * @return 转换后的字符串
      */
-    public static String capitalize(final String str) {
-        return concatCapitalize(null, str);
+    public static String capitalFirst(String name) {
+        if (isNotEmpty(name)) {
+            return name.substring(0, 1).toUpperCase() + name.substring(1);
+        }
+        return Constant.EMPTY;
     }
 
+    /**
+     * <p>
+     * 去掉指定的前缀
+     * </p>
+     *
+     * @param name
+     * @param prefix
+     * @return
+     */
+    public static String removePrefix(String name, String... prefix) {
+        if (isEmpty(name)) {
+            return Constant.EMPTY;
+        }
+        if (null != prefix) {
+            // 判断是否有匹配的前缀，然后截取前缀
+            // 删除前缀
+            return Arrays.stream(prefix).filter(pf -> name.toLowerCase()
+                    .matches(Constant.HAT + pf.toLowerCase() + ".*"))
+                    .findFirst().map(pf -> name.substring(pf.length())).orElse(name);
+        }
+        return name;
+    }
+    /**
+     * <p>
+     * 去掉下划线前缀且将后半部分转成驼峰格式
+     * </p>
+     *
+     * @param name
+     * @param tablePrefix
+     * @return
+     */
+    public static String removePrefixAndCamel(String name, String[] tablePrefix) {
+        return underlineToCamel(removePrefix(name, tablePrefix));
+    }
     /**
      * <p>
      * 判断对象是否为空
@@ -740,7 +782,7 @@ public class StringUtils {
             boolean isNotUnderscore = c != '_';
             if (lastOneIsNotUnderscore && (isUpperCaseAndPreviousIsLowerCase || previousIsWhitespace
                     || (betweenUpperCases && containsLowerCase && isUpperCaseAndPreviousIsUpperCase))) {
-                buf.append(StringPool.UNDERSCORE);
+                buf.append(Constant.UNDERSCORE);
             } else if ((Character.isDigit(previousChar) && Character.isLetter(c))) {
                 buf.append('_');
             }
@@ -752,7 +794,7 @@ public class StringUtils {
             previousChar = c;
         }
         if (Character.isWhitespace(previousChar)) {
-            buf.append(StringPool.UNDERSCORE);
+            buf.append(Constant.UNDERSCORE);
         }
         return buf.toString();
     }
@@ -777,7 +819,7 @@ public class StringUtils {
             if ((Character.isWhitespace(lastChar)) && (!Character.isWhitespace(c))
                     && ('-' != c) && (buf.length() > 0)
                     && (buf.charAt(buf.length() - 1) != '-')) {
-                buf.append(StringPool.DASH);
+                buf.append(Constant.DASH);
             }
             if ('_' == c) {
                 buf.append('-');
@@ -789,7 +831,7 @@ public class StringUtils {
             lastChar = c;
         }
         if (Character.isWhitespace(lastChar)) {
-            buf.append(StringPool.DASH);
+            buf.append(Constant.DASH);
         }
         return buf.toString();
     }
@@ -804,5 +846,55 @@ public class StringUtils {
     public static String removeWordWithComma(String s, String p) {
         String match = "\\s*" + p + "\\s*,{0,1}";
         return s.replaceAll(match, "");
+    }
+
+    /**
+     * <p>
+     * 判断是否包含prefix
+     * </p>
+     *
+     * @param name
+     * @param prefix
+     * @return
+     */
+    public static boolean isPrefixContained(String name, String... prefix) {
+        if (null == prefix || StringUtils.isEmpty(name)) {
+            return false;
+        }
+        return Arrays.stream(prefix).anyMatch(pf -> name.toLowerCase().matches(Constant.HAT + pf.toLowerCase() + ".*"));
+    }
+
+    /**
+     * <p>
+     * 处理表/字段名称
+     * </p>
+     *
+     * @param name
+     * @param underlineToCamel
+     * @param prefix
+     * @return 根据策略返回处理后的名称
+     */
+    public static String processName(String name, String underlineToCamel, String[] prefix) {
+        boolean removePrefix = false;
+        if (prefix != null && prefix.length >= 1) {
+            removePrefix = true;
+        }
+        String propertyName;
+        if (removePrefix) {
+            if (Constant.TRUE.equals(underlineToCamel)) {
+                // 删除前缀、下划线转驼峰
+                propertyName = StringUtils.removePrefixAndCamel(name, prefix);
+            } else {
+                // 删除前缀
+                propertyName = StringUtils.removePrefix(name, prefix);
+            }
+        } else if (Constant.TRUE.equals(underlineToCamel)) {
+            // 下划线转驼峰
+            propertyName = StringUtils.underlineToCamel(name);
+        } else {
+            // 不处理
+            propertyName = name;
+        }
+        return propertyName;
     }
 }

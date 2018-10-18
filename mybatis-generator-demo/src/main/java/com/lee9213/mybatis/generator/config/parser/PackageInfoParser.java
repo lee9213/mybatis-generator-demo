@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.PackageInfo;
 import com.lee9213.mybatis.generator.config.properties.PackageProperties;
-import com.lee9213.mybatis.generator.util.StringPool;
+import com.lee9213.mybatis.generator.util.Constant;
 
 /**
  * @author libo
@@ -41,6 +41,6 @@ public class PackageInfoParser implements Parser {
         if (Strings.isNullOrEmpty(parent)) {
             return subPackage;
         }
-        return parent + StringPool.DOT + subPackage;
+        return parent + Constant.DOT + subPackage;
     }
 }

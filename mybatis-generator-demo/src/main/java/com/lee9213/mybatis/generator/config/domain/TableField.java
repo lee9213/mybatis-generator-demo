@@ -3,7 +3,7 @@ package com.lee9213.mybatis.generator.config.domain;
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.config.rules.DbColumnType;
 import com.lee9213.mybatis.generator.config.rules.IColumnType;
-import com.lee9213.mybatis.generator.util.NamingStrategy;
+import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.util.Map;
@@ -53,7 +53,7 @@ public class TableField {
             this.convert = false;
         } else {
             // 转换字段
-            if (NamingStrategy.underline_to_camel == strategyProperties.getColumnNaming()) {
+            if (Constant.TRUE.equals(strategyProperties.getUnderlineToCamelColumnNames())) {
                 // 包含大写处理
                 if (StringUtils.containsUpperCase(name)) {
                     this.convert = true;
