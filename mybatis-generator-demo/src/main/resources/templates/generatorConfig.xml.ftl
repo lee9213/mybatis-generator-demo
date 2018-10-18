@@ -118,7 +118,7 @@
                        enableUpdateByExample="true"
                        mapperName="${table.mapperName}">
                     <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-                    <property name="useActualColumnNames" value="${strategy.}"/>
+                    <property name="useActualColumnNames" value="${strategy.useActualColumnNames}"/>
                 </table>
             </#if>
         </#list>

@@ -52,6 +52,7 @@ public class TableInfoParser implements Parser {
                     tableInfo = new TableInfo();
                     tableInfo.setName(tableName);
                     tableInfo.setComment(tableComment);
+                    setTableFieldList(connection,dbQuery,configuration,tableInfo);
                     tableList.add(tableInfo);
                 } else {
                     System.err.println("当前数据库为空！！！");
@@ -72,7 +73,7 @@ public class TableInfoParser implements Parser {
         configuration.setTableInfoList(tableInfoList);
     }
 
-    public List<TableField> getTableFieldList(Connection connection, IDbQuery dbQuery, Configuration configuration, TableInfo tableInfo) throws SQLException {
+    public void setTableFieldList(Connection connection, IDbQuery dbQuery, Configuration configuration, TableInfo tableInfo) throws SQLException {
         DataSourceProperties dataSourceProperties = configuration.getDataSourceProperties();
         StrategyProperties strategyProperties = configuration.getStrategyProperties();
         GlobalProperties globalProperties = configuration.getGlobalProperties();
@@ -81,6 +82,8 @@ public class TableInfoParser implements Parser {
         PreparedStatement fieldPreparedStatement = connection.prepareStatement(fieldSql);
         ResultSet results = fieldPreparedStatement.executeQuery();
         try {
+            List<TableField> fieldList = Lists.newArrayList();
+            List<TableField> commonFieldList = Lists.newArrayList();
             while (results.next()) {
                 TableField field = new TableField();
                 String key = results.getString(dbQuery.fieldKey());
@@ -108,7 +111,7 @@ public class TableInfoParser implements Parser {
                 // 处理其它信息
                 field.setName(results.getString(dbQuery.fieldName()));
                 field.setType(results.getString(dbQuery.fieldType()));
-                field.setPropertyName(strategyProperties, processName(field.getName(), strategy));
+                field.setPropertyName(strategyProperties, processName(field.getName(), strategyProperties.getColumnNaming(),strategyProperties.getFieldPrefix()));
                 field.setColumnType(dataSourceProperties.getTypeConvert().processTypeConvert(globalProperties, field.getType()));
                 field.setComment(results.getString(dbQuery.fieldComment()));
                 if (strategyProperties.includeSuperEntityColumns(field.getName())) {
@@ -116,20 +119,14 @@ public class TableInfoParser implements Parser {
                     commonFieldList.add(field);
                     continue;
                 }
-                // 填充逻辑判断
-                List<TableFill> tableFillList = strategyProperties.getTableFillList();
-                if (null != tableFillList) {
-                    // 忽略大写字段问题
-                    tableFillList.stream().filter(tf -> tf.getFieldName().equalsIgnoreCase(field.getName()))
-                            .findFirst().ifPresent(tf -> field.setFill(tf.getFieldFill().name()));
-                }
+
                 fieldList.add(field);
             }
+            tableInfo.setFields(fieldList);
+            tableInfo.setCommonFields(commonFieldList);
         } catch (SQLException e) {
             System.err.println("SQL Exception：" + e.getMessage());
         }
-        tableInfo.setFields(fieldList);
-        tableInfo.setCommonFields(commonFieldList);
     }
 
     /**

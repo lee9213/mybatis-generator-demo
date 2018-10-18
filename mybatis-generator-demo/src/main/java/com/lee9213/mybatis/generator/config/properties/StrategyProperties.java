@@ -35,6 +35,9 @@ public class StrategyProperties {
      */
     private NamingStrategy columnNaming = null;
 
+
+    private boolean useActualColumnNames;
+
     /**
      * 表前缀
      */
@@ -219,6 +222,15 @@ public class StrategyProperties {
     public StrategyProperties setColumnNaming(NamingStrategy columnNaming) {
         this.columnNaming = columnNaming;
         return this;
+    }
+
+    public boolean isUseActualColumnNames() {
+        NamingStrategy columnNaming = getColumnNaming();
+        return columnNaming.equals("underline_to_camel");
+    }
+
+    public void setUseActualColumnNames(boolean useActualColumnNames) {
+        this.useActualColumnNames = useActualColumnNames;
     }
 
     public String[] getTablePrefix() {
