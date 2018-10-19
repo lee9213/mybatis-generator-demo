@@ -23,6 +23,7 @@ public class PackageInfoParser implements Parser {
                 .setVo(joinPackage(packageProperties.getParent(), packageProperties.getVo()))
                 .setMapper(joinPackage(packageProperties.getParent(), packageProperties.getMapper()))
                 .setMapperXml(joinPackage(packageProperties.getParent(), packageProperties.getMapperXml()))
+                .setExtendMapperXml(joinPackage(packageProperties.getParent(), packageProperties.getExtendMapperXml()))
                 .setService(joinPackage(packageProperties.getParent(), packageProperties.getService()))
                 .setServiceImpl(joinPackage(packageProperties.getParent(), packageProperties.getServiceImpl()))
                 .setController(joinPackage(packageProperties.getParent(), packageProperties.getController()));

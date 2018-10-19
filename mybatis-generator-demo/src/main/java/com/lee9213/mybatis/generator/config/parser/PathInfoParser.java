@@ -35,7 +35,8 @@ public class PathInfoParser implements Parser {
                 .setEntityPath(getPathInfo(templateProperties.getEntity(), outputDir + "\\src\\main\\java", packageInfo.getEntity()))
                 .setVoPath(getPathInfo(templateProperties.getVo(), outputDir + "\\src\\main\\java", packageInfo.getVo()))
                 .setMapperPath(getPathInfo(templateProperties.getMapper(), outputDir + "\\src\\main\\java", packageInfo.getMapper()))
-                .setMapperXmlPath(getPathInfo(templateProperties.getXml(), outputDir + "\\src\\main\\resources", packageInfo.getMapperXml()))
+                .setMapperXmlPath(getPathInfo(templateProperties.getMapperXml(), outputDir + "\\src\\main\\resources", packageInfo.getMapperXml()))
+                .setExtendMapperXmlPath(getPathInfo(templateProperties.getExtendMapperXml(), outputDir + "\\src\\main\\resources", packageInfo.getExtendMapperXml()))
                 .setServicePath(getPathInfo(templateProperties.getService(), outputDir + "\\src\\main\\java", packageInfo.getService()))
                 .setServiceImplPath(getPathInfo(templateProperties.getServiceImpl(), outputDir + "\\src\\main\\java", packageInfo.getServiceImpl()))
                 .setControllerPath(getPathInfo(templateProperties.getController(), outputDir + "\\src\\main\\java", packageInfo.getController()));

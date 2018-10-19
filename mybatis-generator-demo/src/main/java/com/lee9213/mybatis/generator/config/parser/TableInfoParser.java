@@ -90,11 +90,17 @@ public class TableInfoParser implements Parser {
             } else {
                 tableInfo.setMapperName(entityName + Constant.MAPPER);
             }
-            if (StringUtils.isNotEmpty(globalProperties.getXmlName())) {
-                tableInfo.setXmlName(String.format(globalProperties.getXmlName(), entityName));
+            if (StringUtils.isNotEmpty(globalProperties.getMapperXmlName())) {
+                tableInfo.setMapperXmlName(String.format(globalProperties.getMapperXmlName(), entityName));
             } else {
-                tableInfo.setXmlName(entityName + Constant.MAPPER);
+                tableInfo.setMapperXmlName(entityName + Constant.MAPPER_XML);
             }
+            if (StringUtils.isNotEmpty(globalProperties.getExtendMapperXmlName())) {
+                tableInfo.setExtendMapperXmlName(String.format(globalProperties.getExtendMapperXmlName(), entityName));
+            } else {
+                tableInfo.setExtendMapperXmlName(entityName + Constant.EXTEND_MAPPER_XML);
+            }
+
             if (StringUtils.isNotEmpty(globalProperties.getServiceName())) {
                 tableInfo.setServiceName(String.format(globalProperties.getServiceName(), entityName));
             } else {

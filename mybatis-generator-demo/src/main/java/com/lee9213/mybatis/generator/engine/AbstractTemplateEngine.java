@@ -16,6 +16,7 @@
 package com.lee9213.mybatis.generator.engine;
 
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
@@ -90,6 +91,14 @@ public abstract class AbstractTemplateEngine {
                 Map<String, Object> objectMap = getObjectMap(tableInfo);
 
                 String entityName = tableInfo.getEntityName();
+                // 生成扩展xml
+                if (!Strings.isNullOrEmpty(tableInfo.getExtendMapperXmlName()) && !Strings.isNullOrEmpty(pathInfo.getExtendMapperXmlPath())) {
+                    String extendMapperXmlFile = String.format((pathInfo.getExtendMapperXmlPath() + File.separator + tableInfo.getExtendMapperXmlName() + Constant.XML_SUFFIX), entityName);
+                    if (isCreate(FileType.XML, extendMapperXmlFile)) {
+                        doWriter(objectMap, templateFilePath(templateConfiguration.getExtendMapperXml()), extendMapperXmlFile);
+                    }
+                }
+
                 // 生成VO
                 if (null != tableInfo.getVoName() && null != pathInfo.getVoPath()) {
                     String voFile = String.format((pathInfo.getVoPath() + File.separator + tableInfo.getVoName() + Constant.JAVA_SUFFIX), entityName);
