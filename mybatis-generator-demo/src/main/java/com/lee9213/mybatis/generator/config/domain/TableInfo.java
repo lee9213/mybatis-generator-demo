@@ -2,10 +2,12 @@ package com.lee9213.mybatis.generator.config.domain;
 
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.util.CollectionUtils;
+import org.apache.logging.log4j.util.Strings;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 /**
  * <p>
@@ -25,7 +27,8 @@ public class TableInfo {
     private String entityName;
     private String voName;
     private String mapperName;
-    private String xmlName;
+    private String mapperXmlName;
+    private String extendMapperXmlName;
     private String serviceName;
     private String serviceImplName;
     private String controllerName;
@@ -117,12 +120,20 @@ public class TableInfo {
         this.mapperName = mapperName;
     }
 
-    public String getXmlName() {
-        return xmlName;
+    public String getMapperXmlName() {
+        return mapperXmlName;
     }
 
-    public void setXmlName(String xmlName) {
-        this.xmlName = xmlName;
+    public void setMapperXmlName(String mapperXmlName) {
+        this.mapperXmlName = mapperXmlName;
+    }
+
+    public String getExtendMapperXmlName() {
+        return extendMapperXmlName;
+    }
+
+    public void setExtendMapperXmlName(String extendMapperXmlName) {
+        this.extendMapperXmlName = extendMapperXmlName;
     }
 
     public String getServiceName() {
@@ -207,25 +218,33 @@ public class TableInfo {
 //        return fields.stream().anyMatch(tf -> tf.getName().equals(logicDeletePropertyName));
 //    }
 
-//    /**
-//     * 转换filed实体为xmlmapper中的basecolumn字符串信息
-//     *
-//     * @return
-//     */
-//    public String getFieldNames() {
-//        if (StringUtils.isEmpty(fieldNames)) {
-//            StringBuilder names = new StringBuilder();
-//            IntStream.range(0, fields.size()).forEach(i -> {
-//                TableField fd = fields.get(i);
-//                if (i == fields.size() - 1) {
-//                    names.append(fd.getName());
-//                } else {
-//                    names.append(fd.getName()).append(", ");
-//                }
-//            });
-//            fieldNames = names.toString();
-//        }
-//        return fieldNames;
-//    }
+    /**
+     * 转换filed实体为xmlmapper中的basecolumn字符串信息
+     *
+     * @return
+     */
+    public String getFieldNames() {
+        if (Strings.isEmpty(fieldNames)) {
+            StringBuilder names = new StringBuilder();
+            IntStream.range(0, fields.size()).forEach(i -> {
+                TableField fd = fields.get(i);
+                if (i == fields.size() - 1) {
+                    names.append(fd.getName());
+                } else {
+                    names.append(fd.getName()).append(", ");
+                }
+            });
+            IntStream.range(0, commonFields.size()).forEach(i -> {
+                TableField fd = commonFields.get(i);
+                if (i == commonFields.size() - 1) {
+                    names.append(fd.getName());
+                } else {
+                    names.append(fd.getName()).append(", ");
+                }
+            });
+            fieldNames = names.toString();
+        }
+        return fieldNames;
+    }
 
 }

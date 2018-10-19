@@ -30,11 +30,12 @@
         </plugin>
         -->
         <!-- 【XML】添加二级缓存-->
-        <!--
+        <#if global.enableCache>
         <plugin type="org.mybatis.generator.plugins.CachePlugin">
             <property name="cache_type" value="org.mybatis.caches.ehcache.LoggingEhcache"></property>
         </plugin>
-        -->
+        </#if>
+
         <!-- 【XML】重写覆盖xml-->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <!-- 【Mapper】增加@Mapper注解-->

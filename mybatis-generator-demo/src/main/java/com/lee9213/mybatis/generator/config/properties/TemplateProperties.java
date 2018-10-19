@@ -2,6 +2,7 @@ package com.lee9213.mybatis.generator.config.properties;
 
 import com.lee9213.mybatis.generator.util.Constant;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -13,6 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @SpringBootConfiguration
 @ConfigurationProperties(prefix = "templates")
 @Data
+@Accessors(chain = true)
 public class TemplateProperties {
 
     private String generator = Constant.GENERATOR_CONFIG;
@@ -29,75 +31,12 @@ public class TemplateProperties {
 
     private String mapper = Constant.TEMPLATE_MAPPER;
 
-    private String xml = Constant.TEMPLATE_XML;
+    private String mapperXml = Constant.TEMPLATE_MAPPER_XML;
+    private String extendMapperXml = Constant.TEMPLATE_EXTEND_MAPPER_XML;
 
     private String controller = Constant.TEMPLATE_CONTROLLER;
 
     public String getGenerator() {
         return generator;
     }
-
-    public void setGenerator(String generator) {
-        this.generator = generator;
-    }
-
-    public String getEntity() {
-        return entity;
-    }
-
-    public TemplateProperties setEntityKt(String entityKt) {
-        this.entityKt = entityKt;
-        return this;
-    }
-
-    public TemplateProperties setEntity(String entity) {
-        this.entity = entity;
-        return this;
-    }
-
-    public String getService() {
-        return service;
-    }
-
-    public TemplateProperties setService(String service) {
-        this.service = service;
-        return this;
-    }
-
-    public String getServiceImpl() {
-        return serviceImpl;
-    }
-
-    public TemplateProperties setServiceImpl(String serviceImpl) {
-        this.serviceImpl = serviceImpl;
-        return this;
-    }
-
-    public String getMapper() {
-        return mapper;
-    }
-
-    public TemplateProperties setMapper(String mapper) {
-        this.mapper = mapper;
-        return this;
-    }
-
-    public String getXml() {
-        return xml;
-    }
-
-    public TemplateProperties setXml(String xml) {
-        this.xml = xml;
-        return this;
-    }
-
-    public String getController() {
-        return controller;
-    }
-
-    public TemplateProperties setController(String controller) {
-        this.controller = controller;
-        return this;
-    }
-
 }

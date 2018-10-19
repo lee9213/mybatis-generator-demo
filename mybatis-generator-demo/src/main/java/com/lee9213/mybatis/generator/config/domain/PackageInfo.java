@@ -20,6 +20,7 @@ public class PackageInfo {
     private String vo;
     private String mapper;
     private String mapperXml;
+    private String extendMapperXml;
     private String service;
     private String serviceImpl;
     private String controller;

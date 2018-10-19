@@ -17,6 +17,7 @@ public class PathInfo {
     private String entityPath;
     private String mapperPath;
     private String mapperXmlPath;
+    private String extendMapperXmlPath;
     private String servicePath;
     private String serviceImplPath;
     private String controllerPath;

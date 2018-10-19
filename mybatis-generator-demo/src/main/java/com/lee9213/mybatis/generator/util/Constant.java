@@ -91,7 +91,8 @@ public interface Constant {
     String SERVICE = "Service";
     String SERVICE_IMPL = "ServiceImpl";
     String MAPPER = "Mapper";
-    String MAPPER_XML = "MapperXml";
+    String MAPPER_XML = "Mapper";
+    String EXTEND_MAPPER_XML = "ExtendMapper";
     String CONTROLLER = "Controller";
 
     String GENERATOR_PATH = "generator_path";
@@ -116,7 +117,8 @@ public interface Constant {
     String TEMPLATE_VO_JAVA = "/templates/vo.java";
     String TEMPLATE_ENTITY_KT = "/templates/entity.kt";
     String TEMPLATE_MAPPER = "/templates/mapper.java";
-    String TEMPLATE_XML = "/templates/mapper.xml";
+    String TEMPLATE_MAPPER_XML = "/templates/mapper.xml";
+    String TEMPLATE_EXTEND_MAPPER_XML = "/templates/extend.mapper.xml";
     String TEMPLATE_SERVICE = "/templates/service.java";
     String TEMPLATE_SERVICE_IMPL = "/templates/serviceImpl.java";
     String TEMPLATE_CONTROLLER = "/templates/controller.java";

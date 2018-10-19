@@ -65,7 +65,12 @@ public class TableFieldParser implements Parser {
                     }
                     // 处理其它信息
                     field.setName(results.getString(dbQuery.fieldName()));
-                    field.setType(results.getString(dbQuery.fieldType()));
+                    String type = results.getString(dbQuery.fieldType());
+                    if (type.indexOf("(") != -1) {
+                        type = type.substring(0, type.indexOf("("));
+                    }
+                    type = type.toUpperCase();
+                    field.setType(type.equalsIgnoreCase("int") ? "INTEGER" : type);
                     field.setPropertyName(strategyProperties, StringUtils.processName(field.getName(), strategyProperties.getUnderlineToCamelColumnNames(), strategyProperties.getFieldPrefix()));
                     field.setColumnType(dataSourceProperties.getTypeConvert().processTypeConvert(globalProperties, field.getType()));
                     field.setComment(results.getString(dbQuery.fieldComment()));
@@ -74,13 +79,12 @@ public class TableFieldParser implements Parser {
                         commonFieldList.add(field);
                         continue;
                     }
-
                     fieldList.add(field);
                 }
                 tableInfo.setFields(fieldList);
                 tableInfo.setCommonFields(commonFieldList);
             } catch (Exception ex) {
-                System.err.println("SQL Exception：" + ex.getMessage());
+                ex.printStackTrace();
             }
         });
     }

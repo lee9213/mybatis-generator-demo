@@ -46,6 +46,11 @@ public class GlobalProperties {
      */
     private boolean swagger2 = false;
 
+    /**
+     * 是否在xml中添加二级缓存配置
+     */
+    private boolean enableCache = false;
+
 //    /**
 //     * 时间类型对应策略
 //     */
@@ -58,7 +63,8 @@ public class GlobalProperties {
     private String entityName = "%sEntity";
     private String voName = "%sVO";
     private String mapperName = "%sMapper";
-    private String xmlName = "%sMapper";
+    private String mapperXmlName = "%sMapper";
+    private String extendMapperXmlName = "%sExtendMapper";
     private String serviceName = "%sService";
     private String serviceImplName = "%sServiceImpl";
     private String controllerName = "%sController";
