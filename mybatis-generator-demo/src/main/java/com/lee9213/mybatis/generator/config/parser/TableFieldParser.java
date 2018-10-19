@@ -74,6 +74,7 @@ public class TableFieldParser implements Parser {
                     field.setPropertyName(strategyProperties, StringUtils.processName(field.getName(), strategyProperties.getUnderlineToCamelColumnNames(), strategyProperties.getFieldPrefix()));
                     field.setColumnType(dataSourceProperties.getTypeConvert().processTypeConvert(globalProperties, field.getType()));
                     field.setComment(results.getString(dbQuery.fieldComment()));
+                    field.setKeywordFlag(configuration.getKeywordList().contains(field.getName().toUpperCase()));
                     if (strategyProperties.includeSuperEntityColumns(field.getName())) {
                         // 跳过公共字段
                         commonFieldList.add(field);

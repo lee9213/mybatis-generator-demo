@@ -6,6 +6,8 @@
     <context id="MysqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
 
         <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 自动识别数据库关键字 -->
+        <property name="autoDelimitKeywords" value="true"/>
         <!-- 由于beginningDelimiter和endingDelimiter的默认值为双引号(")，在Mysql中不能这么写，所以还要将这两个默认值改为`  -->
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
@@ -92,36 +94,19 @@
 
         <!-- 需要映射的表 -->
         <#list tables as table>
-            <#if last_insert_id_tables[table.name]?? >
-                <table tableName="${table.name}" domainObjectName="${table.entityName}"
-                       enableInsert = "true"
-                       enableSelectByPrimaryKey = "true"
-                       enableSelectByExample = "true"
-                       enableUpdateByPrimaryKey = "true"
-                       enableDeleteByPrimaryKey = "true"
-                       enableDeleteByExample = "true"
-                       enableCountByExample="true"
-                       enableUpdateByExample="true"
-                       mapperName="${table.mapperName}" >
-                    <generatedKey column="$!last_insert_id_tables.get($!table.table_name)" sqlStatement="MySql"
-                                  identity="true"/>
-                    <columnOverride column="UNSIGNED_BIGINT_FIELD" javaType="java.lang.Object" jdbcType="LONG"/>
-                </table>
-            <#else>
-                <table tableName="${table.name}" domainObjectName="${table.entityName}"
-                       enableInsert = "true"
-                       enableSelectByPrimaryKey = "true"
-                       enableSelectByExample = "true"
-                       enableUpdateByPrimaryKey = "true"
-                       enableDeleteByPrimaryKey = "true"
-                       enableDeleteByExample = "true"
-                       enableCountByExample="true"
-                       enableUpdateByExample="true"
-                       mapperName="${table.mapperName}">
-                    <property name="useActualColumnNames" value="${strategy.underlineToCamelColumnNames}"/>
-                    <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-                </table>
-            </#if>
+            <table tableName="${table.name}" domainObjectName="${table.entityName}"
+                   enableInsert = "true"
+                   enableSelectByPrimaryKey = "true"
+                   enableSelectByExample = "true"
+                   enableUpdateByPrimaryKey = "true"
+                   enableDeleteByPrimaryKey = "true"
+                   enableDeleteByExample = "true"
+                   enableCountByExample="true"
+                   enableUpdateByExample="true"
+                   mapperName="${table.mapperName}">
+                <property name="useActualColumnNames" value="${strategy.underlineToCamelColumnNames}"/>
+                <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            </table>
         </#list>
     </context>
 </generatorConfiguration>

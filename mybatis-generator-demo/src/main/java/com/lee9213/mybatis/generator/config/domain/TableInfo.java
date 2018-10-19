@@ -39,6 +39,7 @@ public class TableInfo {
     private List<TableField> commonFields;
     private Set<String> importPackages = new HashSet<>();
     private String fieldNames;
+    private String requestMappingPath;
 
     public boolean isConvert() {
         return convert;
@@ -228,10 +229,16 @@ public class TableInfo {
             StringBuilder names = new StringBuilder();
             IntStream.range(0, fields.size()).forEach(i -> {
                 TableField fd = fields.get(i);
-                if (i == fields.size() - 1) {
-                    names.append(fd.getName());
-                } else {
-                    names.append(fd.getName()).append(", ");
+
+                if(fd.isKeywordFlag()) {
+                    names.append("`");
+                }
+                names.append(fd.getName());
+                if(fd.isKeywordFlag()) {
+                    names.append("`");
+                }
+                if (i < fields.size() - 1) {
+                    names.append(", ");
                 }
             });
             IntStream.range(0, commonFields.size()).forEach(i -> {
@@ -246,5 +253,7 @@ public class TableInfo {
         }
         return fieldNames;
     }
-
+    public String getRequestMappingPath(){
+        return name.replaceAll("_", "/");
+    }
 }

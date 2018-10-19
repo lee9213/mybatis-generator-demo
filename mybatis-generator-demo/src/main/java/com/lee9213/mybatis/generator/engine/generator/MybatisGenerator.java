@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author libo
@@ -39,10 +38,5 @@ public class MybatisGenerator implements BaseGenerator {
         for (String warning : warnings) {
             logger.info(warning);
         }
-    }
-
-    @Override
-    public Map<String, Object> getObjectMap(Configuration configBuilder) {
-        return null;
     }
 }
