@@ -1,9 +1,6 @@
 package com.lee9213.mybatis.generator.engine.generator;
 
-import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.engine.AbstractTemplateEngine;
-
-import java.util.Map;
 
 /**
  * @author libo
@@ -18,15 +15,5 @@ public interface BaseGenerator {
      * @param templateEngine 模板类型
      */
     void generator(AbstractTemplateEngine templateEngine) throws Exception;
-
-    /**
-     * <p>
-     * 渲染对象 MAP 信息
-     * </p>
-     *
-     * @param configBuilder 配置对象
-     * @return
-     */
-    Map<String, Object> getObjectMap(Configuration configBuilder);
 
 }

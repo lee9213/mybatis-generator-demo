@@ -17,11 +17,9 @@ package com.lee9213.mybatis.generator.engine;
 
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
-import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.engine.generator.GeneratorConfigXmlGenerator;
@@ -86,7 +84,9 @@ public abstract class AbstractTemplateEngine {
             // 生成ExtendMapperXML、Vo、Service、ServiceImpl、Controller
             List<TableInfo> tableInfoList = configuration.getTableInfoList();
             for (TableInfo tableInfo : tableInfoList) {
-                Map<String, Object> objectMap = getObjectMap(tableInfo);
+                Map<String, Object> objectMap = configuration.getConfigurationMap();
+                objectMap.put("table", tableInfo);
+
 
                 extendMapperXmlGenerator(configuration, tableInfo, objectMap);
                 voGenerator(configuration,tableInfo,objectMap);
@@ -94,28 +94,9 @@ public abstract class AbstractTemplateEngine {
                 serviceImplGenerator(configuration,tableInfo,objectMap);
                 controllerGenerator(configuration,tableInfo,objectMap);
             }
-
-//            List<TableInfo> tableInfoList = getConfigBuilder().getTableInfoList();
-//            for (TableInfo tableInfo : tableInfoList) {
-//                Map<String, Object> objectMap = getObjectMap(tableInfo);
-//                Map<String, String> pathInfo = getConfigBuilder().getPathInfo();
-//                TemplateConfiguration template = getConfigBuilder().getTemplate();
-////                // 自定义内容
-//                InjectionConfig injectionConfig = getConfigBuilder().getInjectionConfig();
-//                if (null != injectionConfig) {
-//                    injectionConfig.initMap();
-//                    objectMap.put("cfg", injectionConfig.getMap());
-//                    List<FileOutConfig> focList = injectionConfig.getFileOutConfigList();
-//                    if (CollectionUtils.isNotEmpty(focList)) {
-//                        for (FileOutConfig foc : focList) {
-//                            if (isCreate(FileType.OTHER, foc.outputFile(tableInfo))) {
-//                                writer(objectMap, foc.getTemplatePath(), foc.outputFile(tableInfo));
-//                            }
-//                        }
-//                    }
-//                }
         } catch (Exception e) {
-            logger.error("无法创建文件，请检查配置信息！", e);
+            logger.error("无法创建文件，请检查配置信息！");
+            e.printStackTrace();
         }
         return this;
     }
@@ -174,27 +155,6 @@ public abstract class AbstractTemplateEngine {
             }
         }
     }
-
-
-
-    protected Map<String, Object> getObjectMap(TableInfo tableInfo) {
-        Map<String, Object> objectMap = Maps.newHashMapWithExpectedSize(8);
-        objectMap.put("table", tableInfo);
-        objectMap.put("datasource", configuration.getDataSourceProperties());
-        objectMap.put("global", configuration.getGlobalProperties());
-        objectMap.put("package", configuration.getPackageInfo());
-        objectMap.put("templates", configuration.getTemplateProperties());
-
-        StrategyProperties strategyConfiguration = configuration.getStrategyProperties();
-        objectMap.put("strategy", strategyConfiguration);
-        if (strategyConfiguration.isControllerMappingHyphenStyle()) {
-            objectMap.put("controllerMappingHyphen", StringUtils.camelToHyphen(tableInfo.getEntityPath()));
-        }else{
-            objectMap.put("controllerMappingHyphen", "");
-        }
-        return objectMap;
-    }
-
 
     /**
      * <p>

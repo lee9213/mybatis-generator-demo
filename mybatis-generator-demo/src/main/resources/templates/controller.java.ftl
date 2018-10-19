@@ -34,7 +34,7 @@ import ${strategy.superControllerClass};
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if package.ModuleName?default("")?length gt 1>/${package.ModuleName}</#if>/<#if strategy.controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("${table.requestMappingPath}")
 <#if strategy.superControllerClass?default("")?length gt 1>
 public class ${table.controllerName} extends ${strategy.superControllerClass} {
 <#else>

@@ -35,6 +35,7 @@ public class TableField {
      * 自定义查询字段列表
      */
     private Map<String, Object> customMap;
+    private boolean keywordFlag;
 
     public boolean isConvert() {
         return convert;
@@ -162,5 +163,13 @@ public class TableField {
 
     public void setCustomMap(Map<String, Object> customMap) {
         this.customMap = customMap;
+    }
+
+    public boolean isKeywordFlag() {
+        return keywordFlag;
+    }
+
+    public void setKeywordFlag(boolean keywordFlag) {
+        this.keywordFlag = keywordFlag;
     }
 }

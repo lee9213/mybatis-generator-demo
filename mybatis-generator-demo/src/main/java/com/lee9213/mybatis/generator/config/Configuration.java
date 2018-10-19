@@ -5,10 +5,13 @@ import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.config.parser.ConfigurationParser;
 import com.lee9213.mybatis.generator.config.properties.*;
+import com.lee9213.mybatis.generator.util.JDBCUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -58,6 +61,11 @@ public class Configuration {
      */
     private PathInfo pathInfo;
 
+    /**
+     * 数据库关键字列表
+     */
+    private List<String> keywordList;
+
 
     /**
      * <p>
@@ -105,8 +113,29 @@ public class Configuration {
         } else {
             this.strategyProperties = strategyProperties;
         }
+        this.keywordList = JDBCUtil.getKeywordList(this.dataSourceProperties);
 
         ConfigurationParser configurationParser = new ConfigurationParser(this);
         configurationParser.parser();
+
+
+    }
+
+    /**
+     * <p>
+     * 渲染对象 MAP 信息
+     * </p>
+     *
+     * @return
+     */
+    public Map<String,Object> getConfigurationMap(){
+        Map<String, Object> objectMap = new HashMap<>(8);
+        objectMap.put("datasource", this.dataSourceProperties);
+        objectMap.put("global", this.globalProperties);
+        objectMap.put("strategy", this.strategyProperties);
+        objectMap.put("templates", this.templateProperties);
+        objectMap.put("tables", this.tableInfoList);
+        objectMap.put("package", this.packageInfo);
+        return objectMap;
     }
 }
