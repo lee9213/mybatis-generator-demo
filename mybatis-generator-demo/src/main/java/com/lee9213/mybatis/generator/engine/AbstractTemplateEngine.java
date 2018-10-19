@@ -83,53 +83,16 @@ public abstract class AbstractTemplateEngine {
             mybatisGenerator.generator(this);
 
 
-            // 生成Service、ServiceImpl、Controller
-            PathInfo pathInfo = configuration.getPathInfo();
-            TemplateProperties templateConfiguration = configuration.getTemplateProperties();
+            // 生成ExtendMapperXML、Vo、Service、ServiceImpl、Controller
             List<TableInfo> tableInfoList = configuration.getTableInfoList();
             for (TableInfo tableInfo : tableInfoList) {
                 Map<String, Object> objectMap = getObjectMap(tableInfo);
 
-                String entityName = tableInfo.getEntityName();
-                // 生成扩展xml
-                if (!Strings.isNullOrEmpty(tableInfo.getExtendMapperXmlName()) && !Strings.isNullOrEmpty(pathInfo.getExtendMapperXmlPath())) {
-                    String extendMapperXmlFile = String.format((pathInfo.getExtendMapperXmlPath() + File.separator + tableInfo.getExtendMapperXmlName() + Constant.XML_SUFFIX), entityName);
-                    if (isCreate(FileType.XML, extendMapperXmlFile)) {
-                        doWriter(objectMap, templateFilePath(templateConfiguration.getExtendMapperXml()), extendMapperXmlFile);
-                    }
-                }
-
-                // 生成VO
-                if (null != tableInfo.getVoName() && null != pathInfo.getVoPath()) {
-                    String voFile = String.format((pathInfo.getVoPath() + File.separator + tableInfo.getVoName() + Constant.JAVA_SUFFIX), entityName);
-                    if (isCreate(FileType.VO, voFile)) {
-                        doWriter(objectMap, templateFilePath(templateConfiguration.getVo()), voFile);
-                    }
-                }
-
-                // 生成Service
-                if (null != tableInfo.getServiceName() && null != pathInfo.getServicePath()) {
-                    String serviceFile = String.format((pathInfo.getServicePath() + File.separator + tableInfo.getServiceName() + Constant.JAVA_SUFFIX), entityName);
-                    if (isCreate(FileType.SERVICE, serviceFile)) {
-                        doWriter(objectMap, templateFilePath(templateConfiguration.getService()), serviceFile);
-                    }
-                }
-
-                // 生成ServiceImpl
-                if (null != tableInfo.getServiceImplName() && null != pathInfo.getServiceImplPath()) {
-                    String implFile = String.format((pathInfo.getServiceImplPath() + File.separator + tableInfo.getServiceImplName() + Constant.JAVA_SUFFIX), entityName);
-                    if (isCreate(FileType.SERVICE_IMPL, implFile)) {
-                        doWriter(objectMap, templateFilePath(templateConfiguration.getServiceImpl()), implFile);
-                    }
-                }
-
-                // 生成Controller
-                if (null != tableInfo.getControllerName() && null != pathInfo.getControllerPath()) {
-                    String controllerFile = String.format((pathInfo.getControllerPath() + File.separator + tableInfo.getControllerName() + Constant.JAVA_SUFFIX), entityName);
-                    if (isCreate(FileType.CONTROLLER, controllerFile)) {
-                        doWriter(objectMap, templateFilePath(templateConfiguration.getController()), controllerFile);
-                    }
-                }
+                extendMapperXmlGenerator(configuration, tableInfo, objectMap);
+                voGenerator(configuration,tableInfo,objectMap);
+                serviceGenerator(configuration,tableInfo,objectMap);
+                serviceImplGenerator(configuration,tableInfo,objectMap);
+                controllerGenerator(configuration,tableInfo,objectMap);
             }
 
 //            List<TableInfo> tableInfoList = getConfigBuilder().getTableInfoList();
@@ -151,34 +114,68 @@ public abstract class AbstractTemplateEngine {
 //                        }
 //                    }
 //                }
-                // Mp.java
-//                String entityName = tableInfo.getEntityName();
-//                if (null != entityName && null != pathInfo.get(Constant.ENTITY_PATH)) {
-//                    String entityFile = String.format((pathInfo.get(Constant.ENTITY_PATH) + File.separator + "%s" + suffixJavaOrKt()), entityName);
-//                    if (isCreate(FileType.ENTITY, entityFile)) {
-//                        writer(objectMap, templateFilePath(template.getEntity(getConfigBuilder().getGlobalConfig().isKotlin())), entityFile);
-//                    }
-//                }
-                // MpMapper.java
-//                if (null != tableInfo.getMapperName() && null != pathInfo.get(Constant.MAPPER_PATH)) {
-//                    String mapperFile = String.format((pathInfo.get(Constant.MAPPER_PATH) + File.separator + tableInfo.getMapperName() + suffixJavaOrKt()), entityName);
-//                    if (isCreate(FileType.MAPPER, mapperFile)) {
-//                        writer(objectMap, templateFilePath(template.getMapper()), mapperFile);
-//                    }
-//                }
-                // MpMapper.xml
-//                if (null != tableInfo.getXmlName() && null != pathInfo.get(Constant.XML_PATH)) {
-//                    String xmlFile = String.format((pathInfo.get(Constant.XML_PATH) + File.separator + tableInfo.getXmlName() + Constant.XML_SUFFIX), entityName);
-//                    if (isCreate(FileType.XML, xmlFile)) {
-//                        writer(objectMap, templateFilePath(template.getXml()), xmlFile);
-//                    }
-//                }
-//            }
         } catch (Exception e) {
             logger.error("无法创建文件，请检查配置信息！", e);
         }
         return this;
     }
+    private void extendMapperXmlGenerator(Configuration configuration, TableInfo tableInfo, Map<String, Object> objectMap) throws Exception {
+        PathInfo pathInfo = configuration.getPathInfo();
+        TemplateProperties templateProperties = configuration.getTemplateProperties();
+        // 生成扩展xml
+        if (!Strings.isNullOrEmpty(tableInfo.getExtendMapperXmlName()) && !Strings.isNullOrEmpty(pathInfo.getExtendMapperXmlPath())) {
+            String extendMapperXmlFile = String.format((pathInfo.getExtendMapperXmlPath() + File.separator + tableInfo.getExtendMapperXmlName() + Constant.XML_SUFFIX), tableInfo.getEntityName());
+            if (isCreate(FileType.XML, extendMapperXmlFile)) {
+                doWriter(objectMap, templateProperties.getExtendMapperXml(), extendMapperXmlFile);
+            }
+        }
+    }
+    private void voGenerator(Configuration configuration, TableInfo tableInfo, Map<String, Object> objectMap) throws Exception {
+        PathInfo pathInfo = configuration.getPathInfo();
+        TemplateProperties templateProperties = configuration.getTemplateProperties();
+        // 生成VO
+        if (null != tableInfo.getVoName() && null != pathInfo.getVoPath()) {
+            String voFile = String.format((pathInfo.getVoPath() + File.separator + tableInfo.getVoName() + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
+            if (isCreate(FileType.VO, voFile)) {
+                doWriter(objectMap, templateProperties.getVo(), voFile);
+            }
+        }
+    }
+    private void serviceGenerator(Configuration configuration, TableInfo tableInfo, Map<String, Object> objectMap) throws Exception {
+        PathInfo pathInfo = configuration.getPathInfo();
+        TemplateProperties templateProperties = configuration.getTemplateProperties();
+        // 生成Service
+        if (null != tableInfo.getServiceName() && null != pathInfo.getServicePath()) {
+            String serviceFile = String.format((pathInfo.getServicePath() + File.separator + tableInfo.getServiceName() + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
+            if (isCreate(FileType.SERVICE, serviceFile)) {
+                doWriter(objectMap, templateProperties.getService(), serviceFile);
+            }
+        }
+    }
+    private void serviceImplGenerator(Configuration configuration, TableInfo tableInfo, Map<String, Object> objectMap) throws Exception {
+        PathInfo pathInfo = configuration.getPathInfo();
+        TemplateProperties templateProperties = configuration.getTemplateProperties();
+        // 生成ServiceImpl
+        if (null != tableInfo.getServiceImplName() && null != pathInfo.getServiceImplPath()) {
+            String implFile = String.format((pathInfo.getServiceImplPath() + File.separator + tableInfo.getServiceImplName() + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
+            if (isCreate(FileType.SERVICE_IMPL, implFile)) {
+                doWriter(objectMap, templateProperties.getServiceImpl(), implFile);
+            }
+        }
+    }
+    private void controllerGenerator(Configuration configuration, TableInfo tableInfo, Map<String, Object> objectMap) throws Exception {
+        PathInfo pathInfo = configuration.getPathInfo();
+        TemplateProperties templateProperties = configuration.getTemplateProperties();
+        // 生成Controller
+        if (null != tableInfo.getControllerName() && null != pathInfo.getControllerPath()) {
+            String controllerFile = String.format((pathInfo.getControllerPath() + File.separator + tableInfo.getControllerName() + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
+            if (isCreate(FileType.CONTROLLER, controllerFile)) {
+                doWriter(objectMap, templateProperties.getController(), controllerFile);
+            }
+        }
+    }
+
+
 
     protected Map<String, Object> getObjectMap(TableInfo tableInfo) {
         Map<String, Object> objectMap = Maps.newHashMapWithExpectedSize(8);
@@ -209,8 +206,6 @@ public abstract class AbstractTemplateEngine {
      * @param outputFile   文件生成的目录
      */
     public abstract void doWriter(Map<String, Object> objectMap, String templatePath, String outputFile) throws Exception;
-
-
 
 
     /**
@@ -252,17 +247,6 @@ public abstract class AbstractTemplateEngine {
         }
         return classPath.substring(classPath.lastIndexOf(Constant.DOT) + 1);
     }
-
-
-    /**
-     * <p>
-     * 模板真实文件路径
-     * </p>
-     *
-     * @param filePath 文件路径
-     * @return
-     */
-    public abstract String templateFilePath(String filePath);
 
 
     /**
