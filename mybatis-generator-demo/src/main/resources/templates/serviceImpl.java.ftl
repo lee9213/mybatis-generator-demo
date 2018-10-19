@@ -8,13 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.google.common.collect.Lists;
 import ${package.entity}.${table.entityName};
+import ${package.vo}.${table.voName};
 import ${package.mapper}.${table.mapperName};
 import ${package.service}.${table.serviceName};
 <#if strategy.superServiceImplClass?default("")?length gt 1>
 import ${strategy.superServiceImplClass};
 </#if>
+
+import java.util.List;
 
 /**
  * <p>
@@ -33,50 +36,50 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ${table.mapperName} ${table.mapperName};
+    private ${table.mapperName} ${table.mapperName?uncap_first};
 
      /**
      * add 新增接口
      *
-     * @param scmTransactionSourceVO
+     * @param ${table.voName?uncap_first}
      * @param loginEmployee
      */
     @Override
-    public ${table.entityName} add(ScmTransactionSourceVO scmTransactionSourceVO, LoginEmployee loginEmployee) throws BusinessException {
-        validAdd(scmTransactionSourceVO, loginEmployee);
-        ${table.entityName} scmTransactionSource = convertScmTransactionSource(scmTransactionSourceVO, loginEmployee);
-        scmTransactionSourceMapper.insert(scmTransactionSource);
-        return scmTransactionSource;
+    public ${table.entityName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+        validAdd(${table.voName?uncap_first}, loginEmployee);
+        ${table.entityName} ${table.entityName?uncap_first} = convert${table.entityName}(${table.voName?uncap_first}, loginEmployee);
+        ${table.mapperName?uncap_first}.insert(${table.entityName?uncap_first});
+        return ${table.entityName?uncap_first};
     }
 
     /**
      * 新增接口验证数据
      *
-     * @param scmTransactionSourceVO
+     * @param ${table.voName?uncap_first}
      * @param loginEmployee
      */
-    private void validAdd(ScmTransactionSourceVO scmTransactionSourceVO, LoginEmployee loginEmployee) throws BusinessException {
-        if (scmTransactionSourceVO == null) {
-            throw new BusinessException("add.scmTransactionSource.error", "新增内容为空");
+    private void validAdd(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+        if (${table.voName?uncap_first} == null) {
+            throw new BusinessException("add.${table.entityName?uncap_first}.error", "新增内容为空");
         }
         //TODO 新增接口的其他部分的验证
 
     }
 
     /**
-     * 从ScmTransactionSourceVO 转换到 ScmTransactionSource
+     * 从${table.voName} 转换到 ${table.entityName}
      *
-     * @param scmTransactionSourceVO
+     * @param ${table.voName?uncap_first}
      * @param loginEmployee
      */
-    private ScmTransactionSource convertScmTransactionSource(ScmTransactionSourceVO scmTransactionSourceVO, LoginEmployee loginEmployee) throws BusinessException {
-        if (scmTransactionSourceVO == null) {
-            return new ScmTransactionSource();
+    private ${table.entityName} convert${table.entityName}(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+        if (${table.voName?uncap_first} == null) {
+            return new ${table.entityName}();
         }
         //TODO 类似的验证自己添加
-        ScmTransactionSource scmTransactionSource = new ScmTransactionSource();
-        BeanUtils.copyProperties(scmTransactionSourceVO, scmTransactionSource);
-        return scmTransactionSource;
+        ${table.entityName} ${table.entityName?uncap_first} = new ${table.entityName}();
+        BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});
+        return ${table.entityName?uncap_first};
     }
 
     /**
@@ -86,52 +89,52 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * @param loginEmployee
      */
     @Override
-    public ScmTransactionSourceVO detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
+    public ${table.voName} detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         if (id == null) {
-            throw new BusinessException("detail.scmTransactionSource.error", "id为空");
+            throw new BusinessException("detail.${table.entityName?uncap_first}.error", "id为空");
         }
-        ScmTransactionSource scmTransactionSource = scmTransactionSourceMapper.selectByPrimaryKey(id);
-        ScmTransactionSourceVO scmTransactionSourceVO = convertScmTransactionSourceVO(scmTransactionSource, loginEmployee);
-        return scmTransactionSourceVO;
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
+        ${table.voName} ${table.voName?uncap_first} = convert${table.voName}(${table.entityName?uncap_first}, loginEmployee);
+        return ${table.voName?uncap_first};
     }
 
     /**
-     * 从 ScmTransactionSource	转换到 	ScmTransactionSourceVO
+     * 从 ${table.entityName}	转换到 	${table.voName}
      *
-     * @param scmTransactionSource
+     * @param ${table.entityName?uncap_first}
      * @param loginEmployee
      */
-    private ScmTransactionSourceVO convertScmTransactionSourceVO(ScmTransactionSource scmTransactionSource, LoginEmployee loginEmployee) {
-        if (scmTransactionSource == null) {
-            return new ScmTransactionSourceVO();
+    private ${table.voName} convert${table.voName}(${table.entityName} ${table.entityName?uncap_first}, LoginEmployee loginEmployee) {
+        if (${table.entityName?uncap_first} == null) {
+            return new ${table.voName}();
         }
-        ScmTransactionSourceVO scmTransactionSourceVO = new ScmTransactionSourceVO();
-        BeanUtils.copyProperties(scmTransactionSource, scmTransactionSourceVO);
-        return scmTransactionSourceVO;
+        ${table.voName} ${table.voName?uncap_first} = new ${table.voName}();
+        BeanUtils.copyProperties(${table.entityName?uncap_first}, ${table.voName?uncap_first});
+        return ${table.voName?uncap_first};
     }
 
     /**
      * update 更新接口
      *
-     * @param scmTransactionSourceVO
+     * @param ${table.voName?uncap_first}
      * @param loginEmployee
      */
     @Override
-    public void update(ScmTransactionSourceVO scmTransactionSourceVO, LoginEmployee loginEmployee) throws BusinessException {
-        validUpdate(scmTransactionSourceVO, loginEmployee);
-        ScmTransactionSource scmTransactionSource = convertUpdateScmTransactionSource(scmTransactionSourceVO, loginEmployee);
-        scmTransactionSourceMapper.updateByPrimaryKeySelective(scmTransactionSource);
+    public void update(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+        validUpdate(${table.voName?uncap_first}, loginEmployee);
+        ${table.entityName} ${table.entityName?uncap_first} = convertUpdate${table.entityName}(${table.voName?uncap_first}, loginEmployee);
+        ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(${table.entityName?uncap_first});
     }
 
     /**
      * 验证能否修改
      *
-     * @param scmTransactionSourceVO
+     * @param ${table.voName?uncap_first}
      * @param loginEmployee
      */
-    private void validUpdate(ScmTransactionSourceVO scmTransactionSourceVO, LoginEmployee loginEmployee) throws BusinessException {
-        if (scmTransactionSourceVO == null) {
-            throw new BusinessException("update.scmTransactionSource.error", "更新内容为空");
+    private void validUpdate(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+        if (${table.voName?uncap_first} == null) {
+            throw new BusinessException("update.${table.entityName?uncap_first}.error", "更新内容为空");
         }
         //TODO 其他验证自己加
     }
@@ -139,16 +142,16 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     /**
      * 修改对象转换成数据库对象
      *
-     * @param scmTransactionSourceVO
+     * @param ${table.voName?uncap_first}
      * @param loginEmployee
      */
-    private ScmTransactionSource convertUpdateScmTransactionSource(ScmTransactionSourceVO scmTransactionSourceVO, LoginEmployee loginEmployee) throws BusinessException {
+    private ${table.entityName} convertUpdate${table.entityName}(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
 
-        ScmTransactionSource scmTransactionSource = scmTransactionSourceMapper.selectByPrimaryKey(scmTransactionSourceVO.getId());
-        BeanUtils.copyProperties(scmTransactionSourceVO, scmTransactionSource);
-//		scmTransactionSource.setLastUpdateUserId(loginEmployee.getUserId());
-//		scmTransactionSource.setLastUpdateTime(new Date());
-        return scmTransactionSource;
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(${table.voName?uncap_first}.getId());
+        BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});
+//		${table.entityName?uncap_first}.setLastUpdateUserId(loginEmployee.getUserId());
+//		${table.entityName?uncap_first}.setLastUpdateTime(new Date());
+        return ${table.entityName?uncap_first};
     }
 
     /**
@@ -160,12 +163,12 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     @Override
     public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         validDelete(id, loginEmployee);
-        ScmTransactionSource scmTransactionSource = scmTransactionSourceMapper.selectByPrimaryKey(id);
-//		scmTransactionSource.setLastUpdateTime(new Date());
-//		scmTransactionSource.setLastUpdateUserId(loginEmployee.getUserId());
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
+//		${table.entityName?uncap_first}.setLastUpdateTime(new Date());
+//		${table.entityName?uncap_first}.setLastUpdateUserId(loginEmployee.getUserId());
         // 默认逻辑删除
-//		scmTransactionSource.setIsDelete(true);
-        scmTransactionSourceMapper.updateByPrimaryKey(scmTransactionSource);
+//		${table.entityName?uncap_first}.setIsDelete(true);
+        ${table.mapperName?uncap_first}.updateByPrimaryKey(${table.entityName?uncap_first});
     }
 
     /**
@@ -176,12 +179,12 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      */
     private void validDelete(Integer id, LoginEmployee loginEmployee) {
         if (id == null) {
-            throw new BusinessException("delete.scmTransactionSource.error", "id为空");
+            throw new BusinessException("delete.${table.entityName?uncap_first}.error", "id为空");
         }
 
-        ScmTransactionSource scmTransactionSource = scmTransactionSourceMapper.selectByPrimaryKey(id);
-        if (scmTransactionSource == null) {
-            throw new BusinessException("delete.scmTransactionSource.error", "数据异常");
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
+        if (${table.entityName?uncap_first} == null) {
+            throw new BusinessException("delete.${table.entityName?uncap_first}.error", "数据异常");
         }
         //TODO 删除方面其他验证自己加,例如状态
     }
@@ -194,12 +197,27 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * @return
      */
     @Override
-    public Page<ScmTransactionSourceVO> list(PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
+    public Page<${table.voName}> list(PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
     pageCondition.getFilters().put("tenant_id", loginEmployee.getTenantId());
     pageCondition.getFilters().put("tenantCode", loginEmployee.getTenantCode());
-    //		return new Page<>(pageCondition.getPageNo(), pageCondition.getPageSize(),
-    //			scmTransactionSourceMapper.count(pageCondition),
-    //			converScmTransactionSourceList(scmTransactionSourceMapper.select(pageCondition)));
-    return null;
+    		return new Page<>(pageCondition.getPageNo(), pageCondition.getPageSize(),
+    			${table.mapperName?uncap_first}.count(pageCondition),
+    			convert${table.entityName}List(${table.mapperName?uncap_first}.select(pageCondition)));
+    }
+
+    /**
+     * 从 List<${table.entityName}>	转换到 	List<${table.voName}>
+     *
+     * @param ${table.entityName?uncap_first}List
+     */
+    private List<${table.voName}> convert${table.entityName}List(List<${table.entityName}> ${table.entityName?uncap_first}List) {
+    List<${table.voName}> ${table.voName?uncap_first}List = Lists.newArrayList();
+        ${table.voName} ${table.voName?uncap_first};
+        for (${table.entityName} ${table.entityName?uncap_first} : ${table.entityName?uncap_first}List) {
+            ${table.voName?uncap_first} = new ${table.voName}();
+            BeanUtils.copyProperties(${table.entityName?uncap_first}, ${table.voName?uncap_first});
+            ${table.voName?uncap_first}List.add(${table.voName?uncap_first});
+        }
+        return ${table.voName?uncap_first}List;
     }
 }

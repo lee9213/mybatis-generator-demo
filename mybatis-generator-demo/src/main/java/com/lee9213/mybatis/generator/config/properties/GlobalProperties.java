@@ -56,7 +56,7 @@ public class GlobalProperties {
      * %s 为占位符
      */
     private String entityName = "%sEntity";
-    private String voName = "%sVo";
+    private String voName = "%sVO";
     private String mapperName = "%sMapper";
     private String xmlName = "%sMapper";
     private String serviceName = "%sService";
