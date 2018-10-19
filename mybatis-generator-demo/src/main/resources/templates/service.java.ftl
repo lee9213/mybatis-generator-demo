@@ -5,6 +5,7 @@ import com.giants.common.tools.Page;
 import com.giants.common.tools.PageCondition;
 import com.juma.auth.employee.domain.LoginEmployee;
 import ${package.entity}.${table.entityName};
+import ${package.vo}.${table.voName};
 <#if strategy.superServiceClass?default("")?length gt 1>
 import ${strategy.superServiceClass};
 </#if>
@@ -27,10 +28,10 @@ public interface ${table.serviceName} {
     /**
 	* 新增接口
 	*
-	* @param scmTransactionSourceVO
+	* @param ${table.voName?uncap_first}
 	* @param loginEmployee
 	*/
-	${table.entityName} add(${table.entityName}VO scmTransactionSourceVO, LoginEmployee loginEmployee)  throws BusinessException;
+	${table.entityName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
 	* 详情接口
@@ -38,15 +39,15 @@ public interface ${table.serviceName} {
 	* @param id
 	* @param loginEmployee
 	*/
-	${table.entityName}VO detail(Integer id, LoginEmployee loginEmployee)  throws BusinessException;
+	${table.voName} detail(Integer id, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
 	* 更新接口
 	*
-	* @param scmTransactionSourceVO
+	* @param ${table.voName?uncap_first}
 	* @param loginEmployee
 	*/
-	void update(${table.entityName}VO scmTransactionSourceVO, LoginEmployee loginEmployee)  throws BusinessException;
+	void update(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
 	* 删除接口
@@ -63,5 +64,5 @@ public interface ${table.serviceName} {
 	* @param loginEmployee
 	* @return
 	*/
-	Page<${table.entityName}VO > list(PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException;
+	Page<${table.voName}> list(PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException;
 }
