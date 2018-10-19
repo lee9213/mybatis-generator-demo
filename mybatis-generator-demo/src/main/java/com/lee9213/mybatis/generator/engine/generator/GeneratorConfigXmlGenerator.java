@@ -35,7 +35,7 @@ public class GeneratorConfigXmlGenerator implements BaseGenerator {
         TemplateProperties template = configBuilder.getTemplateProperties();
         String generatorConfigXml = configBuilder.getPathInfo().getGeneratorPath() + File.separator + Constant.GENERATOR_NAME;
         try {
-            templateEngine.doWriter(getObjectMap(configBuilder), templateEngine.templateFilePath(template.getGenerator()), generatorConfigXml);
+            templateEngine.doWriter(getObjectMap(configBuilder), template.getGenerator(), generatorConfigXml);
         } catch (Exception e) {
             e.printStackTrace();
         }

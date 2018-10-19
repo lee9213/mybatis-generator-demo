@@ -54,12 +54,4 @@ public class FreemarkerTemplateEngine extends AbstractTemplateEngine {
         fileOutputStream.close();
         logger.info("模板:" + templatePath + ";  文件:" + outputFile);
     }
-
-
-    @Override
-    public String templateFilePath(String filePath) {
-        StringBuilder fp = new StringBuilder();
-        fp.append(filePath).append(".ftl");
-        return fp.toString();
-    }
 }

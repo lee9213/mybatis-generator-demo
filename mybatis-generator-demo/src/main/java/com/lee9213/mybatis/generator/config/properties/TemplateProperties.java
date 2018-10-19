@@ -23,8 +23,6 @@ public class TemplateProperties {
 
     private String vo = Constant.TEMPLATE_VO_JAVA;
 
-    private String entityKt = Constant.TEMPLATE_ENTITY_KT;
-
     private String service = Constant.TEMPLATE_SERVICE;
 
     private String serviceImpl = Constant.TEMPLATE_SERVICE_IMPL;
@@ -35,8 +33,4 @@ public class TemplateProperties {
     private String extendMapperXml = Constant.TEMPLATE_EXTEND_MAPPER_XML;
 
     private String controller = Constant.TEMPLATE_CONTROLLER;
-
-    public String getGenerator() {
-        return generator;
-    }
 }
