@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * MySql 表数据查询
  * </p>
  *
- * @author hubin
+ * @author lee9213@163.com
  * @since 2018-01-16
  */
 public class MySqlQuery extends AbstractDbQuery {

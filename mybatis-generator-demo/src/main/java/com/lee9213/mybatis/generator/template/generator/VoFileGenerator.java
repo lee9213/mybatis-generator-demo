@@ -1,11 +1,9 @@
 package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
-import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
-import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
-import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.util.Constant;
+import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -23,15 +21,15 @@ public class VoFileGenerator extends AbstractFileGenerator {
 
     @Override
     protected void doGenerator(TableInfo tableInfo) throws Exception {
-        PathInfo pathInfo = configuration.getPathInfo();
-        TemplateProperties templateProperties = configuration.getTemplateProperties();
-        Map<String, Object> objectMap = configuration.getConfigurationMap();
-        objectMap.put("table", tableInfo);
+        String voName = tableInfo.getVoName();
+        String voPath = configuration.getPathInfo().getVoPath();
         // 生成VO
-        if (null != tableInfo.getVoName() && null != pathInfo.getVoPath()) {
-            String voFile = String.format((pathInfo.getVoPath() + File.separator + tableInfo.getVoName() + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
-            if (isCreate(FileType.VO, voFile)) {
-                configuration.getTemplateEngine().writer(objectMap, templateProperties.getVo(), voFile);
+        if (StringUtils.isNotEmpty(voName) && StringUtils.isNotEmpty(voPath)) {
+            String voFile = String.format((voPath + File.separator + voName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
+            if (isCreate(voFile)) {
+                Map<String, Object> objectMap = configuration.getConfigurationMap();
+                objectMap.put("table", tableInfo);
+                configuration.getTemplateEngine().writer(objectMap, configuration.getTemplateProperties().getVo(), voFile);
             }
         }
     }

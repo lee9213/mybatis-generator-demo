@@ -57,11 +57,11 @@ public class AutoGenerator {
             Configuration configuration = new Configuration(globalProperties, templateProperties, packageProperties, dataSourceProperties, strategyProperties, templateEngine);
 
             // 生成GeneratorConfig.xml
-            GeneratorConfigGenerator generatorConfigXmlGenerator = new GeneratorConfigGenerator(configuration);
+            GeneratorConfigFileGenerator generatorConfigXmlGenerator = new GeneratorConfigFileGenerator(configuration);
             generatorConfigXmlGenerator.generator();
 
             // 生成entity、mapper、mapper.xml
-            MybatisGenerator mybatisGenerator = new MybatisGenerator(configuration);
+            MybatisFileGenerator mybatisGenerator = new MybatisFileGenerator(configuration);
             mybatisGenerator.generator();
 
             ExtendMapperXmlFileGenerator extendMapperXmlFileGenerator = new ExtendMapperXmlFileGenerator(configuration);

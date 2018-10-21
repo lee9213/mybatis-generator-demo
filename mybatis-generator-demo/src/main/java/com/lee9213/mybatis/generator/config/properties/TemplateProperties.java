@@ -30,6 +30,7 @@ public class TemplateProperties {
     private String mapper = Constant.TEMPLATE_MAPPER;
 
     private String mapperXml = Constant.TEMPLATE_MAPPER_XML;
+
     private String extendMapperXml = Constant.TEMPLATE_EXTEND_MAPPER_XML;
 
     private String controller = Constant.TEMPLATE_CONTROLLER;

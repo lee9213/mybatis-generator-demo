@@ -1,7 +1,6 @@
 package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
-import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.util.Constant;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.xml.ConfigurationParser;
@@ -20,21 +19,20 @@ import java.util.List;
  * @version 1.0
  * @date 2018-10-21 19:40
  */
-public class MybatisGenerator implements Generator {
+public class MybatisFileGenerator implements FileGenerator {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Configuration configuration;
 
-    public MybatisGenerator(Configuration configuration) {
+    public MybatisFileGenerator(Configuration configuration) {
         this.configuration = configuration;
     }
 
     @Override
     public void generator() throws Exception {
         // 生成entity、mapper、mapper.xml
-        PathInfo pathInfo = configuration.getPathInfo();
-        String generatorConfigXml = pathInfo.getGeneratorPath() + File.separator + Constant.GENERATOR_NAME;
+        String generatorConfigXml = configuration.getPathInfo().getGeneratorPath() + File.separator + Constant.GENERATOR_NAME;
         List<String> warnings = new ArrayList<>();
         File configFile = new File(generatorConfigXml);
         ConfigurationParser cp = new ConfigurationParser(warnings);
