@@ -5,6 +5,8 @@ import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.config.parser.ConfigurationParser;
 import com.lee9213.mybatis.generator.config.properties.*;
+import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
+import com.lee9213.mybatis.generator.template.engine.FreemarkerTemplateEngine;
 import com.lee9213.mybatis.generator.util.JDBCUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -49,6 +51,11 @@ public class Configuration {
     private PackageProperties packageProperties;
 
     /**
+     * 模板配置
+     */
+    private TemplateEngine templateEngine;
+
+    /**
      * 数据库表信息
      */
     private List<TableInfo> tableInfoList;
@@ -67,9 +74,15 @@ public class Configuration {
     private List<String> keywordList;
 
 
+    public Configuration(GlobalProperties globalProperties, TemplateProperties templateProperties,
+                         PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
+                         StrategyProperties strategyProperties) {
+        this(globalProperties, templateProperties, packageProperties, dataSourceProperties, strategyProperties, null);
+    }
+
     /**
      * <p>
-     * 在构造器中处理配置
+     * 初始化配置信息
      * </p>
      *
      * @param packageProperties    包配置
@@ -77,10 +90,11 @@ public class Configuration {
      * @param strategyProperties   表配置
      * @param templateProperties   模板配置
      * @param globalProperties     全局配置
+     * @param templateEngine       模板引擎
      */
     public Configuration(GlobalProperties globalProperties, TemplateProperties templateProperties,
                          PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
-                         StrategyProperties strategyProperties) {
+                         StrategyProperties strategyProperties, TemplateEngine templateEngine) {
         // 全局配置
         if (null == globalProperties) {
             this.globalProperties = new GlobalProperties();
@@ -113,12 +127,17 @@ public class Configuration {
         } else {
             this.strategyProperties = strategyProperties;
         }
+
+        if (templateEngine == null) {
+            this.templateEngine = new FreemarkerTemplateEngine();
+        } else {
+            this.templateEngine = templateEngine;
+        }
+
         this.keywordList = JDBCUtil.getKeywordList(this.dataSourceProperties);
 
         ConfigurationParser configurationParser = new ConfigurationParser(this);
         configurationParser.parser();
-
-
     }
 
     /**
@@ -128,7 +147,7 @@ public class Configuration {
      *
      * @return
      */
-    public Map<String,Object> getConfigurationMap(){
+    public Map<String, Object> getConfigurationMap() {
         Map<String, Object> objectMap = new HashMap<>(8);
         objectMap.put("datasource", this.dataSourceProperties);
         objectMap.put("global", this.globalProperties);
