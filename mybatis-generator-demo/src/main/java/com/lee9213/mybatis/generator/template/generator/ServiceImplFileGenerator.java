@@ -1,11 +1,9 @@
 package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
-import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
-import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
-import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.util.Constant;
+import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -23,15 +21,15 @@ public class ServiceImplFileGenerator extends AbstractFileGenerator {
 
     @Override
     protected void doGenerator(TableInfo tableInfo) throws Exception {
-        PathInfo pathInfo = configuration.getPathInfo();
-        TemplateProperties templateProperties = configuration.getTemplateProperties();
-        Map<String, Object> objectMap = configuration.getConfigurationMap();
-        objectMap.put("table", tableInfo);
+        String serviceImplName = tableInfo.getServiceImplName();
+        String serviceImplPath = configuration.getPathInfo().getServiceImplPath();
         // 生成ServiceImpl
-        if (null != tableInfo.getServiceImplName() && null != pathInfo.getServiceImplPath()) {
-            String implFile = String.format((pathInfo.getServiceImplPath() + File.separator + tableInfo.getServiceImplName() + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
-            if (isCreate(FileType.SERVICE_IMPL, implFile)) {
-                configuration.getTemplateEngine().writer(objectMap, templateProperties.getServiceImpl(), implFile);
+        if (StringUtils.isNotEmpty(serviceImplName) && StringUtils.isNotEmpty(serviceImplPath)) {
+            String implFile = String.format((serviceImplPath + File.separator + serviceImplName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
+            if (isCreate(implFile)) {
+                Map<String, Object> objectMap = configuration.getConfigurationMap();
+                objectMap.put("table", tableInfo);
+                configuration.getTemplateEngine().writer(objectMap, configuration.getTemplateProperties().getServiceImpl(), implFile);
             }
         }
     }

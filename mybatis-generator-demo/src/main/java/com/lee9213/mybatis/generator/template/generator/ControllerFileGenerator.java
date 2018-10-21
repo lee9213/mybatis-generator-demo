@@ -1,11 +1,9 @@
 package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
-import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
-import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
-import com.lee9213.mybatis.generator.config.rules.FileType;
 import com.lee9213.mybatis.generator.util.Constant;
+import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -20,17 +18,18 @@ public class ControllerFileGenerator extends AbstractFileGenerator {
     public ControllerFileGenerator(Configuration configuration) {
         this.configuration = configuration;
     }
+
     @Override
     protected void doGenerator(TableInfo tableInfo) throws Exception {
-        PathInfo pathInfo = configuration.getPathInfo();
-        TemplateProperties templateProperties = configuration.getTemplateProperties();
-        Map<String, Object> objectMap = configuration.getConfigurationMap();
-        objectMap.put("table", tableInfo);
+        String controllerName = tableInfo.getControllerName();
+        String controllerPath = configuration.getPathInfo().getControllerPath();
         // 生成Controller
-        if (null != tableInfo.getControllerName() && null != pathInfo.getControllerPath()) {
-            String controllerFile = String.format((pathInfo.getControllerPath() + File.separator + tableInfo.getControllerName() + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
-            if (isCreate(FileType.CONTROLLER, controllerFile)) {
-                configuration.getTemplateEngine().writer(objectMap, templateProperties.getController(), controllerFile);
+        if (StringUtils.isNotEmpty(controllerName) && StringUtils.isNotEmpty(controllerPath)) {
+            String controllerFile = String.format((controllerPath + File.separator + controllerName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
+            if (isCreate(controllerFile)) {
+                Map<String, Object> objectMap = configuration.getConfigurationMap();
+                objectMap.put("table", tableInfo);
+                configuration.getTemplateEngine().writer(objectMap, configuration.getTemplateProperties().getController(), controllerFile);
             }
         }
     }

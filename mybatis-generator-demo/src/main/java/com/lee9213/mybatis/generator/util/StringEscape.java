@@ -5,7 +5,7 @@ package com.lee9213.mybatis.generator.util;
  * StringEscape ，数据库字符串转义
  * </p>
  *
- * @author Caratacus
+ * @author lee9213@163.com
  * @since 2016-10-16
  */
 public class StringEscape {

@@ -2,7 +2,8 @@ package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
-import com.lee9213.mybatis.generator.config.rules.FileType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
@@ -12,14 +13,19 @@ import java.util.List;
  * @version 1.0
  * @date 2018-10-21 19:42
  */
-public abstract class AbstractFileGenerator implements Generator {
+public abstract class AbstractFileGenerator implements FileGenerator {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected Configuration configuration;
-
 
     @Override
     public void generator() throws Exception {
         List<TableInfo> tableInfoList = configuration.getTableInfoList();
+        if (tableInfoList == null || tableInfoList.isEmpty()) {
+            logger.error("没有数据");
+            return;
+        }
         for (TableInfo tableInfo : tableInfoList) {
             doGenerator(tableInfo);
         }
@@ -33,14 +39,7 @@ public abstract class AbstractFileGenerator implements Generator {
      *
      * @return 是否
      */
-    protected boolean isCreate(FileType fileType, String filePath) {
-        Configuration cb = configuration;
-        // 自定义判断
-//        InjectionConfig ic = cb.getInjectionConfig();
-//        if (null != ic && null != ic.getFileCreate()) {
-//            return ic.getFileCreate().isCreate(cb, fileType, filePath);
-//        }
-        // 全局判断【默认】
+    protected boolean isCreate(String filePath) {
         File file = new File(filePath);
         boolean exist = file.exists();
         if (!exist) {
@@ -56,7 +55,7 @@ public abstract class AbstractFileGenerator implements Generator {
      *
      * @param file 文件
      */
-    public static void mkDir(File file) {
+    private static void mkDir(File file) {
         if (file.getParentFile().exists()) {
             file.mkdir();
         } else {

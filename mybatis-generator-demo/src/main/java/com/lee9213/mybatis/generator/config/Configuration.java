@@ -73,7 +73,6 @@ public class Configuration {
      */
     private List<String> keywordList;
 
-
     public Configuration(GlobalProperties globalProperties, TemplateProperties templateProperties,
                          PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
                          StrategyProperties strategyProperties) {

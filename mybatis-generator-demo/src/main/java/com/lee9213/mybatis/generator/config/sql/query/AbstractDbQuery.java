@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * 表数据查询抽象类
  * </p>
  *
- * @author hubin
+ * @author lee9213@163.com
  * @since 2018-01-16
  */
 public abstract class AbstractDbQuery implements IDbQuery {
