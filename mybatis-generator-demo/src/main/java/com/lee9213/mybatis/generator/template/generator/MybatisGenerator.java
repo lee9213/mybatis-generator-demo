@@ -1,8 +1,7 @@
-package com.lee9213.mybatis.generator.engine.generator;
+package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
-import com.lee9213.mybatis.generator.engine.AbstractTemplateEngine;
 import com.lee9213.mybatis.generator.util.Constant;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.xml.ConfigurationParser;
@@ -15,24 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author libo
- * @date 2018/10/18 10:13
+ * Mybatis文件输出
+ *
+ * @author lee9213@163.com
+ * @version 1.0
+ * @date 2018-10-21 19:40
  */
-public class MybatisGenerator implements BaseGenerator {
+public class MybatisGenerator implements Generator {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private Configuration configuration;
+
+    public MybatisGenerator(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
     @Override
-    public void generator(AbstractTemplateEngine templateEngine) throws Exception {
-        Configuration configBuilder = templateEngine.getConfiguration();
+    public void generator() throws Exception {
         // 生成entity、mapper、mapper.xml
-        PathInfo pathInfo = configBuilder.getPathInfo();
+        PathInfo pathInfo = configuration.getPathInfo();
         String generatorConfigXml = pathInfo.getGeneratorPath() + File.separator + Constant.GENERATOR_NAME;
         List<String> warnings = new ArrayList<>();
         File configFile = new File(generatorConfigXml);
         ConfigurationParser cp = new ConfigurationParser(warnings);
         org.mybatis.generator.config.Configuration config = cp.parseConfiguration(configFile);
-        DefaultShellCallback callback = new DefaultShellCallback(configBuilder.getGlobalProperties().isFileOverride());
+        DefaultShellCallback callback = new DefaultShellCallback(configuration.getGlobalProperties().isFileOverride());
         MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
         myBatisGenerator.generate(null);
         for (String warning : warnings) {

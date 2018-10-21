@@ -2,12 +2,15 @@ package com.lee9213.mybatis.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.properties.*;
-import com.lee9213.mybatis.generator.engine.AbstractTemplateEngine;
-import com.lee9213.mybatis.generator.engine.FreemarkerTemplateEngine;
+import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
+import com.lee9213.mybatis.generator.template.generator.*;
+import com.lee9213.mybatis.generator.util.StringUtils;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * @author lee9213@163.com
@@ -42,22 +45,72 @@ public class AutoGenerator {
     /**
      * 模板引擎
      */
-    private AbstractTemplateEngine templateEngine;
+    private TemplateEngine templateEngine;
 
     /**
      * 生成代码
      */
     public void execute() {
-        logger.info("==========================准备生成文件...==========================");
-        // 初始化配置
-        Configuration configuration = new Configuration(globalProperties, templateProperties, packageProperties, dataSourceProperties, strategyProperties);
-        if (null == templateEngine) {
-            // 采用 Freemarker 引擎 【 默认 】
-            templateEngine = new FreemarkerTemplateEngine();
-        }
+        try {
+            logger.info("==========================准备生成文件...==========================");
+            // 初始化配置
+            Configuration configuration = new Configuration(globalProperties, templateProperties, packageProperties, dataSourceProperties, strategyProperties, templateEngine);
 
-        // 模板引擎初始化执行文件输出
-        templateEngine.init(configuration).writer().open();
-        logger.info("==========================文件生成完成！！！==========================");
+            // 生成GeneratorConfig.xml
+            GeneratorConfigGenerator generatorConfigXmlGenerator = new GeneratorConfigGenerator(configuration);
+            generatorConfigXmlGenerator.generator();
+
+            // 生成entity、mapper、mapper.xml
+            MybatisGenerator mybatisGenerator = new MybatisGenerator(configuration);
+            mybatisGenerator.generator();
+
+            ExtendMapperXmlFileGenerator extendMapperXmlFileGenerator = new ExtendMapperXmlFileGenerator(configuration);
+            extendMapperXmlFileGenerator.generator();
+
+            VoFileGenerator voFileGenerator = new VoFileGenerator(configuration);
+            voFileGenerator.generator();
+
+            ServiceFileGenerator serviceFileGenerator = new ServiceFileGenerator(configuration);
+            serviceFileGenerator.generator();
+
+            ServiceImplFileGenerator serviceImplFileGenerator = new ServiceImplFileGenerator(configuration);
+            serviceImplFileGenerator.generator();
+
+            ControllerFileGenerator controllerFileGenerator = new ControllerFileGenerator(configuration);
+            controllerFileGenerator.generator();
+
+
+            // 模板引擎初始化执行文件输出
+            logger.info("==========================文件生成完成！！！==========================");
+        } catch (Exception ex) {
+            logger.error("无法创建文件，请检查配置信息！");
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * <p>
+     * 打开输出目录
+     * </p>
+     */
+    public void open(Configuration configuration) {
+        String outDir = configuration.getGlobalProperties().getOutputDir();
+        if (configuration.getGlobalProperties().isOpen()
+                && StringUtils.isNotEmpty(outDir)) {
+            try {
+                String osName = System.getProperty("os.name");
+                if (osName != null) {
+                    if (osName.contains("Mac")) {
+                        Runtime.getRuntime().exec("open " + outDir);
+                    } else if (osName.contains("Windows")) {
+                        Runtime.getRuntime().exec("cmd /c start " + outDir);
+                    } else {
+                        logger.debug("文件输出目录:" + outDir);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

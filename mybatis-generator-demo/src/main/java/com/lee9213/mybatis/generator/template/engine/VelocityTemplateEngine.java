@@ -1,7 +1,5 @@
+//package com.lee9213.mybatis.generator.template.engine;
 //
-//package com.lee9213.mybatis.generator.engine;
-//
-//import com.lee9213.mybatis.generator.config.Configuration;
 //import com.lee9213.mybatis.generator.util.Constant;
 //import org.apache.logging.log4j.util.Strings;
 //import org.apache.velocity.Template;
@@ -23,26 +21,31 @@
 // * @author hubin
 // * @since 2018-01-10
 // */
-//public class VelocityTemplateEngine extends AbstractTemplateEngine {
+//public class VelocityTemplateEngine extends AbstractTemplateEngine implements TemplateEngine {
 //
 //    private static final String DOT_VM = ".vm";
-//    private VelocityEngine velocityEngine;
+//    private static VelocityEngine velocityEngine;
 //
-//    @Override
-//    public VelocityTemplateEngine init(Configuration configuration) {
-//        super.init(configuration);
-//        if (null == velocityEngine) {
-//            Properties p = new Properties();
-//            p.setProperty(Constant.VM_LOAD_PATH_KEY, Constant.VM_LOAD_PATH_VALUE);
-//            p.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, Strings.EMPTY);
-//            p.setProperty(Velocity.ENCODING_DEFAULT, Constant.UTF8);
-//            p.setProperty(Velocity.INPUT_ENCODING, Constant.UTF8);
-//            p.setProperty("file.resource.loader.unicode", "true");
-//            velocityEngine = new VelocityEngine(p);
-//        }
-//        return this;
+//    public VelocityTemplateEngine(){
+//        init();
 //    }
 //
+//    @Override
+//    void init() {
+//        if (null == velocityEngine) {
+//            synchronized (VelocityTemplateEngine.class) {
+//                if (null == velocityEngine) {
+//                    Properties p = new Properties();
+//                    p.setProperty(Constant.VM_LOAD_PATH_KEY, Constant.VM_LOAD_PATH_VALUE);
+//                    p.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, Strings.EMPTY);
+//                    p.setProperty(Velocity.ENCODING_DEFAULT, Constant.UTF8);
+//                    p.setProperty(Velocity.INPUT_ENCODING, Constant.UTF8);
+//                    p.setProperty("file.resource.loader.unicode", "true");
+//                    velocityEngine = new VelocityEngine(p);
+//                }
+//            }
+//        }
+//    }
 //
 //    @Override
 //    public void writer(Map<String, Object> objectMap, String templatePath, String outputFile) throws Exception {
@@ -55,16 +58,5 @@
 //        template.merge(new VelocityContext(objectMap), writer);
 //        writer.close();
 //        logger.debug("模板:" + templatePath + ";  文件:" + outputFile);
-//    }
-//
-//
-//    @Override
-//    public String templateFilePath(String filePath) {
-//        if (null == filePath || filePath.contains(DOT_VM)) {
-//            return filePath;
-//        }
-//        StringBuilder fp = new StringBuilder();
-//        fp.append(filePath).append(DOT_VM);
-//        return fp.toString();
 //    }
 //}
