@@ -22,13 +22,17 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_ListExtend">
-        ${table.fieldNames}
+        <#assign fieldLength=table.fields?size/>
+        <#assign commonFieldLength=table.commonFields?size/>
+        <#list table.fields as field><#if field.keywordFlag>`</#if>${field.name}<#if field.keywordFlag>`</#if><#if field_index?number lt fieldLength-1>, </#if></#list>
+        <#if commonFieldLength?number gt 0>,<#list table.commonFields as field><#if field.keywordFlag>`</#if>${field.name}<#if field.keywordFlag>`</#if><#if field_index?number lt commonFieldLength-1>, </#if></#list></#if>
     </sql>
 
     <sql id="selectWhere">
     </sql>
 
-    <select id="selectByPageCondition" resultMap="BaseResultMapExtend" parameterType="com.giants.common.tools.PageCondition">
+    <select id="selectByPageCondition" resultMap="BaseResultMapExtend"
+            parameterType="com.giants.common.tools.PageCondition">
         select
         <include refid="Base_Column_ListExtend"/>
         from ${table.name}
