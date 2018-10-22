@@ -32,10 +32,8 @@ import lombok.experimental.Accessors;
 <#if global.swagger2>
 @ApiModel(value="${table.voName}对象", description="${table.comment!}")
 </#if>
-<#if strategy.superEntityClass??>
-public class ${table.voName} extends ${strategy.superEntityClass}<#if global.activeRecord??><${table.entityName}></#if> {
-<#elseif global.activeRecord??>
-public class ${table.voName} extends Model<${table.entityName}> {
+<#if strategy.superEntityClass?? && table.isLogicDelete>
+public class ${table.voName} extends ${strategy.superEntityClass?substring(strategy.superEntityClass?last_index_of(".")+1)} implements Serializable {
 <#else>
 public class ${table.voName} implements Serializable {
 </#if>
@@ -77,31 +75,5 @@ public class ${table.voName} implements Serializable {
     }
 
     </#list>
-</#if>
-
-<#if global.activeRecord??>
-    @Override
-    protected Serializable pkVal() {
-    <#if keyPropertyName??>
-        return this.${keyPropertyName};
-    <#else>
-        return null;
-    </#if>
-    }
-
-</#if>
-<#if !strategy.entityLombokModel>
-    @Override
-    public String toString() {
-        return "${table.voName}{" +
-    <#list table.fields as field>
-        <#if field_index==0>
-        "${field.propertyName}=" + ${field.propertyName} +
-        <#else>
-        ", ${field.propertyName}=" + ${field.propertyName} +
-        </#if>
-    </#list>
-        "}";
-    }
 </#if>
 }
