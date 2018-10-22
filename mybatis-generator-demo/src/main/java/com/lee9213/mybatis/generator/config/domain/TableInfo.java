@@ -1,13 +1,11 @@
 package com.lee9213.mybatis.generator.config.domain;
 
-import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
-import com.lee9213.mybatis.generator.util.CollectionUtils;
-import org.apache.logging.log4j.util.Strings;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 /**
  * <p>表信息，关联到当前字段信息</p>
@@ -16,243 +14,74 @@ import java.util.stream.IntStream;
  * @version 1.0
  * @date 2018-10-13 14:04
  */
+@Data
+@Accessors(chain = true)
 public class TableInfo {
 
+    /**
+     * 表名是否被转换
+     */
     private boolean convert;
+    /**
+     * 表名
+     */
     private String name;
+    /**
+     * 表注释
+     */
     private String comment;
-
+    /**
+     * 实体名字
+     */
     private String entityName;
+    /**
+     * VO名字
+     */
     private String voName;
+    /**
+     * mapper名字
+     */
     private String mapperName;
+    /**
+     * Mapper.xml名字
+     */
     private String mapperXmlName;
+    /**
+     * ExtendMapper.xml名字
+     */
     private String extendMapperXmlName;
+    /**
+     * Service名字
+     */
     private String serviceName;
+    /**
+     * ServiceImpl名字
+     */
     private String serviceImplName;
+    /**
+     * Controller名字
+     */
     private String controllerName;
+    /**
+     * 表的字段列表
+     */
     private List<TableField> fields;
     /**
      * 公共字段
      */
     private List<TableField> commonFields;
+    /**
+     * 需要导入的包
+     */
     private Set<String> importPackages = new HashSet<>();
-    private String fieldNames;
-    private String requestMappingPath;
 
-    public boolean isConvert() {
-        return convert;
-    }
-
-    protected void setConvert(StrategyProperties strategyConfig) {
-        if (strategyConfig.containsTablePrefix(name)) {
-            // 包含前缀
-            this.convert = true;
-        } else if (strategyConfig.isCapitalModeNaming(name)) {
-            // 包含
-            this.convert = false;
-        } else {
-            // 转换字段
-//            if (NamingStrategy.underline_to_camel == strategyConfig.getColumnNaming()) {
-//                // 包含大写处理
-//                if (StringUtils.containsUpperCase(name)) {
-//                    this.convert = true;
-//                }
-//            } else if (!entityName.equalsIgnoreCase(name)) {
-//                this.convert = true;
-//            }
-        }
-    }
-
-    public void setConvert(boolean convert) {
-        this.convert = convert;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getEntityPath() {
-        StringBuilder ep = new StringBuilder();
-        ep.append(entityName.substring(0, 1).toLowerCase());
-        ep.append(entityName.substring(1));
-        return ep.toString();
-    }
-
-    public String getEntityName() {
-        return entityName;
-    }
+    /**
+     * 是否是逻辑删除
+     */
+    private Boolean isLogicDelete = false;
 
     public void setEntityName(String entityName) {
         this.entityName = entityName;
-    }
-
-    public void setEntityName(StrategyProperties strategyConfig, String entityName) {
-        this.entityName = entityName;
-        this.setConvert(strategyConfig);
-    }
-
-    public String getVoName() {
-        return voName;
-    }
-
-    public void setVoName(String voName) {
-        this.voName = voName;
-    }
-
-    public String getMapperName() {
-        return mapperName;
-    }
-
-    public void setMapperName(String mapperName) {
-        this.mapperName = mapperName;
-    }
-
-    public String getMapperXmlName() {
-        return mapperXmlName;
-    }
-
-    public void setMapperXmlName(String mapperXmlName) {
-        this.mapperXmlName = mapperXmlName;
-    }
-
-    public String getExtendMapperXmlName() {
-        return extendMapperXmlName;
-    }
-
-    public void setExtendMapperXmlName(String extendMapperXmlName) {
-        this.extendMapperXmlName = extendMapperXmlName;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public String getServiceImplName() {
-        return serviceImplName;
-    }
-
-    public void setServiceImplName(String serviceImplName) {
-        this.serviceImplName = serviceImplName;
-    }
-
-    public String getControllerName() {
-        return controllerName;
-    }
-
-    public void setControllerName(String controllerName) {
-        this.controllerName = controllerName;
-    }
-
-    public List<TableField> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<TableField> fields) {
-
-        if (CollectionUtils.isNotEmpty(fields)) {
-            this.fields = fields;
-            // 收集导入包信息
-//            for (TableField field : fields) {
-//                if (null != field.getColumnType() && null != field.getColumnType().getPkg()) {
-//                    importPackages.add(field.getColumnType().getPkg());
-//                }
-//                if (field.isKeyFlag()) {
-//                    // 主键
-//                    if (field.isConvert() || field.isKeyIdentityFlag()) {
-//                        importPackages.add(com.baomidou.mybatisplus.annotation.TableId.class.getCanonicalName());
-//                    }
-//                    // 自增
-//                    if (field.isKeyIdentityFlag()) {
-//                        importPackages.add(com.baomidou.mybatisplus.annotation.IdType.class.getCanonicalName());
-//                    }
-//                } else if (field.isConvert()) {
-//                    // 普通字段
-//                    importPackages.add(com.baomidou.mybatisplus.annotation.TableField.class.getCanonicalName());
-//                }
-//                if (null != field.getFill()) {
-//                    // 填充字段
-//                    importPackages.add(com.baomidou.mybatisplus.annotation.TableField.class.getCanonicalName());
-//                    importPackages.add(com.baomidou.mybatisplus.annotation.FieldFill.class.getCanonicalName());
-//                }
-//            }
-        }
-    }
-
-    public List<TableField> getCommonFields() {
-        return commonFields;
-    }
-
-    public void setCommonFields(List<TableField> commonFields) {
-        this.commonFields = commonFields;
-    }
-
-    public Set<String> getImportPackages() {
-        return importPackages;
-    }
-
-    public void setImportPackages(String pkg) {
-        importPackages.add(pkg);
-    }
-
-//    /**
-//     * 逻辑删除
-//     */
-//    public boolean isLogicDelete(String logicDeletePropertyName) {
-//        return fields.stream().anyMatch(tf -> tf.getName().equals(logicDeletePropertyName));
-//    }
-
-    /**
-     * 转换filed实体为xmlmapper中的basecolumn字符串信息
-     *
-     * @return
-     */
-    public String getFieldNames() {
-        if (Strings.isEmpty(fieldNames)) {
-            StringBuilder names = new StringBuilder();
-            IntStream.range(0, fields.size()).forEach(i -> {
-                TableField fd = fields.get(i);
-
-                if (fd.isKeywordFlag()) {
-                    names.append("`");
-                }
-                names.append(fd.getName());
-                if (fd.isKeywordFlag()) {
-                    names.append("`");
-                }
-                if (i < fields.size() - 1) {
-                    names.append(", ");
-                }
-            });
-            IntStream.range(0, commonFields.size()).forEach(i -> {
-                TableField fd = commonFields.get(i);
-                if (i == commonFields.size() - 1) {
-                    names.append(fd.getName());
-                } else {
-                    names.append(fd.getName()).append(", ");
-                }
-            });
-            fieldNames = names.toString();
-        }
-        return fieldNames;
-    }
-
-    public String getRequestMappingPath() {
-        return "/" + name.replaceAll("_", "/");
+        this.convert = !entityName.equalsIgnoreCase(name);
     }
 }
