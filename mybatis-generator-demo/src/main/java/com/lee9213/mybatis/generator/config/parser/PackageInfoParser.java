@@ -15,6 +15,7 @@ import com.lee9213.mybatis.generator.util.Constant;
 public class PackageInfoParser implements Parser {
 
     private Configuration configuration;
+
     public PackageInfoParser(Configuration configuration) {
         this.configuration = configuration;
     }
@@ -50,6 +51,6 @@ public class PackageInfoParser implements Parser {
         if (Strings.isNullOrEmpty(parent)) {
             return subPackage;
         }
-        return parent + Constant.DOT + subPackage;
+        return new StringBuilder(parent).append(Constant.DOT).append(subPackage).toString();
     }
 }

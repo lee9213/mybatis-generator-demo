@@ -57,7 +57,7 @@ public abstract class AbstractFileGenerator implements FileGenerator {
      *
      * @param file 文件
      */
-    private static void mkDir(File file) {
+    private void mkDir(File file) {
         if (file.getParentFile().exists()) {
             file.mkdir();
         } else {

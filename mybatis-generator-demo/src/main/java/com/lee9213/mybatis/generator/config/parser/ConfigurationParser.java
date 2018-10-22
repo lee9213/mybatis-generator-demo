@@ -1,6 +1,9 @@
 package com.lee9213.mybatis.generator.config.parser;
 
 import com.lee9213.mybatis.generator.config.Configuration;
+import com.lee9213.mybatis.generator.config.domain.TableInfo;
+import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
+import com.lee9213.mybatis.generator.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,5 +37,31 @@ public class ConfigurationParser {
         TableFieldParser tableFieldParser = new TableFieldParser(configuration);
         tableFieldParser.parser();
 
+        configuration.getTableInfoList().forEach(tableInfo -> checkImportPackages(tableInfo));
+
+    }
+
+    /**
+     * <p>
+     * 检测导入包
+     * </p>
+     *
+     * @param tableInfo
+     */
+    private void checkImportPackages(TableInfo tableInfo) {
+        StrategyProperties strategyConfiguration = configuration.getStrategyProperties();
+        if (StringUtils.isNotEmpty(strategyConfiguration.getSuperEntityClass()) && tableInfo.getIsLogicDelete()) {
+            // 自定义父类
+            tableInfo.getImportPackages().add(strategyConfiguration.getSuperEntityClass());
+        } /*else if (globalConfig.isActiveRecord()) {
+            // 无父类开启 AR 模式
+            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.extension.activerecord.Model.class.getCanonicalName());
+        }
+        if (null != globalConfig.getIdType()) {
+            // 指定需要 IdType 场景
+            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.IdType.class.getCanonicalName());
+            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.TableId.class.getCanonicalName());
+        }
+        */
     }
 }

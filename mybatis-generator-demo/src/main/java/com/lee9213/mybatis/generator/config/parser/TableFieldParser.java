@@ -70,13 +70,14 @@ public class TableFieldParser implements Parser {
                     field.setComment(results.getString(dbQuery.fieldComment()));
                     field.setKeywordFlag(configuration.getKeywordList().contains(field.getName().toUpperCase()));
 
+                    if(field.getName().equalsIgnoreCase("is_delete")){
+                        tableInfo.setIsLogicDelete(true);
+                    }
+
                     if (strategyProperties.includeSuperEntityColumns(field.getName())) {
                         // 跳过公共字段
                         commonFieldList.add(field);
                         continue;
-                    }
-                    if(field.getName().equalsIgnoreCase("is_delete")){
-                        tableInfo.setIsLogicDelete(true);
                     }
 
                     // 收集导入包信息
