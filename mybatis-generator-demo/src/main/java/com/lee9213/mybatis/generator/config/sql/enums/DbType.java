@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.domain;
+package com.lee9213.mybatis.generator.config.sql.enums;
 
 import lombok.Getter;
 

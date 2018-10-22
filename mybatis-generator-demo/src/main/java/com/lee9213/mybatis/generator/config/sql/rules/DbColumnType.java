@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.rules;
+package com.lee9213.mybatis.generator.config.sql.rules;
 
 /**
  * <p>表字段类型</p>
