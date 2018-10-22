@@ -1,12 +1,8 @@
 package com.lee9213.mybatis.generator.config.domain;
 
-import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
-import com.lee9213.mybatis.generator.config.rules.DbColumnType;
-import com.lee9213.mybatis.generator.config.rules.IColumnType;
-import com.lee9213.mybatis.generator.util.Constant;
-import com.lee9213.mybatis.generator.util.StringUtils;
-
-import java.util.Map;
+import com.lee9213.mybatis.generator.config.sql.rules.IColumnType;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * <p>表字段信息</p>
@@ -15,159 +11,49 @@ import java.util.Map;
  * @version 1.0
  * @date 2018-10-13 14:04
  */
+@Data
+@Accessors(chain = true)
 public class TableField {
 
+    /**
+     * 字段名是否被转换过
+     */
     private boolean convert;
+    /**
+     * 是否为主键
+     */
     private boolean keyFlag;
     /**
      * 主键是否为自增类型
      */
     private boolean keyIdentityFlag;
-    private String name;
-    private String type;
-    private String propertyName;
-    private IColumnType columnType;
-    private String comment;
-    private String fill;
     /**
-     * 自定义查询字段列表
+     * 字段名称
      */
-    private Map<String, Object> customMap;
+    private String name;
+    /**
+     * 字段在表中类型
+     */
+    private String type;
+    /**
+     * 字段在do、vo的属性名字
+     */
+    private String propertyName;
+    /**
+     * 字段在do、vo的类型
+     */
+    private IColumnType columnType;
+    /**
+     * 字段注释
+     */
+    private String comment;
+    /**
+     * 是否为关键字
+     */
     private boolean keywordFlag;
 
-    public boolean isConvert() {
-        return convert;
-    }
-
-    public void setConvert(boolean convert) {
-        this.convert = convert;
-    }
-
-    protected void setConvert(StrategyProperties strategyProperties) {
-        if (strategyProperties.isEntityTableFieldAnnotationEnable()) {
-            this.convert = true;
-            return;
-        }
-        if (strategyProperties.isCapitalModeNaming(name)) {
-            this.convert = false;
-        } else {
-            // 转换字段
-            if (Constant.TRUE.equals(strategyProperties.getUnderlineToCamelColumnNames())) {
-                // 包含大写处理
-                if (StringUtils.containsUpperCase(name)) {
-                    this.convert = true;
-                }
-            } else if (!name.equals(propertyName)) {
-                this.convert = true;
-            }
-        }
-    }
-
-    public boolean isKeyFlag() {
-        return keyFlag;
-    }
-
-    public void setKeyFlag(boolean keyFlag) {
-        this.keyFlag = keyFlag;
-    }
-
-    public boolean isKeyIdentityFlag() {
-        return keyIdentityFlag;
-    }
-
-    public void setKeyIdentityFlag(boolean keyIdentityFlag) {
-        this.keyIdentityFlag = keyIdentityFlag;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(StrategyProperties strategyProperties, String propertyName) {
+    public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
-        this.setConvert(strategyProperties);
-    }
-
-    public IColumnType getColumnType() {
-        return columnType;
-    }
-
-    public void setColumnType(IColumnType columnType) {
-        this.columnType = columnType;
-    }
-
-    public String getPropertyType() {
-        if (null != columnType) {
-            return columnType.getType();
-        }
-        return null;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    /**
-     * 按JavaBean规则来生成get和set方法
-     */
-    public String getCapitalName() {
-        if (propertyName.length() <= 1) {
-            return propertyName.toUpperCase();
-        }
-        String setGetName = propertyName;
-        if (DbColumnType.BASE_BOOLEAN.getType().equalsIgnoreCase(columnType.getType())) {
-            setGetName = StringUtils.removeIsPrefixIfBoolean(setGetName, Boolean.class);
-        }
-        // 第一个字母 小写、 第二个字母 大写 ，特殊处理
-        String firstChar = setGetName.substring(0, 1);
-        if (Character.isLowerCase(firstChar.toCharArray()[0])
-                && Character.isUpperCase(setGetName.substring(1, 2).toCharArray()[0])) {
-            return firstChar.toLowerCase() + setGetName.substring(1);
-        }
-        return firstChar.toUpperCase() + setGetName.substring(1);
-    }
-
-    public String getFill() {
-        return fill;
-    }
-
-    public void setFill(String fill) {
-        this.fill = fill;
-    }
-
-    public Map<String, Object> getCustomMap() {
-        return customMap;
-    }
-
-    public void setCustomMap(Map<String, Object> customMap) {
-        this.customMap = customMap;
-    }
-
-    public boolean isKeywordFlag() {
-        return keywordFlag;
-    }
-
-    public void setKeywordFlag(boolean keywordFlag) {
-        this.keywordFlag = keywordFlag;
+        this.convert = !propertyName.equalsIgnoreCase(name);
     }
 }
