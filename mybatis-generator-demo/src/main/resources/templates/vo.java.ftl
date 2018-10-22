@@ -32,7 +32,7 @@ import lombok.experimental.Accessors;
 <#if global.swagger2>
 @ApiModel(value="${table.voName}对象", description="${table.comment!}")
 </#if>
-<#if strategy.superEntityClass?? && table.isLogicDelete>
+<#if strategy.superEntityClass??>
 public class ${table.voName} extends ${strategy.superEntityClass?substring(strategy.superEntityClass?last_index_of(".")+1)} implements Serializable {
 <#else>
 public class ${table.voName} implements Serializable {
