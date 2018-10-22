@@ -35,49 +35,4 @@ public class ConfigurationParser {
         tableFieldParser.parser();
 
     }
-
-//    /**
-//     * <p>
-//     * 预处理配置
-//     * </p>
-//     *
-//     * @param config 总配置信息
-//     * @return 解析数据结果集
-//     */
-//    protected ConfigurationBuilder pretreatmentConfigBuilder(ConfigurationBuilder config) {
-//        /**
-//         * 表信息列表
-//         */
-//        List<TableInfo> tableList = this.getAllTableInfoList(config);
-//
-//        for (TableInfo tableInfo : tableList) {
-////            /* ---------- 添加导入包 ---------- */
-////            if (config.getGlobalConfig().isActiveRecord()) {
-////                // 开启 ActiveRecord 模式
-////                tableInfo.setImportPackages(Model.class.getCanonicalName());
-////            }
-//            if (tableInfo.isConvert()) {
-//                // 表注解
-//                tableInfo.setImportPackages(TableName.class.getCanonicalName());
-//            }
-////            if (config.getStrategyConfig().getLogicDeleteFieldName() != null && tableInfo.isLogicDelete(config.getStrategyConfig().getLogicDeleteFieldName())) {
-////                // 逻辑删除注解
-////                tableInfo.setImportPackages(TableLogic.class.getCanonicalName());
-////            }
-////            if (StringUtils.isNotEmpty(config.getSuperEntityClass())) {
-////                // 父实体
-////                tableInfo.setImportPackages(config.getSuperEntityClass());
-////            } else {
-////                tableInfo.setImportPackages(Serializable.class.getCanonicalName());
-////            }
-////            // Boolean类型is前缀处理
-////            if (config.getStrategyConfig().isEntityBooleanColumnRemoveIsPrefix()) {
-////                tableInfo.getFields().stream().filter(field -> "boolean".equalsIgnoreCase(field.getPropertyType()))
-////                        .filter(field -> field.getPropertyName().startsWith("is"))
-////                        .forEach(field -> field.setPropertyName(config.getStrategyConfig(),
-////                                StringUtils.removePrefixAfterPrefixToLower(field.getPropertyName(), 2)));
-////            }
-//        }
-//        return config.setTableInfoList(tableList);
-//    }
 }
