@@ -35,7 +35,6 @@ public class PathInfoParser implements Parser {
         GlobalProperties globalProperties = configuration.getGlobalProperties();
         TemplateProperties templateProperties = configuration.getTemplateProperties();
         // 生成路径信息
-        // TODO 优化路径
         String outputDir = globalProperties.getOutputDir();
         PathInfo pathInfo = new PathInfo()
                 .setGeneratorPath(getPathInfo(templateProperties.getGenerator(), outputDir, Constant.RESOURCE_PATH, packageInfo.getGenerator()))
