@@ -1,5 +1,6 @@
 package com.lee9213.mybatis.generator.config;
 
+import com.google.common.collect.Maps;
 import com.lee9213.mybatis.generator.config.domain.PackageInfo;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
@@ -65,6 +66,11 @@ public class Configuration {
      */
     private PathInfo pathInfo;
 
+    /**
+     * 自定义配置
+     */
+    private Map<String, Object> customMap = Maps.newHashMap();
+
     public Configuration(GlobalProperties globalProperties, TemplateProperties templateProperties,
                          PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
                          StrategyProperties strategyProperties) {
@@ -128,9 +134,7 @@ public class Configuration {
         ConfigurationParser configurationParser = new ConfigurationParser(this);
         configurationParser.parser();
 
-
-
-
+        // TODO 注入配置信息
     }
 
     /**
