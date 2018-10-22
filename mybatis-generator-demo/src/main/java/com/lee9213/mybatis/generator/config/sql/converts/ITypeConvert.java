@@ -1,7 +1,7 @@
-package com.lee9213.mybatis.generator.config.converts;
+package com.lee9213.mybatis.generator.config.sql.converts;
 
 import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
-import com.lee9213.mybatis.generator.config.rules.IColumnType;
+import com.lee9213.mybatis.generator.config.sql.rules.IColumnType;
 
 /**
  * @author lee9213@163.com

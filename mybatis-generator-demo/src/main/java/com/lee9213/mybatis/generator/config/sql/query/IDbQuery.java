@@ -1,11 +1,11 @@
 package com.lee9213.mybatis.generator.config.sql.query;
 
 
-import com.lee9213.mybatis.generator.config.domain.DbType;
-import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
+import com.lee9213.mybatis.generator.config.sql.enums.DbType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * <p>表数据查询接口</p>
@@ -25,7 +25,7 @@ public interface IDbQuery {
     /**
      * 表信息查询 SQL
      */
-    String tablesSql(StrategyProperties strategyProperties);
+    String tablesSql(List<String> includeTables, List<String> includeTablePrefixs, List<String> excludeTables);
 
 
     /**
@@ -80,10 +80,4 @@ public interface IDbQuery {
      * @throws SQLException
      */
     boolean isKeyIdentity(ResultSet results) throws SQLException;
-
-
-    /**
-     * 自定义字段名称
-     */
-    String[] fieldCustom();
 }

@@ -1,8 +1,8 @@
-package com.lee9213.mybatis.generator.config.converts;
+package com.lee9213.mybatis.generator.config.sql.converts;
 
 import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
-import com.lee9213.mybatis.generator.config.rules.DbColumnType;
-import com.lee9213.mybatis.generator.config.rules.IColumnType;
+import com.lee9213.mybatis.generator.config.sql.rules.DbColumnType;
+import com.lee9213.mybatis.generator.config.sql.rules.IColumnType;
 
 /**
  * <p>MYSQL 数据库字段类型转换</p>
@@ -42,32 +42,32 @@ public class MySqlTypeConvert implements ITypeConvert {
         } else if (t.contains("json") || t.contains("enum")) {
             return DbColumnType.STRING;
         } else if (t.contains("date") || t.contains("time") || t.contains("year")) {
-//            switch (globalProperties.getDateType()) {
-//                case ONLY_DATE:
-//                    return DbColumnType.DATE;
-//                case SQL_PACK:
-//                    switch (t) {
-//                        case "date":
-//                            return DbColumnType.DATE_SQL;
-//                        case "time":
-//                            return DbColumnType.TIME;
-//                        case "year":
-//                            return DbColumnType.DATE_SQL;
-//                        default:
-//                            return DbColumnType.TIMESTAMP;
-//                    }
-//                case TIME_PACK:
-//                    switch (t) {
-//                        case "date":
-//                            return DbColumnType.LOCAL_DATE;
-//                        case "time":
-//                            return DbColumnType.LOCAL_TIME;
-//                        case "year":
-//                            return DbColumnType.YEAR;
-//                        default:
-//                            return DbColumnType.LOCAL_DATE_TIME;
-//                    }
-//            }
+            switch (globalProperties.getDateType()) {
+                case ONLY_DATE:
+                    return DbColumnType.DATE;
+                case SQL_PACK:
+                    switch (t) {
+                        case "date":
+                            return DbColumnType.DATE_SQL;
+                        case "time":
+                            return DbColumnType.TIME;
+                        case "year":
+                            return DbColumnType.DATE_SQL;
+                        default:
+                            return DbColumnType.TIMESTAMP;
+                    }
+                case TIME_PACK:
+                    switch (t) {
+                        case "date":
+                            return DbColumnType.LOCAL_DATE;
+                        case "time":
+                            return DbColumnType.LOCAL_TIME;
+                        case "year":
+                            return DbColumnType.YEAR;
+                        default:
+                            return DbColumnType.LOCAL_DATE_TIME;
+                    }
+            }
         }
         return DbColumnType.STRING;
     }

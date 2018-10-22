@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.rules;
+package com.lee9213.mybatis.generator.config.sql.rules;
 
 /**
  * <p>获取实体类字段属性类信息接口</p>
