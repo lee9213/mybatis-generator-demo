@@ -346,14 +346,14 @@ public class StringUtils {
      * @param prefix
      * @return
      */
-    public static String removePrefix(String name, String... prefix) {
+    public static String removePrefix(String name, List<String> prefix) {
         if (isEmpty(name)) {
             return Constant.EMPTY;
         }
         if (null != prefix) {
             // 判断是否有匹配的前缀，然后截取前缀
             // 删除前缀
-            return Arrays.stream(prefix).filter(pf -> name.toLowerCase()
+            return prefix.stream().filter(pf -> name.toLowerCase()
                     .matches(Constant.HAT + pf.toLowerCase() + ".*"))
                     .findFirst().map(pf -> name.substring(pf.length())).orElse(name);
         }
@@ -368,7 +368,7 @@ public class StringUtils {
      * @param tablePrefix
      * @return
      */
-    public static String removePrefixAndCamel(String name, String[] tablePrefix) {
+    public static String removePrefixAndCamel(String name, List<String> tablePrefix) {
         return underlineToCamel(removePrefix(name, tablePrefix));
     }
     /**
@@ -872,9 +872,9 @@ public class StringUtils {
      * @param prefix
      * @return 根据策略返回处理后的名称
      */
-    public static String processName(String name, String underlineToCamel, String[] prefix) {
+    public static String processName(String name, String underlineToCamel,List<String> prefix) {
         boolean removePrefix = false;
-        if (prefix != null && prefix.length >= 1) {
+        if (prefix != null && prefix.size() >= 1) {
             removePrefix = true;
         }
         String propertyName;
