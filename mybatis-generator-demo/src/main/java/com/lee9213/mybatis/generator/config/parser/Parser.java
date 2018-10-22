@@ -1,7 +1,5 @@
 package com.lee9213.mybatis.generator.config.parser;
 
-import com.lee9213.mybatis.generator.config.Configuration;
-
 /**
  * <p>解析器</p>
  *
@@ -10,5 +8,5 @@ import com.lee9213.mybatis.generator.config.Configuration;
  */
 public interface Parser {
 
-    void parser(Configuration configuration);
+    void parser();
 }

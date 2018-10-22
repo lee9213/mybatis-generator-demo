@@ -23,8 +23,12 @@ public class PathInfoParser implements Parser {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private Configuration configuration;
+    public PathInfoParser(Configuration configuration) {
+        this.configuration = configuration;
+    }
     @Override
-    public void parser(Configuration configuration) {
+    public void parser() {
 
         PackageInfo packageInfo = configuration.getPackageInfo();
         GlobalProperties globalProperties = configuration.getGlobalProperties();

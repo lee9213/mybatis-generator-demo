@@ -22,17 +22,17 @@ public class ConfigurationParser {
 
     public void parser() {
         // TODO 优化解析
-        PackageInfoParser packageInfoParser = new PackageInfoParser();
-        packageInfoParser.parser(configuration);
+        PackageInfoParser packageInfoParser = new PackageInfoParser(configuration);
+        packageInfoParser.parser();
 
-        PathInfoParser pathInfoParser = new PathInfoParser();
-        pathInfoParser.parser(configuration);
+        PathInfoParser pathInfoParser = new PathInfoParser(configuration);
+        pathInfoParser.parser();
 
-        TableInfoParser tableInfoParser = new TableInfoParser();
-        tableInfoParser.parser(configuration);
+        TableInfoParser tableInfoParser = new TableInfoParser(configuration);
+        tableInfoParser.parser();
 
-        TableFieldParser tableFieldParser = new TableFieldParser();
-        tableFieldParser.parser(configuration);
+        TableFieldParser tableFieldParser = new TableFieldParser(configuration);
+        tableFieldParser.parser();
 
     }
 
@@ -63,10 +63,6 @@ public class ConfigurationParser {
 ////            if (config.getStrategyConfig().getLogicDeleteFieldName() != null && tableInfo.isLogicDelete(config.getStrategyConfig().getLogicDeleteFieldName())) {
 ////                // 逻辑删除注解
 ////                tableInfo.setImportPackages(TableLogic.class.getCanonicalName());
-////            }
-////            if (StringUtils.isNotEmpty(config.getStrategyConfig().getVersionFieldName())) {
-////                // 乐观锁注解
-////                tableInfo.setImportPackages(Version.class.getCanonicalName());
 ////            }
 ////            if (StringUtils.isNotEmpty(config.getSuperEntityClass())) {
 ////                // 父实体
