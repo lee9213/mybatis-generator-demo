@@ -5,9 +5,8 @@ import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.config.parser.ConfigurationParser;
 import com.lee9213.mybatis.generator.config.properties.*;
-import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
 import com.lee9213.mybatis.generator.template.engine.FreemarkerTemplateEngine;
-import com.lee9213.mybatis.generator.util.JDBCUtil;
+import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -65,11 +64,6 @@ public class Configuration {
      * 路径配置信息
      */
     private PathInfo pathInfo;
-
-    /**
-     * 数据库关键字列表
-     */
-    private List<String> keywordList;
 
     public Configuration(GlobalProperties globalProperties, TemplateProperties templateProperties,
                          PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
@@ -131,10 +125,12 @@ public class Configuration {
             this.templateEngine = templateEngine;
         }
 
-        this.keywordList = JDBCUtil.getKeywordList(this.dataSourceProperties);
-
         ConfigurationParser configurationParser = new ConfigurationParser(this);
         configurationParser.parser();
+
+
+
+
     }
 
     /**
