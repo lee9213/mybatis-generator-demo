@@ -11,9 +11,7 @@ import ${strategy.superServiceClass};
 </#if>
 
 /**
- * <p>
- * ${table.comment!} 服务类
- * </p>
+ * <p>${table.comment!} 服务类</p>
  *
  * @author ${global.author}
  * @since ${global.date}

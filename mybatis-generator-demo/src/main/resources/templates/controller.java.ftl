@@ -22,9 +22,7 @@ import ${strategy.superControllerClass};
 </#if>
 
 /**
- * <p>
- * ${table.comment!} 前端控制器
- * </p>
+ * <p>${table.comment!} 前端控制器</p>
  *
  * @author ${global.author}
  * @since ${global.date}
