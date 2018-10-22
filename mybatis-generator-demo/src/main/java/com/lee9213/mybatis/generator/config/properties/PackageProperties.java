@@ -55,7 +55,10 @@ public class PackageProperties {
      */
     private String mapperXml = "mybatis";
 
-    private String extendMapperXml = "extend";
+    /**
+     * 扩展xml包名
+     */
+    private String extendMapperXml = "mybatis.extend";
 
     /**
      * Controller包名

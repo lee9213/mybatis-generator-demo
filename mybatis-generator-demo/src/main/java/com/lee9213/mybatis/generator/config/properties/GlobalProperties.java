@@ -1,5 +1,6 @@
 package com.lee9213.mybatis.generator.config.properties;
 
+import com.lee9213.mybatis.generator.config.sql.enums.DateType;
 import lombok.Data;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -49,10 +50,10 @@ public class GlobalProperties {
      */
     private boolean enableCache = false;
 
-//    /**
-//     * 时间类型对应策略
-//     */
-//    private DateType dateType = DateType.TIME_PACK;
+    /**
+     * 时间类型对应策略
+     */
+    private DateType dateType = DateType.ONLY_DATE;
 
     /**
      * 各层文件名称方式，例如： %sAction 生成 UserAction
