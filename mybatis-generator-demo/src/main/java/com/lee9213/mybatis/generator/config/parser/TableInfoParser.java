@@ -8,6 +8,7 @@ import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.config.sql.query.IDbQuery;
 import com.lee9213.mybatis.generator.util.Constant;
+import com.lee9213.mybatis.generator.util.JDBCUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.sql.Connection;
@@ -25,21 +26,27 @@ import java.util.List;
  */
 public class TableInfoParser implements Parser {
 
+
+    private Configuration configuration;
+    public TableInfoParser(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
     @Override
-    public void parser(Configuration configuration) {
+    public void parser() {
         StrategyProperties strategyProperties = configuration.getStrategyProperties();
         DataSourceProperties dataSourceConfiguration = configuration.getDataSourceProperties();
         ArrayList<String> includeTableList = Lists.newArrayList(strategyProperties.getIncludeTables());
         //所有的表信息
         List<TableInfo> tableList = new ArrayList<>();
         IDbQuery dbQuery = dataSourceConfiguration.getDbQuery();
-        String tablesSql = dbQuery.tablesSql(strategyProperties);
-        try (Connection connection = dataSourceConfiguration.getConn();
+        String tablesSql = dbQuery.tablesSql(strategyProperties.getIncludeTables(),strategyProperties.getIncludeTablePrefixs(),strategyProperties.getExcludeTables());
+        try (Connection connection = JDBCUtil.getConnection(dataSourceConfiguration.getUrl(),dataSourceConfiguration.getUsername(),dataSourceConfiguration.getPassword());
              PreparedStatement preparedStatement = connection.prepareStatement(tablesSql);
              ResultSet results = preparedStatement.executeQuery()) {
             TableInfo tableInfo;
             while (results.next()) {
-                tableInfo = resultToTableInfo(results, configuration);
+                tableInfo = resultToTableInfo(results);
                 if (tableInfo != null) {
                     tableList.add(tableInfo);
                 }
@@ -57,7 +64,7 @@ public class TableInfoParser implements Parser {
         configuration.setTableInfoList(tableList);
     }
 
-    public TableInfo resultToTableInfo(ResultSet results, Configuration configuration) throws SQLException {
+    public TableInfo resultToTableInfo(ResultSet results) throws SQLException {
         StrategyProperties strategyProperties = configuration.getStrategyProperties();
         DataSourceProperties dataSourceConfiguration = configuration.getDataSourceProperties();
         GlobalProperties globalProperties = configuration.getGlobalProperties();
@@ -65,7 +72,7 @@ public class TableInfoParser implements Parser {
         String tableName = results.getString(dbQuery.tableName());
         if (StringUtils.isNotEmpty(tableName)) {
             String tableComment = results.getString(dbQuery.tableComment());
-            if (strategyProperties.isSkipView() && "VIEW".equals(tableComment)) {
+            if ("VIEW".equals(tableComment)) {
                 // 跳过视图
                 return null;
             }
@@ -77,10 +84,9 @@ public class TableInfoParser implements Parser {
                     strategyProperties.getUnderlineToCamelTableName(), strategyProperties.getTablePrefix()));
 
             if (StringUtils.isNotEmpty(globalProperties.getEntityName())) {
-                tableInfo.setConvert(true);
                 tableInfo.setEntityName(String.format(globalProperties.getEntityName(), entityName));
             } else {
-                tableInfo.setEntityName(strategyProperties, entityName);
+                tableInfo.setEntityName(entityName);
             }
             if (StringUtils.isNotEmpty(globalProperties.getVoName())) {
                 tableInfo.setVoName(String.format(globalProperties.getVoName(), entityName));
@@ -119,7 +125,7 @@ public class TableInfoParser implements Parser {
                 tableInfo.setControllerName(entityName + Constant.CONTROLLER);
             }
             // 检测导入包
-            checkImportPackages(tableInfo, configuration);
+            checkImportPackages(tableInfo);
 
             return tableInfo;
         } else {
@@ -135,7 +141,7 @@ public class TableInfoParser implements Parser {
      *
      * @param tableInfo
      */
-    private void checkImportPackages(TableInfo tableInfo, Configuration configuration) {
+    private void checkImportPackages(TableInfo tableInfo) {
         StrategyProperties strategyConfiguration = configuration.getStrategyProperties();
         if (StringUtils.isNotEmpty(strategyConfiguration.getSuperEntityClass())) {
             // 自定义父类
@@ -149,12 +155,6 @@ public class TableInfoParser implements Parser {
             tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.IdType.class.getCanonicalName());
             tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.TableId.class.getCanonicalName());
         }
-        if (StringUtils.isNotEmpty(strategyConfig.getVersionFieldName())) {
-            tableInfo.getFields().forEach(f -> {
-                if (strategyConfig.getVersionFieldName().equals(f.getName())) {
-                    tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.Version.class.getCanonicalName());
-                }
-            });
-        }*/
+        */
     }
 }

@@ -14,8 +14,13 @@ import com.lee9213.mybatis.generator.util.Constant;
  */
 public class PackageInfoParser implements Parser {
 
+    private Configuration configuration;
+    public PackageInfoParser(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
     @Override
-    public void parser(Configuration configuration) {
+    public void parser() {
         PackageProperties packageProperties = configuration.getPackageProperties();
         // 包信息
         packageProperties.setParent(joinPackage(packageProperties.getParent(), packageProperties.getModuleName()));
