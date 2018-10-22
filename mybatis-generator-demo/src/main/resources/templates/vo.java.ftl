@@ -31,9 +31,6 @@ import lombok.experimental.Accessors;
     </#if>
 @Accessors(chain = true)
 </#if>
-<#if table.convert>
-@TableName("${table.name}")
-</#if>
 <#if global.swagger2>
 @ApiModel(value="${table.voName}对象", description="${table.comment!}")
 </#if>
@@ -61,24 +58,19 @@ public class ${table.voName} implements Serializable {
      */
     </#if>
     </#if>
-    private ${field.propertyType} ${field.propertyName};
+    private ${field.columnType.type} ${field.propertyName};
 </#list>
 <#------------  END 字段循环遍历  ---------->
 
 <#if !strategy.entityLombokModel>
     <#list table.fields as field>
-        <#if field.propertyType == "boolean">
-            <#assign getprefix="is"/>
-        <#else>
-            <#assign getprefix="get"/>
-        </#if>
-    public ${field.propertyType} ${getprefix}${field.capitalName}() {
+    public ${field.columnType.type} get${field.propertyName?cap_first}() {
         return ${field.propertyName};
     }
         <#if strategy.entityBuilderModel>
-    public ${table.entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+    public ${table.entity} set${field.propertyName?cap_first}(${field.columnType.type} ${field.propertyName}) {
         <#else>
-    public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+    public void set${field.propertyName?cap_first}(${field.columnType.type} ${field.propertyName}) {
         </#if>
         this.${field.propertyName} = ${field.propertyName};
         <#if strategy.entityBuilderModel>
@@ -89,12 +81,6 @@ public class ${table.voName} implements Serializable {
     </#list>
 </#if>
 
-<#if strategy.entityColumnConstant>
-    <#list table.fields as field>
-    public static final String ${field.name?upper_case} = "${field.name}";
-
-    </#list>
-</#if>
 <#if global.activeRecord??>
     @Override
     protected Serializable pkVal() {

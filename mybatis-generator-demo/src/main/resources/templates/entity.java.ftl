@@ -30,9 +30,6 @@ import lombok.experimental.Accessors;
     </#if>
 @Accessors(chain = true)
 </#if>
-<#if table.convert>
-@TableName("${table.name}")
-</#if>
 <#if swagger2>
 @ApiModel(value="${entity}对象", description="${table.comment!}")
 </#if>
@@ -94,19 +91,14 @@ public class ${entity} implements Serializable {
 
 <#if !entityLombokModel>
     <#list table.fields as field>
-        <#if field.propertyType == "boolean">
-            <#assign getprefix="is"/>
-        <#else>
-            <#assign getprefix="get"/>
-        </#if>
-    public ${field.propertyType} ${getprefix}${field.capitalName}() {
+    public ${field.propertyType} ${getprefix}${field.propertyName?cap_first}() {
         return ${field.propertyName};
     }
 
         <#if entityBuilderModel>
-    public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+    public ${entity} set${field.propertyName?cap_first}(${field.propertyType} ${field.propertyName}) {
         <#else>
-    public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+    public void set${field.propertyName?cap_first}(${field.propertyType} ${field.propertyName}) {
         </#if>
         this.${field.propertyName} = ${field.propertyName};
         <#if entityBuilderModel>
@@ -116,12 +108,6 @@ public class ${entity} implements Serializable {
     </#list>
 </#if>
 
-<#if entityColumnConstant>
-    <#list table.fields as field>
-    public static final String ${field.name?upper_case} = "${field.name}";
-
-    </#list>
-</#if>
 <#if activeRecord>
     @Override
     protected Serializable pkVal() {

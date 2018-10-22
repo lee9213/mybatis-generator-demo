@@ -149,8 +149,10 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
 
         ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(${table.voName?uncap_first}.getId());
         BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});
-//		${table.entityName?uncap_first}.setLastUpdateUserId(loginEmployee.getUserId());
-//		${table.entityName?uncap_first}.setLastUpdateTime(new Date());
+        <#if table.isLogicDelete>
+		${table.entityName?uncap_first}.setLastUpdateUserId(loginEmployee.getUserId());
+		${table.entityName?uncap_first}.setLastUpdateTime(new Date());
+        </#if>
         return ${table.entityName?uncap_first};
     }
 
@@ -163,12 +165,17 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     @Override
     public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         validDelete(id, loginEmployee);
+        <#if table.isLogicDelete>
         ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
-//		${table.entityName?uncap_first}.setLastUpdateTime(new Date());
-//		${table.entityName?uncap_first}.setLastUpdateUserId(loginEmployee.getUserId());
+		${table.entityName?uncap_first}.setLastUpdateTime(new Date());
+		${table.entityName?uncap_first}.setLastUpdateUserId(loginEmployee.getUserId());
         // 默认逻辑删除
-//		${table.entityName?uncap_first}.setIsDelete(true);
+		${table.entityName?uncap_first}.setIsDelete(true);
         ${table.mapperName?uncap_first}.updateByPrimaryKey(${table.entityName?uncap_first});
+        <#else>
+        ${table.mapperName?uncap_first}.deleteByPrimaryKey(id);
+        </#if>
+
     }
 
     /**

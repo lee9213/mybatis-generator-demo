@@ -34,7 +34,7 @@ import ${strategy.superControllerClass};
 <#else>
 @Controller
 </#if>
-@RequestMapping("${table.requestMappingPath}")
+@RequestMapping("/${table.name?replace("_","/")}")
 <#if strategy.superControllerClass?default("")?length gt 1>
 public class ${table.controllerName} extends ${strategy.superControllerClass} {
 <#else>
