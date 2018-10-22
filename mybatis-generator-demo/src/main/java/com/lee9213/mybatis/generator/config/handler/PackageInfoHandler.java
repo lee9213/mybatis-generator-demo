@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.parser;
+package com.lee9213.mybatis.generator.config.handler;
 
 import com.google.common.base.Strings;
 import com.lee9213.mybatis.generator.config.Configuration;
@@ -12,16 +12,10 @@ import com.lee9213.mybatis.generator.util.Constant;
  * @author lee9213@163.com
  * @date 2018/10/18 11:07
  */
-public class PackageInfoParser implements Parser {
-
-    private Configuration configuration;
-
-    public PackageInfoParser(Configuration configuration) {
-        this.configuration = configuration;
-    }
+public class PackageInfoHandler implements Handler {
 
     @Override
-    public void parser() {
+    public void handler(Configuration configuration) {
         PackageProperties packageProperties = configuration.getPackageProperties();
         // 包信息
         packageProperties.setParent(joinPackage(packageProperties.getParent(), packageProperties.getModuleName()));

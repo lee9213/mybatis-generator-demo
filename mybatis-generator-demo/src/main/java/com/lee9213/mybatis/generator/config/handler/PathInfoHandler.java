@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.parser;
+package com.lee9213.mybatis.generator.config.handler;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.PackageInfo;
@@ -18,18 +18,12 @@ import java.io.File;
  * @author lee9213@163.com
  * @date 2018/10/18 11:14
  */
-public class PathInfoParser implements Parser {
+public class PathInfoHandler implements Handler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private Configuration configuration;
-
-    public PathInfoParser(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
     @Override
-    public void parser() {
+    public void handler(Configuration configuration) {
 
         PackageInfo packageInfo = configuration.getPackageInfo();
         GlobalProperties globalProperties = configuration.getGlobalProperties();
