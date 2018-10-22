@@ -7,6 +7,7 @@ import com.lee9213.mybatis.generator.config.properties.DataSourceProperties;
 import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.config.sql.query.IDbQuery;
+import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.JDBCUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
 
@@ -68,7 +69,7 @@ public class TableFieldParser implements Parser {
                     field.setType(type.equalsIgnoreCase("int") ? "INTEGER" : type);
                     field.setPropertyName(StringUtils.processName(field.getName(), strategyProperties.getUnderlineToCamelColumnNames(), strategyProperties.getFieldPrefix()));
                     field.setComment(results.getString(dbQuery.fieldComment()));
-                    field.setKeywordFlag(configuration.getKeywordList().contains(field.getName().toUpperCase()));
+                    field.setKeywordFlag(Constant.KEYWORD_LIST.contains(field.getName().toUpperCase()));
 
                     if(field.getName().equalsIgnoreCase("is_delete")){
                         tableInfo.setIsLogicDelete(true);

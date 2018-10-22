@@ -49,10 +49,13 @@ public class ConfigurationParser {
      * @param tableInfo
      */
     private void checkImportPackages(TableInfo tableInfo) {
-        StrategyProperties strategyConfiguration = configuration.getStrategyProperties();
-        if (StringUtils.isNotEmpty(strategyConfiguration.getSuperEntityClass()) && tableInfo.getIsLogicDelete()) {
+        StrategyProperties strategyProperties = configuration.getStrategyProperties();
+        if (!tableInfo.getIsLogicDelete()) {
+            strategyProperties.setSuperEntityClass(null);
+        }
+        if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass()) && tableInfo.getIsLogicDelete()) {
             // 自定义父类
-            tableInfo.getImportPackages().add(strategyConfiguration.getSuperEntityClass());
+            tableInfo.getImportPackages().add(strategyProperties.getSuperEntityClass());
         } /*else if (globalConfig.isActiveRecord()) {
             // 无父类开启 AR 模式
             tableInfo.getImportPackages().add(com.baomidou.mybatisplus.extension.activerecord.Model.class.getCanonicalName());
