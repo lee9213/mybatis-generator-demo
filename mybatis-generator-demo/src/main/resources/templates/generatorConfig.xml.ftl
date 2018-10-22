@@ -104,7 +104,11 @@
                    enableCountByExample="true"
                    enableUpdateByExample="true"
                    mapperName="${table.mapperName}">
-                <property name="useActualColumnNames" value="${strategy.underlineToCamelColumnNames}"/>
+                <#if strategy.underlineToCamelColumnNames == "true">
+                <property name="useActualColumnNames" value="false"/>
+                <#else>
+                <property name="useActualColumnNames" value="true"/>
+                </#if>
                 <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             </table>
         </#list>
