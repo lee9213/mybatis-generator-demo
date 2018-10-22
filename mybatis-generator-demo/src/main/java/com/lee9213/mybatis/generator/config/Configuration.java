@@ -4,10 +4,12 @@ import com.google.common.collect.Maps;
 import com.lee9213.mybatis.generator.config.domain.PackageInfo;
 import com.lee9213.mybatis.generator.config.domain.PathInfo;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
-import com.lee9213.mybatis.generator.config.parser.ConfigurationParser;
+import com.lee9213.mybatis.generator.config.handler.*;
 import com.lee9213.mybatis.generator.config.properties.*;
 import com.lee9213.mybatis.generator.template.engine.FreemarkerTemplateEngine;
 import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
+import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
+import com.lee9213.mybatis.generator.util.StringUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -131,10 +133,43 @@ public class Configuration {
             this.templateEngine = templateEngine;
         }
 
-        ConfigurationParser configurationParser = new ConfigurationParser(this);
-        configurationParser.parser();
+        ConfigHandlerChain interceptorChain = new ConfigHandlerChain();
+        interceptorChain.addHandler(new PackageInfoHandler());
+        interceptorChain.addHandler(new PathInfoHandler());
+        interceptorChain.addHandler(new TableInfoHandler());
+        interceptorChain.addHandler(new TableFieldHandler());
+        Map<String, Object> handlerMap = ApplicationContextUtil.getBeansWithAnnotation(ExtendHandler.class);
+        handlerMap.values().forEach(handler -> {
+            if (handler instanceof Handler) {
+                interceptorChain.addHandler((Handler) handler);
+            }
+        });
+        interceptorChain.handler(this);
 
-        // TODO 注入配置信息
+        this.tableInfoList.forEach(tableInfo -> checkImportPackages(tableInfo));
+    }
+
+    /**
+     * <p>
+     * 检测导入包
+     * </p>
+     *
+     * @param tableInfo
+     */
+    private void checkImportPackages(TableInfo tableInfo) {
+        if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {
+            // 自定义父类
+            tableInfo.getImportPackages().add(strategyProperties.getSuperEntityClass());
+        } /*else if (globalConfig.isActiveRecord()) {
+            // 无父类开启 AR 模式
+            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.extension.activerecord.Model.class.getCanonicalName());
+        }
+        if (null != globalConfig.getIdType()) {
+            // 指定需要 IdType 场景
+            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.IdType.class.getCanonicalName());
+            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.TableId.class.getCanonicalName());
+        }
+        */
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.parser;
+package com.lee9213.mybatis.generator.config.handler;
 
 import com.google.common.collect.Lists;
 import com.lee9213.mybatis.generator.config.Configuration;
@@ -23,15 +23,11 @@ import java.util.List;
  * @version 1.0
  * @date 2018-10-18 21:11
  */
-public class TableFieldParser implements Parser {
+public class TableFieldHandler implements Handler {
 
 
-    private Configuration configuration;
-    public TableFieldParser(Configuration configuration) {
-        this.configuration = configuration;
-    }
     @Override
-    public void parser() {
+    public void handler(Configuration configuration) {
         DataSourceProperties dataSourceProperties = configuration.getDataSourceProperties();
         StrategyProperties strategyProperties = configuration.getStrategyProperties();
         GlobalProperties globalProperties = configuration.getGlobalProperties();

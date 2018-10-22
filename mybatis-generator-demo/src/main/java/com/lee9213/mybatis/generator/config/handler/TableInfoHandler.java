@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.parser;
+package com.lee9213.mybatis.generator.config.handler;
 
 import com.google.common.collect.Lists;
 import com.lee9213.mybatis.generator.config.Configuration;
@@ -24,16 +24,11 @@ import java.util.List;
  * @author libo
  * @date 2018/10/18 11:16
  */
-public class TableInfoParser implements Parser {
+public class TableInfoHandler implements Handler {
 
-
-    private Configuration configuration;
-    public TableInfoParser(Configuration configuration) {
-        this.configuration = configuration;
-    }
 
     @Override
-    public void parser() {
+    public void handler(Configuration configuration) {
         StrategyProperties strategyProperties = configuration.getStrategyProperties();
         DataSourceProperties dataSourceConfiguration = configuration.getDataSourceProperties();
         ArrayList<String> includeTableList = Lists.newArrayList(strategyProperties.getIncludeTables());
@@ -46,7 +41,7 @@ public class TableInfoParser implements Parser {
              ResultSet results = preparedStatement.executeQuery()) {
             TableInfo tableInfo;
             while (results.next()) {
-                tableInfo = resultToTableInfo(results);
+                tableInfo = resultToTableInfo(results,configuration);
                 if (tableInfo != null) {
                     tableList.add(tableInfo);
                 }
@@ -64,7 +59,7 @@ public class TableInfoParser implements Parser {
         configuration.setTableInfoList(tableList);
     }
 
-    public TableInfo resultToTableInfo(ResultSet results) throws SQLException {
+    public TableInfo resultToTableInfo(ResultSet results,Configuration configuration) throws SQLException {
         StrategyProperties strategyProperties = configuration.getStrategyProperties();
         DataSourceProperties dataSourceConfiguration = configuration.getDataSourceProperties();
         GlobalProperties globalProperties = configuration.getGlobalProperties();
