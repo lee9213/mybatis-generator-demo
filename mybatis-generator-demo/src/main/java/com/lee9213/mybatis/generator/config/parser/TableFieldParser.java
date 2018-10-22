@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * <p>表字段解析</p>
+ *
  * @author lee9213@163.com
  * @version 1.0
  * @date 2018-10-18 21:11

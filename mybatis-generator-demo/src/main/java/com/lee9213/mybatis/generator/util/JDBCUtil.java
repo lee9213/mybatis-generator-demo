@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.lee9213.mybatis.generator.config.properties.DataSourceProperties;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
@@ -26,6 +27,8 @@ public final class JDBCUtil {
         try (Connection connection = dataSourceProperties.getConn();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet results = preparedStatement.executeQuery()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            String version = metaData.getDatabaseProductVersion();
             List<String> keywordList = Lists.newArrayList();
             while (results.next()) {
                 keywordList.add(results.getString("WORD"));
@@ -33,7 +36,7 @@ public final class JDBCUtil {
             return keywordList;
         } catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+            return Lists.newArrayList();
         }
     }
 }

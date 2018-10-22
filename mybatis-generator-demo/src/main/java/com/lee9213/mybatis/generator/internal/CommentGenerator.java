@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 /**
- * 生成model中，字段增加注释
+ * <p>生成model中，字段增加注释</p>
  *
  * @author lee9213@163.com
  * @version 1.0

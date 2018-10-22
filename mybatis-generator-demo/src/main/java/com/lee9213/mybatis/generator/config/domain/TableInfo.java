@@ -10,9 +10,7 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 /**
- * <p>
- * 表信息，关联到当前字段信息
- * </p>
+ * <p>表信息，关联到当前字段信息</p>
  *
  * @author lee9213@163.com
  * @version 1.0
@@ -230,11 +228,11 @@ public class TableInfo {
             IntStream.range(0, fields.size()).forEach(i -> {
                 TableField fd = fields.get(i);
 
-                if(fd.isKeywordFlag()) {
+                if (fd.isKeywordFlag()) {
                     names.append("`");
                 }
                 names.append(fd.getName());
-                if(fd.isKeywordFlag()) {
+                if (fd.isKeywordFlag()) {
                     names.append("`");
                 }
                 if (i < fields.size() - 1) {
@@ -253,7 +251,8 @@ public class TableInfo {
         }
         return fieldNames;
     }
-    public String getRequestMappingPath(){
-        return name.replaceAll("_", "/");
+
+    public String getRequestMappingPath() {
+        return "/" + name.replaceAll("_", "/");
     }
 }

@@ -7,7 +7,9 @@ import com.lee9213.mybatis.generator.config.properties.PackageProperties;
 import com.lee9213.mybatis.generator.util.Constant;
 
 /**
- * @author libo
+ * <p>包信息解析</p>
+ *
+ * @author lee9213@163.com
  * @date 2018/10/18 11:07
  */
 public class PackageInfoParser implements Parser {

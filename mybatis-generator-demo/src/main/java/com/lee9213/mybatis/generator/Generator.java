@@ -1,6 +1,8 @@
 package com.lee9213.mybatis.generator;
 
 import com.lee9213.mybatis.generator.config.properties.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class Generator {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
     /**
      * <p>
      * MySQL 生成演示

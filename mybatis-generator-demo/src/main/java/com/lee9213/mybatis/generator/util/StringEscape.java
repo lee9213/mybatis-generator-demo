@@ -1,9 +1,7 @@
 package com.lee9213.mybatis.generator.util;
 
 /**
- * <p>
- * StringEscape ，数据库字符串转义
- * </p>
+ * <p>数据库字符串转义</p>
  *
  * @author lee9213@163.com
  * @since 2016-10-16

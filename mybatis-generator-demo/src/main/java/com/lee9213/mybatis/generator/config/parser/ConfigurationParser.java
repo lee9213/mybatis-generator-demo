@@ -5,7 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author libo
+ * <p>配置解析</p>
+ *
+ * @author lee9213@163.com
  * @date 2018/10/18 10:32
  */
 public class ConfigurationParser {

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Collection工具类
+ * <p>Collection工具类</p>
  *
  * @author lee9213@163.com
  * @version 1.0

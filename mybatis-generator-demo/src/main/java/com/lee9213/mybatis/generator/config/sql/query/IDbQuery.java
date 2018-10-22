@@ -8,9 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * <p>
- * 表数据查询接口
- * </p>
+ * <p>表数据查询接口</p>
  *
  * @author lee9213@163.com
  * @since 2018-01-16

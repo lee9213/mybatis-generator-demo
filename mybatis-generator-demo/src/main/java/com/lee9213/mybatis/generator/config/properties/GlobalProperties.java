@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * <p>
- * 全局配置
- * </p>
+ * <p>全局配置信息</p>
  *
  * @author lee9213@163.com
  * @version 1.0

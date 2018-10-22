@@ -1,9 +1,7 @@
 package com.lee9213.mybatis.generator.config.rules;
 
 /**
- * <p>
- * 获取实体类字段属性类信息接口
- * </p>
+ * <p>获取实体类字段属性类信息接口</p>
  *
  * @author lee9213@163.com
  * @version 1.0

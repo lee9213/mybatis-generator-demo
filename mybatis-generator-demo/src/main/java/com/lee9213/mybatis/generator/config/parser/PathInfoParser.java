@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 /**
- * @author libo
+ * <p>路径信息解析</p>
+ *
+ * @author lee9213@163.com
  * @date 2018/10/18 11:14
  */
 public class PathInfoParser implements Parser {

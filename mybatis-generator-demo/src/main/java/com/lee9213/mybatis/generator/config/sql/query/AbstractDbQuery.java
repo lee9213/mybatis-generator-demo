@@ -4,9 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * <p>
- * 表数据查询抽象类
- * </p>
+ * <p>表数据查询抽象类</p>
  *
  * @author lee9213@163.com
  * @since 2018-01-16
