@@ -1,7 +1,6 @@
 package com.lee9213.mybatis.generator.config.properties;
 
 import com.lee9213.mybatis.generator.util.CollectionUtils;
-import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.StringUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -70,17 +69,17 @@ public class StrategyProperties {
     /**
      * 自定义继承的Mapper类全称，带包名
      */
-    private String superMapperClass = Constant.SUPER_MAPPER_CLASS;
+    private String superMapperClass;
 
     /**
      * 自定义继承的Service类全称，带包名
      */
-    private String superServiceClass = Constant.SUPER_SERVICE_CLASS;
+    private String superServiceClass;
 
     /**
      * 自定义继承的ServiceImpl类全称，带包名
      */
-    private String superServiceImplClass = Constant.SUPER_SERVICE_IMPL_CLASS;
+    private String superServiceImplClass;
 
     /**
      * 自定义继承的Controller类全称，带包名
