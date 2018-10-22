@@ -3,20 +3,23 @@ package ${package.serviceImpl};
 import com.giants.common.exception.BusinessException;
 import com.giants.common.tools.Page;
 import com.giants.common.tools.PageCondition;
+import com.google.common.collect.Lists;
+import ${package.entity}.${table.entityName};
+import ${package.mapper}.${table.mapperName};
+import ${package.service}.${table.serviceName};
+import ${package.vo}.${table.voName};
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.google.common.collect.Lists;
-import ${package.entity}.${table.entityName};
-import ${package.vo}.${table.voName};
-import ${package.mapper}.${table.mapperName};
-import ${package.service}.${table.serviceName};
 <#if strategy.superServiceImplClass?default("")?length gt 1>
 import ${strategy.superServiceImplClass};
 </#if>
 
+<#if table.isLogicDelete>
+import java.util.Date;
+</#if>
 import java.util.List;
 
 /**
