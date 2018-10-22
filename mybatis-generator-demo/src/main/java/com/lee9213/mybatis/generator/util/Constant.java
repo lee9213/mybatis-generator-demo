@@ -114,7 +114,7 @@ public interface Constant {
     String KT_SUFFIX = ".kt";
     String XML_SUFFIX = ".xml";
 
-    String GENERATOR_CONFIG = "/templates/generatorConfig.xml.ftl";
+    String TEMPLATE_GENERATOR_CONFIG = "/templates/generatorConfig.xml.ftl";
     String TEMPLATE_ENTITY_JAVA = "/templates/entity.java.ftl";
     String TEMPLATE_VO_JAVA = "/templates/vo.java.ftl";
     String TEMPLATE_MAPPER = "/templates/mapper.java.ftl";
