@@ -19,7 +19,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Accessors(chain = true)
 public class TemplateProperties {
 
-    private String generator = Constant.GENERATOR_CONFIG;
+    private String generator = Constant.TEMPLATE_GENERATOR_CONFIG;
 
     private String entity = Constant.TEMPLATE_ENTITY_JAVA;
 
