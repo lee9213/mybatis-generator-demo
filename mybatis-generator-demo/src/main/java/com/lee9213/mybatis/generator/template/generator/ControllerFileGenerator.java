@@ -3,6 +3,7 @@ package com.lee9213.mybatis.generator.template.generator;
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.util.Constant;
+import com.lee9213.mybatis.generator.util.FileUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.io.File;
@@ -27,6 +28,8 @@ public class ControllerFileGenerator extends AbstractFileGenerator {
         String controllerPath = configuration.getPathInfo().getControllerPath();
         // 生成Controller
         if (StringUtils.isNotEmpty(controllerName) && StringUtils.isNotEmpty(controllerPath)) {
+            FileUtil.mkdir(controllerPath);
+
             String controllerFile = String.format((controllerPath + File.separator + controllerName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
             if (isCreate(controllerFile)) {
                 Map<String, Object> objectMap = configuration.getConfigurationMap();

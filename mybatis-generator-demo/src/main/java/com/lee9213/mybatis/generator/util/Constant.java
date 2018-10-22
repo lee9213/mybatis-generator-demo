@@ -97,22 +97,15 @@ public interface Constant {
     String EXTEND_MAPPER_XML = "ExtendMapper";
     String CONTROLLER = "Controller";
 
-    String GENERATOR_PATH = "generator_path";
-    String VO_PATH = "vo_path";
-    String ENTITY_PATH = "entity_path";
-    String SERVICE_PATH = "service_path";
-    String SERVICE_IMPL_PATH = "service_impl_path";
-    String MAPPER_PATH = "mapper_path";
-    String MAPPER_XML_PATH = "xml_path";
-    String CONTROLLER_PATH = "controller_path";
-
     String JAVA_TMPDIR = "java.io.tmpdir";
     String UTF8 = Charset.forName("UTF-8").name();
     String UNDERLINE = "_";
 
     String JAVA_SUFFIX = DOT_JAVA;
-    String KT_SUFFIX = ".kt";
     String XML_SUFFIX = ".xml";
+
+    String JAVA_PATH = "\\src\\main\\java\\";
+    String RESOURCE_PATH = "src\\main\\resources\\";
 
     String TEMPLATE_GENERATOR_CONFIG = "/templates/generatorConfig.xml.ftl";
     String TEMPLATE_ENTITY_JAVA = "/templates/entity.java.ftl";

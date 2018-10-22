@@ -3,6 +3,7 @@ package com.lee9213.mybatis.generator.template.generator;
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.util.Constant;
+import com.lee9213.mybatis.generator.util.FileUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.io.File;
@@ -27,6 +28,8 @@ public class ExtendMapperXmlFileGenerator extends AbstractFileGenerator {
         String extendMapperXmlPath = configuration.getPathInfo().getExtendMapperXmlPath();
         // 生成扩展xml
         if (StringUtils.isNotEmpty(extendMapperXmlName) && StringUtils.isNotEmpty(extendMapperXmlPath)) {
+            FileUtil.mkdir(extendMapperXmlPath);
+
             String extendMapperXmlFile = String.format(extendMapperXmlPath + File.separator + extendMapperXmlName + Constant.XML_SUFFIX, tableInfo.getEntityName());
             if (isCreate(extendMapperXmlFile)) {
                 Map<String, Object> objectMap = configuration.getConfigurationMap();

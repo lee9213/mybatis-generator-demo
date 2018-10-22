@@ -124,37 +124,11 @@ public class TableInfoParser implements Parser {
             } else {
                 tableInfo.setControllerName(entityName + Constant.CONTROLLER);
             }
-            // 检测导入包
-            checkImportPackages(tableInfo);
 
             return tableInfo;
         } else {
             System.err.println("当前数据库为空！！！");
             return null;
         }
-    }
-
-    /**
-     * <p>
-     * 检测导入包
-     * </p>
-     *
-     * @param tableInfo
-     */
-    private void checkImportPackages(TableInfo tableInfo) {
-        StrategyProperties strategyConfiguration = configuration.getStrategyProperties();
-        if (StringUtils.isNotEmpty(strategyConfiguration.getSuperEntityClass())) {
-            // 自定义父类
-            tableInfo.getImportPackages().add(strategyConfiguration.getSuperEntityClass());
-        } /*else if (globalConfig.isActiveRecord()) {
-            // 无父类开启 AR 模式
-            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.extension.activerecord.Model.class.getCanonicalName());
-        }
-        if (null != globalConfig.getIdType()) {
-            // 指定需要 IdType 场景
-            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.IdType.class.getCanonicalName());
-            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.TableId.class.getCanonicalName());
-        }
-        */
     }
 }

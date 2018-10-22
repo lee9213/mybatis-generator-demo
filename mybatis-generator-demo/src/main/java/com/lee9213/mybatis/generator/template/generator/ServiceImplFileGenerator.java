@@ -3,6 +3,7 @@ package com.lee9213.mybatis.generator.template.generator;
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.util.Constant;
+import com.lee9213.mybatis.generator.util.FileUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
 
 import java.io.File;
@@ -27,6 +28,8 @@ public class ServiceImplFileGenerator extends AbstractFileGenerator {
         String serviceImplPath = configuration.getPathInfo().getServiceImplPath();
         // 生成ServiceImpl
         if (StringUtils.isNotEmpty(serviceImplName) && StringUtils.isNotEmpty(serviceImplPath)) {
+            FileUtil.mkdir(serviceImplPath);
+
             String implFile = String.format((serviceImplPath + File.separator + serviceImplName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
             if (isCreate(implFile)) {
                 Map<String, Object> objectMap = configuration.getConfigurationMap();
