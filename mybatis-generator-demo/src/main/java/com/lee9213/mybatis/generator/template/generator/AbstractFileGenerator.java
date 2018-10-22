@@ -9,6 +9,8 @@ import java.io.File;
 import java.util.List;
 
 /**
+ * <p>抽象文件生成器</p>
+ *
  * @author lee9213@163.com
  * @version 1.0
  * @date 2018-10-21 19:42

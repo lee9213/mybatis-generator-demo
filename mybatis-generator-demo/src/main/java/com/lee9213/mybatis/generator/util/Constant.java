@@ -4,6 +4,8 @@ package com.lee9213.mybatis.generator.util;
 import java.nio.charset.Charset;
 
 /**
+ * <p>常量类</p>
+ *
  * @author lee9213@163.com
  * @version 1.0
  * @date 2018-10-13 23:28

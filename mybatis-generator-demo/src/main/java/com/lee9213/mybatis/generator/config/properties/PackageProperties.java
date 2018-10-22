@@ -5,6 +5,8 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * <p>包配置信息</p>
+ *
  * @author lee9213@163.com
  * @version 1.0
  * @date 2018-10-13 21:05

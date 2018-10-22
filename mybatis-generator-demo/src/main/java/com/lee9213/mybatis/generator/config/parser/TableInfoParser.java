@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <p>表信息解析</p>
+ *
  * @author libo
  * @date 2018/10/18 11:16
  */

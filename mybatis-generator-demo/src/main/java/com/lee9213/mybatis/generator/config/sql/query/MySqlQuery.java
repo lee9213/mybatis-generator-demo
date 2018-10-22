@@ -25,9 +25,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * MySql 表数据查询
- * </p>
+ * <p>MySql 表数据查询</p>
  *
  * @author lee9213@163.com
  * @since 2018-01-16

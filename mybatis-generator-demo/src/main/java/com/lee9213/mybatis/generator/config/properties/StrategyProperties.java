@@ -6,6 +6,8 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * <p>策略配置信息</p>
+ *
  * @author lee9213@163.com
  * @version 1.0
  * @date 2018-10-13 21:02
@@ -30,7 +32,6 @@ public class StrategyProperties {
     private String underlineToCamelTableName = "true";
     /**
      * 数据库表字段映射到实体的命名，是否转换成驼峰
-     *
      */
     private String underlineToCamelColumnNames = "true";
 
@@ -314,6 +315,7 @@ public class StrategyProperties {
         this.excludeTables = excludeTables;
         return this;
     }
+
     public StrategyProperties setExcludeTabless(String[] excludeTables) {
         this.excludeTables = excludeTables;
         return this;

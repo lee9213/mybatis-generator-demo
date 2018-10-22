@@ -5,11 +5,9 @@ import com.lee9213.mybatis.generator.config.rules.DbColumnType;
 import com.lee9213.mybatis.generator.config.rules.IColumnType;
 
 /**
- * <p>
- * MYSQL 数据库字段类型转换
- * </p>
+ * <p>MYSQL 数据库字段类型转换</p>
  *
- * @author libo
+ * @author lee9213@163.com
  * @date 2018/10/18 17:19
  */
 public class MySqlTypeConvert implements ITypeConvert {

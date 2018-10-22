@@ -4,7 +4,9 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * @author libo
+ * <p>路径信息</p>
+ *
+ * @author lee9213@163.com
  * @version 1.0
  * @date 2018/10/16 15:29
  */

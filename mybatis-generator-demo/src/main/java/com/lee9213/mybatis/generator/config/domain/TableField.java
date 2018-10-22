@@ -9,9 +9,7 @@ import com.lee9213.mybatis.generator.util.StringUtils;
 import java.util.Map;
 
 /**
- * <p>
- * 表字段信息
- * </p>
+ * <p>表字段信息</p>
  *
  * @author lee9213@163.com
  * @version 1.0
@@ -143,7 +141,7 @@ public class TableField {
         // 第一个字母 小写、 第二个字母 大写 ，特殊处理
         String firstChar = setGetName.substring(0, 1);
         if (Character.isLowerCase(firstChar.toCharArray()[0])
-            && Character.isUpperCase(setGetName.substring(1, 2).toCharArray()[0])) {
+                && Character.isUpperCase(setGetName.substring(1, 2).toCharArray()[0])) {
             return firstChar.toLowerCase() + setGetName.substring(1);
         }
         return firstChar.toUpperCase() + setGetName.substring(1);

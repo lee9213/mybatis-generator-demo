@@ -14,6 +14,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * <p>数据库配置信息</p>
+ *
  * @author lee9213@163.com
  * @version 1.0
  * @date 2018-10-13 20:54
@@ -82,6 +84,7 @@ public class DataSourceProperties {
         }
         return typeConvert;
     }
+
     /**
      * 判断数据库类型
      *
@@ -95,6 +98,7 @@ public class DataSourceProperties {
         }
         return dbType;
     }
+
     /**
      * 创建数据库连接对象
      *

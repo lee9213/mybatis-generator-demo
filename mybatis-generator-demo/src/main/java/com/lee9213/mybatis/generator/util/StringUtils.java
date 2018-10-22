@@ -9,9 +9,7 @@ import java.util.regex.Pattern;
 import static java.util.stream.Collectors.joining;
 
 /**
- * <p>
- * String 工具类
- * </p>
+ * <p>String 工具类</p>
  *
  * @author lee9213@163.com
  * @version 1.0

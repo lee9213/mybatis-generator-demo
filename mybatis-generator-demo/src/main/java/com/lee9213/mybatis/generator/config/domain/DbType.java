@@ -3,9 +3,7 @@ package com.lee9213.mybatis.generator.config.domain;
 import lombok.Getter;
 
 /**
- * <p>
- * 数据库类型
- * </p>
+ * <p>数据库类型</p>
  *
  * @author lee9213@163.com
  * @version 1.0

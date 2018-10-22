@@ -16,9 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
- * 配置汇总 传递给文件生成工具
- * </p>
+ * <p>配置汇总 传递给文件生成工具</p>
  *
  * @author lee9213@163.com
  * @version 1.0

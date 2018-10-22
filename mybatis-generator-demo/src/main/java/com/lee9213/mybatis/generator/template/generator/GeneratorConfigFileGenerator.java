@@ -6,6 +6,8 @@ import com.lee9213.mybatis.generator.util.Constant;
 import java.io.File;
 
 /**
+ * <p>GeneratorConfig.xml生成器</p>
+ *
  * @author lee9213@163.com
  * @version 1.0
  * @date 2018-10-21 19:38

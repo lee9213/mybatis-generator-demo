@@ -4,9 +4,9 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * 包的具体信息
+ * <p>包名的具体信息</p>
  *
- * @author libo
+ * @author lee9213@163.com
  * @version 1.0
  * @date 2018/10/16 15:29
  */
