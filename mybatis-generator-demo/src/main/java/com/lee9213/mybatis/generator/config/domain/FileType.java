@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.config.rules;
+package com.lee9213.mybatis.generator.config.domain;
 
 /**
  * <p>文件类型</p>
@@ -10,7 +10,8 @@ public enum FileType {
     ENTITY,
     VO,
     MAPPER,
-    XML,
+    MAPPER_XML,
+    EXTEND_MAPPER_XML,
     SERVICE,
     SERVICE_IMPL,
     CONTROLLER,
