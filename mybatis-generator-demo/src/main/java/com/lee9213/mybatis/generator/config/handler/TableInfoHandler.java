@@ -7,6 +7,7 @@ import com.lee9213.mybatis.generator.config.properties.DataSourceProperties;
 import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
 import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.config.sql.query.IDbQuery;
+import com.lee9213.mybatis.generator.util.CollectionUtils;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.JDBCUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
@@ -32,7 +33,12 @@ public class TableInfoHandler implements Handler {
 
         StrategyProperties strategyProperties = configuration.getStrategyProperties();
         DataSourceProperties dataSourceProperties = configuration.getDataSourceProperties();
-        ArrayList<String> includeTableList = Lists.newArrayList(strategyProperties.getIncludeTables());
+        List<String> includeTables = strategyProperties.getIncludeTables();
+        ArrayList<String> includeTableList = Lists.newArrayList();
+        if(CollectionUtils.isNotEmpty(includeTables)) {
+            includeTableList = Lists.newArrayList(includeTables);
+        }
+
         //所有的表信息
         List<TableInfo> tableList = new ArrayList<>();
         IDbQuery dbQuery = dataSourceProperties.getDbQuery();
