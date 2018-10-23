@@ -29,22 +29,83 @@ public class TableInfoHandler implements Handler {
 
     @Override
     public void handler(Configuration configuration) {
+
         StrategyProperties strategyProperties = configuration.getStrategyProperties();
-        DataSourceProperties dataSourceConfiguration = configuration.getDataSourceProperties();
+        DataSourceProperties dataSourceProperties = configuration.getDataSourceProperties();
         ArrayList<String> includeTableList = Lists.newArrayList(strategyProperties.getIncludeTables());
         //所有的表信息
         List<TableInfo> tableList = new ArrayList<>();
-        IDbQuery dbQuery = dataSourceConfiguration.getDbQuery();
-        String tablesSql = dbQuery.tablesSql(strategyProperties.getIncludeTables(),strategyProperties.getIncludeTablePrefixs(),strategyProperties.getExcludeTables());
-        try (Connection connection = JDBCUtil.getConnection(dataSourceConfiguration.getUrl(),dataSourceConfiguration.getUsername(),dataSourceConfiguration.getPassword());
+        IDbQuery dbQuery = dataSourceProperties.getDbQuery();
+        String tablesSql = dbQuery.tablesSql(strategyProperties.getIncludeTables(), strategyProperties.getIncludeTablePrefixs(), strategyProperties.getExcludeTables());
+        try (Connection connection = JDBCUtil.getConnection(dataSourceProperties.getUrl(), dataSourceProperties.getUsername(), dataSourceProperties.getPassword());
              PreparedStatement preparedStatement = connection.prepareStatement(tablesSql);
              ResultSet results = preparedStatement.executeQuery()) {
+            GlobalProperties globalProperties = configuration.getGlobalProperties();
             TableInfo tableInfo;
             while (results.next()) {
-                tableInfo = resultToTableInfo(results,configuration);
-                if (tableInfo != null) {
-                    tableList.add(tableInfo);
+                tableInfo = new TableInfo();
+                String tableName = results.getString(dbQuery.tableName());
+                if (StringUtils.isNotEmpty(tableName)) {
+                    String tableComment = results.getString(dbQuery.tableComment());
+                    if ("VIEW".equals(tableComment)) {
+                        // 跳过视图
+                        continue;
+                    }
+                    tableInfo.setComment(tableComment);
+                    tableInfo.setName(tableName);
+
+                    String entityName = StringUtils.capitalFirst(StringUtils.processName(tableName,
+                            strategyProperties.getUnderlineToCamelTableName(), strategyProperties.getTablePrefix()));
+
+                    if (StringUtils.isNotEmpty(globalProperties.getEntityName())) {
+                        tableInfo.setEntityName(String.format(globalProperties.getEntityName(), entityName));
+                    } else {
+                        tableInfo.setEntityName(entityName);
+                    }
+                    if (StringUtils.isNotEmpty(globalProperties.getVoName())) {
+                        tableInfo.setVoName(String.format(globalProperties.getVoName(), entityName));
+                    } else {
+                        tableInfo.setVoName(entityName + Constant.VO);
+                    }
+                    if (StringUtils.isNotEmpty(globalProperties.getMapperName())) {
+                        tableInfo.setMapperName(String.format(globalProperties.getMapperName(), entityName));
+                    } else {
+                        tableInfo.setMapperName(entityName + Constant.MAPPER);
+                    }
+                    if (StringUtils.isNotEmpty(globalProperties.getMapperXmlName())) {
+                        tableInfo.setMapperXmlName(String.format(globalProperties.getMapperXmlName(), entityName));
+                    } else {
+                        tableInfo.setMapperXmlName(entityName + Constant.MAPPER_XML);
+                    }
+                    if (StringUtils.isNotEmpty(globalProperties.getExtendMapperXmlName())) {
+                        tableInfo.setExtendMapperXmlName(String.format(globalProperties.getExtendMapperXmlName(), entityName));
+                    } else {
+                        tableInfo.setExtendMapperXmlName(entityName + Constant.EXTEND_MAPPER_XML);
+                    }
+
+                    if (StringUtils.isNotEmpty(globalProperties.getServiceName())) {
+                        tableInfo.setServiceName(String.format(globalProperties.getServiceName(), entityName));
+                    } else {
+                        tableInfo.setServiceName(entityName + Constant.SERVICE);
+                    }
+                    if (StringUtils.isNotEmpty(globalProperties.getServiceImplName())) {
+                        tableInfo.setServiceImplName(String.format(globalProperties.getServiceImplName(), entityName));
+                    } else {
+                        tableInfo.setServiceImplName(entityName + Constant.SERVICE_IMPL);
+                    }
+                    if (StringUtils.isNotEmpty(globalProperties.getControllerName())) {
+                        tableInfo.setControllerName(String.format(globalProperties.getControllerName(), entityName));
+                    } else {
+                        tableInfo.setControllerName(entityName + Constant.CONTROLLER);
+                    }
+
+                    if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {
+                        tableInfo.setSuperEntityClass(strategyProperties.getSuperEntityClass());
+                    }
+                } else {
+                    throw new RuntimeException("数据库表数据异常");
                 }
+                tableList.add(tableInfo);
             }
             // 将已经存在的表移除，获取配置中数据库不存在的表
             for (TableInfo tabInfo : tableList) {
@@ -57,77 +118,5 @@ public class TableInfoHandler implements Handler {
             e.printStackTrace();
         }
         configuration.setTableInfoList(tableList);
-    }
-
-    public TableInfo resultToTableInfo(ResultSet results,Configuration configuration) throws SQLException {
-        StrategyProperties strategyProperties = configuration.getStrategyProperties();
-        DataSourceProperties dataSourceConfiguration = configuration.getDataSourceProperties();
-        GlobalProperties globalProperties = configuration.getGlobalProperties();
-        IDbQuery dbQuery = dataSourceConfiguration.getDbQuery();
-        String tableName = results.getString(dbQuery.tableName());
-        if (StringUtils.isNotEmpty(tableName)) {
-            String tableComment = results.getString(dbQuery.tableComment());
-            if ("VIEW".equals(tableComment)) {
-                // 跳过视图
-                return null;
-            }
-            TableInfo tableInfo = new TableInfo();
-            tableInfo.setName(tableName);
-            tableInfo.setComment(tableComment);
-
-            String entityName = StringUtils.capitalFirst(StringUtils.processName(tableInfo.getName(),
-                    strategyProperties.getUnderlineToCamelTableName(), strategyProperties.getTablePrefix()));
-
-            if (StringUtils.isNotEmpty(globalProperties.getEntityName())) {
-                tableInfo.setEntityName(String.format(globalProperties.getEntityName(), entityName));
-            } else {
-                tableInfo.setEntityName(entityName);
-            }
-            if (StringUtils.isNotEmpty(globalProperties.getVoName())) {
-                tableInfo.setVoName(String.format(globalProperties.getVoName(), entityName));
-            } else {
-                tableInfo.setVoName(entityName + Constant.VO);
-            }
-            if (StringUtils.isNotEmpty(globalProperties.getMapperName())) {
-                tableInfo.setMapperName(String.format(globalProperties.getMapperName(), entityName));
-            } else {
-                tableInfo.setMapperName(entityName + Constant.MAPPER);
-            }
-            if (StringUtils.isNotEmpty(globalProperties.getMapperXmlName())) {
-                tableInfo.setMapperXmlName(String.format(globalProperties.getMapperXmlName(), entityName));
-            } else {
-                tableInfo.setMapperXmlName(entityName + Constant.MAPPER_XML);
-            }
-            if (StringUtils.isNotEmpty(globalProperties.getExtendMapperXmlName())) {
-                tableInfo.setExtendMapperXmlName(String.format(globalProperties.getExtendMapperXmlName(), entityName));
-            } else {
-                tableInfo.setExtendMapperXmlName(entityName + Constant.EXTEND_MAPPER_XML);
-            }
-
-            if (StringUtils.isNotEmpty(globalProperties.getServiceName())) {
-                tableInfo.setServiceName(String.format(globalProperties.getServiceName(), entityName));
-            } else {
-                tableInfo.setServiceName(entityName + Constant.SERVICE);
-            }
-            if (StringUtils.isNotEmpty(globalProperties.getServiceImplName())) {
-                tableInfo.setServiceImplName(String.format(globalProperties.getServiceImplName(), entityName));
-            } else {
-                tableInfo.setServiceImplName(entityName + Constant.SERVICE_IMPL);
-            }
-            if (StringUtils.isNotEmpty(globalProperties.getControllerName())) {
-                tableInfo.setControllerName(String.format(globalProperties.getControllerName(), entityName));
-            } else {
-                tableInfo.setControllerName(entityName + Constant.CONTROLLER);
-            }
-
-            if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {
-                tableInfo.setSuperEntityClass(strategyProperties.getSuperEntityClass());
-            }
-
-            return tableInfo;
-        } else {
-            System.err.println("当前数据库为空！！！");
-            return null;
-        }
     }
 }
