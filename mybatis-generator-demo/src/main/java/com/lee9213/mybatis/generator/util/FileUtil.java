@@ -31,6 +31,15 @@ public class FileUtil {
     }
 
     /**
+     * 检测文件是否存在
+     *
+     * @return 是否
+     */
+    public static boolean exists(String filePath) {
+        return new File(filePath).exists();
+    }
+
+    /**
      * <p>
      * 打开输出目录
      * </p>

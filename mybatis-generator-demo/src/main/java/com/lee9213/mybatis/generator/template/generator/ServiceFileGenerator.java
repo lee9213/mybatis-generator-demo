@@ -30,7 +30,7 @@ public class ServiceFileGenerator extends AbstractFileGenerator {
             FileUtil.mkdir(servicePath);
 
             String serviceFile = String.format((servicePath + File.separator + serviceName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
-            if (isCreate(serviceFile)) {
+            if (!FileUtil.exists(serviceFile) || configuration.getGlobalProperties().isFileOverride()) {
                 Map<String, Object> objectMap = configuration.getConfigurationMap();
                 objectMap.put("table", tableInfo);
                 configuration.getTemplateEngine().writer(objectMap, configuration.getTemplateProperties().getService(), serviceFile);

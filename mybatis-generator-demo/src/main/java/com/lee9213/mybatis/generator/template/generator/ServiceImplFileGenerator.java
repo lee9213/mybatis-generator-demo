@@ -30,7 +30,7 @@ public class ServiceImplFileGenerator extends AbstractFileGenerator {
             FileUtil.mkdir(serviceImplPath);
 
             String implFile = String.format((serviceImplPath + File.separator + serviceImplName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
-            if (isCreate(implFile)) {
+            if (!FileUtil.exists(implFile) || configuration.getGlobalProperties().isFileOverride()) {
                 Map<String, Object> objectMap = configuration.getConfigurationMap();
                 objectMap.put("table", tableInfo);
                 configuration.getTemplateEngine().writer(objectMap, configuration.getTemplateProperties().getServiceImpl(), implFile);

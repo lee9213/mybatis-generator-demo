@@ -30,7 +30,7 @@ public class ControllerFileGenerator extends AbstractFileGenerator {
             FileUtil.mkdir(controllerPath);
 
             String controllerFile = String.format((controllerPath + File.separator + controllerName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
-            if (isCreate(controllerFile)) {
+            if (!FileUtil.exists(controllerFile) || configuration.getGlobalProperties().isFileOverride()) {
                 Map<String, Object> objectMap = configuration.getConfigurationMap();
                 objectMap.put("table", tableInfo);
                 configuration.getTemplateEngine().writer(objectMap, configuration.getTemplateProperties().getController(), controllerFile);

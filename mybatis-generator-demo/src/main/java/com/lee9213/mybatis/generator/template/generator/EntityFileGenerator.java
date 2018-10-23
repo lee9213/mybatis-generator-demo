@@ -27,7 +27,7 @@ public class EntityFileGenerator extends AbstractFileGenerator {
             FileUtil.mkdir(entityPath);
 
             String entityFile = String.format((entityPath + File.separator + entityName + Constant.JAVA_SUFFIX), tableInfo.getEntityName());
-            if (isCreate(entityFile)) {
+            if (!FileUtil.exists(entityFile) || configuration.getGlobalProperties().isFileOverride()) {
                 Map<String, Object> objectMap = configuration.getConfigurationMap();
                 objectMap.put("table", tableInfo);
                 configuration.getTemplateEngine().writer(objectMap, configuration.getTemplateProperties().getEntity(), entityFile);
