@@ -1,9 +1,10 @@
 package ${package.vo};
 
-import java.io.Serializable;
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
+
+import java.io.Serializable;
 <#if global.swagger2>
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,7 +23,7 @@ import lombok.experimental.Accessors;
  */
 <#if strategy.entityLombokModel>
 @Data
-    <#if strategy.superEntityClass??>
+    <#if table.superEntityClass??>
 @EqualsAndHashCode(callSuper = true)
     <#else>
 @EqualsAndHashCode(callSuper = false)
@@ -32,8 +33,8 @@ import lombok.experimental.Accessors;
 <#if global.swagger2>
 @ApiModel(value="${table.voName}对象", description="${table.comment!}")
 </#if>
-<#if strategy.superEntityClass??>
-public class ${table.voName} extends ${strategy.superEntityClass?substring(strategy.superEntityClass?last_index_of(".")+1)} implements Serializable {
+<#if table.superEntityClass??>
+public class ${table.voName} extends ${table.superEntityClass?substring(table.superEntityClass?last_index_of(".")+1)} implements Serializable {
 <#else>
 public class ${table.voName} implements Serializable {
 </#if>

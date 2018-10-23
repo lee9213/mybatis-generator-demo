@@ -80,6 +80,11 @@ public class TableInfo {
      */
     private Boolean isLogicDelete = false;
 
+    /**
+     * 父类
+     */
+    private String superEntityClass;
+
     public void setEntityName(String entityName) {
         this.entityName = entityName;
         this.convert = !entityName.equalsIgnoreCase(name);

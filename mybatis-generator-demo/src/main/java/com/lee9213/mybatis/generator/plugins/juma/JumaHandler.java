@@ -16,7 +16,7 @@ public class JumaHandler implements Handler {
     public void handler(Configuration configuration) {
         configuration.getTableInfoList().forEach(tableInfo -> {
             if (!tableInfo.getIsLogicDelete()) {
-                configuration.getStrategyProperties().setSuperEntityClass(null);
+                tableInfo.setSuperEntityClass(null);
             }
         });
     }

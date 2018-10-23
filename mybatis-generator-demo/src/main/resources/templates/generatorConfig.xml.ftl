@@ -45,7 +45,7 @@
         <!-- 忽略大小写 -->
         <!--<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"/>-->
 
-        <plugin type="com.lee9213.mybatis.generator.plugins.juma.MapperPlugin">
+        <plugin type="com.lee9213.mybatis.generator.plugins.MapperPlugin">
             <#if strategy.superMapperClass??>
             <property name="mappers" value="${strategy.superMapperClass}"/>
             </#if>
@@ -77,12 +77,7 @@
         </javaTypeResolver>
 
         <!-- model生成 -->
-        <javaModelGenerator targetPackage="${package.entity}" targetProject="${global.outputDir}\src\main\java" >
-            <#if strategy.superEntityClass??>
-                <!-- 设置一个根对象，-->
-                <property name="rootClass" value="${strategy.superEntityClass}"/>
-            </#if>
-        </javaModelGenerator>
+        <javaModelGenerator targetPackage="${package.entity}" targetProject="${global.outputDir}\src\main\java" />
 
         <!-- MapperXML生成 -->
         <sqlMapGenerator targetPackage="${package.mapperXml}" targetProject="${global.outputDir}\src\main\resources"/>
