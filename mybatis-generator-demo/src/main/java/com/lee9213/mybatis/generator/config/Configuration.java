@@ -71,7 +71,7 @@ public class Configuration {
     /**
      * 自定义配置
      */
-    private Map<String, Object> customMap = Maps.newHashMap();
+    private Map<String, Object> customConfigMap = Maps.newHashMap();
 
     public Configuration(GlobalProperties globalProperties, TemplateProperties templateProperties,
                          PackageProperties packageProperties, DataSourceProperties dataSourceProperties,
@@ -157,9 +157,9 @@ public class Configuration {
      * @param tableInfo
      */
     private void checkImportPackages(TableInfo tableInfo) {
-        if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {
+        if (StringUtils.isNotEmpty(tableInfo.getSuperEntityClass())) {
             // 自定义父类
-            tableInfo.getImportPackages().add(strategyProperties.getSuperEntityClass());
+            tableInfo.getImportPackages().add(tableInfo.getSuperEntityClass());
         } /*else if (globalConfig.isActiveRecord()) {
             // 无父类开启 AR 模式
             tableInfo.getImportPackages().add(com.baomidou.mybatisplus.extension.activerecord.Model.class.getCanonicalName());
@@ -187,6 +187,7 @@ public class Configuration {
         objectMap.put("templates", this.templateProperties);
         objectMap.put("tables", this.tableInfoList);
         objectMap.put("package", this.packageInfo);
+        objectMap.put("custom", customConfigMap);
         return objectMap;
     }
 }

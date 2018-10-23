@@ -4,11 +4,14 @@ import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.properties.*;
 import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
 import com.lee9213.mybatis.generator.template.generator.*;
+import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
@@ -58,6 +61,10 @@ public class AutoGenerator {
             // 初始化配置
             Configuration configuration = new Configuration(globalProperties, templateProperties, packageProperties, dataSourceProperties, strategyProperties, templateEngine);
 
+            ApplicationContext applicationContext = ApplicationContextUtil.getApplicationContext();
+            DefaultListableBeanFactory autowireCapableBeanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
+            autowireCapableBeanFactory.registerSingleton("configuration", configuration);
+
             // 生成GeneratorConfig.xml
             GeneratorConfigFileGenerator generatorConfigXmlGenerator = new GeneratorConfigFileGenerator(configuration);
             generatorConfigXmlGenerator.generator();
@@ -65,6 +72,9 @@ public class AutoGenerator {
             // 生成entity、mapper、mapper.xml
             MybatisFileGenerator mybatisGenerator = new MybatisFileGenerator(configuration);
             mybatisGenerator.generator();
+
+            EntityFileGenerator entityFileGenerator = new EntityFileGenerator(configuration);
+            entityFileGenerator.generator();
 
             ExtendMapperXmlFileGenerator extendMapperXmlFileGenerator = new ExtendMapperXmlFileGenerator(configuration);
             extendMapperXmlFileGenerator.generator();

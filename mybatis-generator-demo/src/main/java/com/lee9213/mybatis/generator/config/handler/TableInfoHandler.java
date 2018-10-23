@@ -120,6 +120,10 @@ public class TableInfoHandler implements Handler {
                 tableInfo.setControllerName(entityName + Constant.CONTROLLER);
             }
 
+            if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {
+                tableInfo.setSuperEntityClass(strategyProperties.getSuperEntityClass());
+            }
+
             return tableInfo;
         } else {
             System.err.println("当前数据库为空！！！");
