@@ -30,7 +30,7 @@ public class ExtendMapperXmlFileGenerator extends AbstractFileGenerator {
             FileUtil.mkdir(extendMapperXmlPath);
 
             String extendMapperXmlFile = String.format(extendMapperXmlPath + File.separator + extendMapperXmlName + Constant.XML_SUFFIX, tableInfo.getEntityName());
-            if (isCreate(extendMapperXmlFile)) {
+            if (!FileUtil.exists(extendMapperXmlFile) || configuration.getGlobalProperties().isFileOverride()) {
                 Map<String, Object> objectMap = configuration.getConfigurationMap();
                 objectMap.put("table", tableInfo);
                 configuration.getTemplateEngine().writer(objectMap, configuration.getTemplateProperties().getExtendMapperXml(), extendMapperXmlFile);

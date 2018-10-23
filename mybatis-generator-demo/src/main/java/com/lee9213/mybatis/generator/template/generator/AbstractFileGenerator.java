@@ -6,7 +6,6 @@ import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -34,36 +33,4 @@ public abstract class AbstractFileGenerator implements FileGenerator {
     }
 
     protected abstract void doGenerator(TableInfo tableInfo) throws Exception;
-
-
-    /**
-     * 检测文件是否存在
-     *
-     * @return 是否
-     */
-    protected boolean isCreate(String filePath) {
-        File file = new File(filePath);
-        boolean exist = file.exists();
-        if (!exist) {
-            mkDir(file.getParentFile());
-        }
-        Configuration configuration = (Configuration) ApplicationContextUtil.getBean("configuration");
-        return !exist || configuration.getGlobalProperties().isFileOverride();
-    }
-
-    /**
-     * <p>
-     * 新建文件目录
-     * </p>
-     *
-     * @param file 文件
-     */
-    private void mkDir(File file) {
-        if (file.getParentFile().exists()) {
-            file.mkdir();
-        } else {
-            mkDir(file.getParentFile());
-            file.mkdir();
-        }
-    }
 }
