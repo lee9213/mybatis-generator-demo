@@ -1,4 +1,4 @@
-package com.lee9213.mybatis.generator.plugins.juma;
+package com.lee9213.mybatis.generator.extend.handler;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.handler.ExtendHandler;

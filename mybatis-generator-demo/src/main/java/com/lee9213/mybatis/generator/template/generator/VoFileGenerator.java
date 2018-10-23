@@ -2,6 +2,7 @@ package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
+import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.FileUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
@@ -18,14 +19,12 @@ import java.util.Map;
  */
 public class VoFileGenerator extends AbstractFileGenerator {
 
-    public VoFileGenerator(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
     @Override
     protected void doGenerator(TableInfo tableInfo) throws Exception {
+        Configuration configuration = (Configuration) ApplicationContextUtil.getBean("configuration");
         String voName = tableInfo.getVoName();
         String voPath = configuration.getPathInfo().getVoPath();
+
         // 生成VO
         if (StringUtils.isNotEmpty(voName) && StringUtils.isNotEmpty(voPath)) {
             FileUtil.mkdir(voPath);

@@ -1,6 +1,7 @@
 package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
+import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.FileUtil;
 
@@ -15,14 +16,10 @@ import java.io.File;
  */
 public class GeneratorConfigFileGenerator implements FileGenerator {
 
-    private Configuration configuration;
-
-    public GeneratorConfigFileGenerator(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
     @Override
     public void generator() throws Exception {
+        Configuration configuration = (Configuration) ApplicationContextUtil.getBean("configuration");
+
         String generatorPath = configuration.getPathInfo().getGeneratorPath();
         FileUtil.mkdir(generatorPath);
 

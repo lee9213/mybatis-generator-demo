@@ -2,6 +2,7 @@ package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
+import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.FileUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
@@ -18,14 +19,12 @@ import java.util.Map;
  */
 public class ControllerFileGenerator extends AbstractFileGenerator {
 
-    public ControllerFileGenerator(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
     @Override
     protected void doGenerator(TableInfo tableInfo) throws Exception {
+        Configuration configuration = (Configuration) ApplicationContextUtil.getBean("configuration");
         String controllerName = tableInfo.getControllerName();
         String controllerPath = configuration.getPathInfo().getControllerPath();
+
         // 生成Controller
         if (StringUtils.isNotEmpty(controllerName) && StringUtils.isNotEmpty(controllerPath)) {
             FileUtil.mkdir(controllerPath);

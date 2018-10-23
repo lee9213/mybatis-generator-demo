@@ -11,9 +11,9 @@ import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * <p>自动生成器</p>
@@ -28,26 +28,6 @@ public class AutoGenerator {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
-     * 数据源配置
-     */
-    private DataSourceProperties dataSourceProperties;
-    /**
-     * 数据库表配置
-     */
-    private StrategyProperties strategyProperties;
-    /**
-     * 包 相关配置
-     */
-    private PackageProperties packageProperties;
-    /**
-     * 模板 相关配置
-     */
-    private TemplateProperties templateProperties;
-    /**
-     * 全局 相关配置
-     */
-    private GlobalProperties globalProperties;
-    /**
      * 模板引擎
      */
     private TemplateEngine templateEngine;
@@ -58,39 +38,52 @@ public class AutoGenerator {
     public void execute() {
         try {
             logger.info("==========================准备生成文件...==========================");
+            logger.debug("==========================配置准备中...==========================");
+            GlobalProperties globalProperties = (GlobalProperties) ApplicationContextUtil.getBean("globalProperties");
+            TemplateProperties templateProperties = (TemplateProperties) ApplicationContextUtil.getBean("templateProperties");
+            PackageProperties packageProperties = (PackageProperties) ApplicationContextUtil.getBean("packageProperties");
+            DataSourceProperties dataSourceProperties = (DataSourceProperties) ApplicationContextUtil.getBean("dataSourceProperties");
+            StrategyProperties strategyProperties = (StrategyProperties) ApplicationContextUtil.getBean("strategyProperties");
             // 初始化配置
             Configuration configuration = new Configuration(globalProperties, templateProperties, packageProperties, dataSourceProperties, strategyProperties, templateEngine);
-
-            ApplicationContext applicationContext = ApplicationContextUtil.getApplicationContext();
-            DefaultListableBeanFactory autowireCapableBeanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
+            logger.debug("==========================配置准备完成...==========================");
+            // 将配置注入容器中
+            DefaultListableBeanFactory autowireCapableBeanFactory = (DefaultListableBeanFactory) ApplicationContextUtil.getApplicationContext().getAutowireCapableBeanFactory();
             autowireCapableBeanFactory.registerSingleton("configuration", configuration);
 
             // 生成GeneratorConfig.xml
-            GeneratorConfigFileGenerator generatorConfigXmlGenerator = new GeneratorConfigFileGenerator(configuration);
+            GeneratorConfigFileGenerator generatorConfigXmlGenerator = new GeneratorConfigFileGenerator();
             generatorConfigXmlGenerator.generator();
 
             // 生成entity、mapper、mapper.xml
-            MybatisFileGenerator mybatisGenerator = new MybatisFileGenerator(configuration);
+            MybatisFileGenerator mybatisGenerator = new MybatisFileGenerator();
             mybatisGenerator.generator();
 
-            EntityFileGenerator entityFileGenerator = new EntityFileGenerator(configuration);
-            entityFileGenerator.generator();
 
-            ExtendMapperXmlFileGenerator extendMapperXmlFileGenerator = new ExtendMapperXmlFileGenerator(configuration);
-            extendMapperXmlFileGenerator.generator();
+            GeneratorFileChain generatorFileChain = new GeneratorFileChain();
+            // 添加生成Entity
+            generatorFileChain.addGenerator(new EntityFileGenerator());
+            // 添加生成ExtendMapper.xml
+            generatorFileChain.addGenerator(new ExtendMapperXmlFileGenerator());
+            // 添加生成VO
+            generatorFileChain.addGenerator(new VoFileGenerator());
+            // 添加生成Service
+            generatorFileChain.addGenerator(new ServiceFileGenerator());
+            // 添加生成ServiceImpl
+            generatorFileChain.addGenerator(new ServiceImplFileGenerator());
+            // 添加生成Controller
+            generatorFileChain.addGenerator(new ControllerFileGenerator());
 
-            VoFileGenerator voFileGenerator = new VoFileGenerator(configuration);
-            voFileGenerator.generator();
+            // 添加扩展生成器
+            Map<String, Object> extendGenerators = ApplicationContextUtil.getBeansWithAnnotation(ExtendGenerator.class);
+            extendGenerators.values().forEach(object -> {
+                if (object instanceof AbstractFileGenerator) {
+                    generatorFileChain.addGenerator((AbstractFileGenerator) object);
+                }
+            });
 
-            ServiceFileGenerator serviceFileGenerator = new ServiceFileGenerator(configuration);
-            serviceFileGenerator.generator();
-
-            ServiceImplFileGenerator serviceImplFileGenerator = new ServiceImplFileGenerator(configuration);
-            serviceImplFileGenerator.generator();
-
-            ControllerFileGenerator controllerFileGenerator = new ControllerFileGenerator(configuration);
-            controllerFileGenerator.generator();
-
+            // 执行生成
+            generatorFileChain.generator();
 
             // 模板引擎初始化执行文件输出
             logger.info("==========================文件生成完成！！！==========================");

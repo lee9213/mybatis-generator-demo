@@ -138,6 +138,7 @@ public class Configuration {
         interceptorChain.addHandler(new PathInfoHandler());
         interceptorChain.addHandler(new TableInfoHandler());
         interceptorChain.addHandler(new TableFieldHandler());
+        // 添加扩展配置处理器
         Map<String, Object> handlerMap = ApplicationContextUtil.getBeansWithAnnotation(ExtendHandler.class);
         handlerMap.values().forEach(handler -> {
             if (handler instanceof Handler) {
