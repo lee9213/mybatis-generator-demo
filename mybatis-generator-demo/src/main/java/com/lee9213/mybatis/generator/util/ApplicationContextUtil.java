@@ -47,5 +47,15 @@ public class ApplicationContextUtil implements ApplicationContextAware {
         return getApplicationContext().getBeansWithAnnotation(annotationType);
     }
 
+    /**
+     * 通过bean name获取bean
+     *
+     * @param beanName
+     * @return
+     */
+    public static Object getBean(String beanName) {
+        return getApplicationContext().getBean(beanName);
+    }
+
 
 }

@@ -81,12 +81,6 @@ public interface Constant {
     String HTML_LT = "&lt;";
     String HTML_GT = "&gt;";
 
-    // ---------------------------------------------------------------- array
-
-    String[] EMPTY_ARRAY = new String[0];
-
-    byte[] BYTES_NEW_LINE = NEWLINE.getBytes();
-
     String MODULE_NAME = "ModuleName";
 
     String GENERATOR = "Generator";

@@ -59,7 +59,6 @@
         <commentGenerator type="com.lee9213.mybatis.generator.internal.CommentGenerator">
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
-            <property name="user.name" value="${global.author}"/>
         </commentGenerator>
 
         <!-- 数据库连接 -->

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <p>配置处理链</p>
+ *
  * @author lee9213@163.com
  * @version 1.0
  * @date 2018-10-22 23:25

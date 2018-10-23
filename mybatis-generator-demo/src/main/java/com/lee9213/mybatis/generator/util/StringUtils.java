@@ -133,24 +133,6 @@ public class StringUtils {
 
     /**
      * <p>
-     * 解析 getMethodName -> propertyName
-     * </p>
-     *
-     * @param getMethodName 需要解析的
-     * @return 返回解析后的字段名称
-     */
-    public static String resolveFieldName(String getMethodName) {
-        if (getMethodName.startsWith("get")) {
-            getMethodName = getMethodName.substring(3);
-        } else if (getMethodName.startsWith(IS)) {
-            getMethodName = getMethodName.substring(2);
-        }
-        // 小写第一个字母
-        return StringUtils.firstToLowerCase(getMethodName);
-    }
-
-    /**
-     * <p>
      * 字符串下划线转驼峰格式
      * </p>
      *
@@ -185,6 +167,23 @@ public class StringUtils {
         return result.toString();
     }
 
+    /**
+     * <p>
+     * 解析 getMethodName -> propertyName
+     * </p>
+     *
+     * @param getMethodName 需要解析的
+     * @return 返回解析后的字段名称
+     */
+    public static String resolveFieldName(String getMethodName) {
+        if (getMethodName.startsWith("get")) {
+            getMethodName = getMethodName.substring(3);
+        } else if (getMethodName.startsWith(IS)) {
+            getMethodName = getMethodName.substring(2);
+        }
+        // 小写第一个字母
+        return StringUtils.firstToLowerCase(getMethodName);
+    }
     /**
      * <p>
      * 首字母转换小写
@@ -226,48 +225,6 @@ public class StringUtils {
             return false;
         }
         return Pattern.matches(regex, input);
-    }
-
-    /**
-     * <p>
-     * SQL 参数填充
-     * </p>
-     *
-     * @param content 填充内容
-     * @param args    填充参数
-     * @return
-     */
-    public static String sqlArgsFill(String content, Object... args) {
-        if (StringUtils.isEmpty(content)) {
-            return null;
-        }
-        if (args != null) {
-            int length = args.length;
-            if (length >= 1) {
-                for (int i = 0; i < length; i++) {
-                    content = content.replace(String.format(PLACE_HOLDER, i), sqlParam(args[i]));
-                }
-            }
-        }
-        return content;
-    }
-
-    /**
-     * <p>
-     * 获取SQL PARAMS字符串
-     * </p>
-     *
-     * @param obj
-     * @return
-     */
-    public static String sqlParam(Object obj) {
-        String repStr;
-        if (obj instanceof Collection) {
-            repStr = StringUtils.quotaMarkList((Collection<?>) obj);
-        } else {
-            repStr = StringUtils.quotaMark(obj);
-        }
-        return repStr;
     }
 
     /**

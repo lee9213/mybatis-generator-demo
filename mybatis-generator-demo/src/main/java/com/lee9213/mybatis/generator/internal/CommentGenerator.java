@@ -1,6 +1,8 @@
 package com.lee9213.mybatis.generator.internal;
 
 import com.google.common.base.Strings;
+import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
+import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.Field;
@@ -9,7 +11,6 @@ import org.mybatis.generator.internal.DefaultCommentGenerator;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Properties;
 
 /**
  * <p>生成model中，字段增加注释</p>
@@ -19,14 +20,6 @@ import java.util.Properties;
  * @date 2017/3/29 16:21
  */
 public class CommentGenerator extends DefaultCommentGenerator {
-
-    private String author;
-
-    @Override
-    public void addConfigurationProperties(Properties properties) {
-        super.addConfigurationProperties(properties);
-        author = properties.getProperty("user.name");
-    }
 
     /**
      * 添加字段注释
@@ -53,10 +46,11 @@ public class CommentGenerator extends DefaultCommentGenerator {
      */
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        GlobalProperties globalProperties = (GlobalProperties) ApplicationContextUtil.getBean("globalProperties");
         topLevelClass.addJavaDocLine("/**");
         topLevelClass.addJavaDocLine(" * " + introspectedTable.getRemarks());
         topLevelClass.addJavaDocLine(" *");
-        topLevelClass.addJavaDocLine(" * @author " + author);
+        topLevelClass.addJavaDocLine(" * @author " + globalProperties.getAuthor());
         topLevelClass.addJavaDocLine(" * @version 1.0");
         topLevelClass.addJavaDocLine(" * @date " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         topLevelClass.addJavaDocLine(" */");

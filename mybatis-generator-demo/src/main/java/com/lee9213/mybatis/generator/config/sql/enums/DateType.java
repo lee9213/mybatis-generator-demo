@@ -1,9 +1,7 @@
 package com.lee9213.mybatis.generator.config.sql.enums;
 
 /**
- * <p>
- * 数据库时间类型 到 实体类时间类型 对应策略
- * </p>
+ * <p>数据库时间类型 到 实体类时间类型 对应策略</p>
  *
  * @author lee9213@163.com
  * @date 2018/10/22 11:26
