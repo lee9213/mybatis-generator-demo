@@ -21,6 +21,8 @@ public class MySqlTypeConvert implements ITypeConvert {
             return DbColumnType.LONG;
         } else if (t.contains("tinyint(1)")) {
             return DbColumnType.BOOLEAN;
+        }else if (t.contains("tinyint(4)")) {
+            return DbColumnType.BYTE;
         } else if (t.contains("int")) {
             return DbColumnType.INTEGER;
         } else if (t.contains("text")) {
