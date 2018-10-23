@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author lee9213@163.com
@@ -29,4 +30,27 @@ public class FileUtil {
         }
     }
 
+    /**
+     * <p>
+     * 打开输出目录
+     * </p>
+     */
+    public static void open(String outDir, boolean isOpen) {
+        if (StringUtils.isNotEmpty(outDir) && isOpen) {
+            try {
+                String osName = System.getProperty("os.name");
+                if (osName != null) {
+                    if (osName.contains("Mac")) {
+                        Runtime.getRuntime().exec("open " + outDir);
+                    } else if (osName.contains("Windows")) {
+                        Runtime.getRuntime().exec("cmd /c start " + outDir);
+                    } else {
+                        LOGGER.debug("文件输出目录:" + outDir);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
