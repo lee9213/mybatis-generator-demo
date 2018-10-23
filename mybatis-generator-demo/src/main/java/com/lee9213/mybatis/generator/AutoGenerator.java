@@ -5,14 +5,13 @@ import com.lee9213.mybatis.generator.config.properties.*;
 import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
 import com.lee9213.mybatis.generator.template.generator.*;
 import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
-import com.lee9213.mybatis.generator.util.StringUtils;
+import com.lee9213.mybatis.generator.util.FileUtil;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -85,37 +84,14 @@ public class AutoGenerator {
             // 执行生成
             generatorFileChain.generator();
 
-            // 模板引擎初始化执行文件输出
             logger.info("==========================文件生成完成！！！==========================");
+
+            FileUtil.open(globalProperties.getOutputDir(),globalProperties.isOpen());
         } catch (Exception ex) {
             logger.error("无法创建文件，请检查配置信息！");
             ex.printStackTrace();
         }
     }
 
-    /**
-     * <p>
-     * 打开输出目录
-     * </p>
-     */
-    public void open(Configuration configuration) {
-        String outDir = configuration.getGlobalProperties().getOutputDir();
-        if (configuration.getGlobalProperties().isOpen()
-                && StringUtils.isNotEmpty(outDir)) {
-            try {
-                String osName = System.getProperty("os.name");
-                if (osName != null) {
-                    if (osName.contains("Mac")) {
-                        Runtime.getRuntime().exec("open " + outDir);
-                    } else if (osName.contains("Windows")) {
-                        Runtime.getRuntime().exec("cmd /c start " + outDir);
-                    } else {
-                        logger.debug("文件输出目录:" + outDir);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 }

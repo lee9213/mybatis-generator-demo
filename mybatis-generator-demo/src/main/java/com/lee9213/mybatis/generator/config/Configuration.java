@@ -133,19 +133,19 @@ public class Configuration {
             this.templateEngine = templateEngine;
         }
 
-        ConfigHandlerChain interceptorChain = new ConfigHandlerChain();
-        interceptorChain.addHandler(new PackageInfoHandler());
-        interceptorChain.addHandler(new PathInfoHandler());
-        interceptorChain.addHandler(new TableInfoHandler());
-        interceptorChain.addHandler(new TableFieldHandler());
+        ConfigHandlerChain configHandlerChain = new ConfigHandlerChain();
+        configHandlerChain.addHandler(new PackageInfoHandler());
+        configHandlerChain.addHandler(new PathInfoHandler());
+        configHandlerChain.addHandler(new TableInfoHandler());
+        configHandlerChain.addHandler(new TableFieldHandler());
         // 添加扩展配置处理器
         Map<String, Object> handlerMap = ApplicationContextUtil.getBeansWithAnnotation(ExtendHandler.class);
         handlerMap.values().forEach(handler -> {
             if (handler instanceof Handler) {
-                interceptorChain.addHandler((Handler) handler);
+                configHandlerChain.addHandler((Handler) handler);
             }
         });
-        interceptorChain.handler(this);
+        configHandlerChain.handler(this);
 
         this.tableInfoList.forEach(tableInfo -> checkImportPackages(tableInfo));
     }
