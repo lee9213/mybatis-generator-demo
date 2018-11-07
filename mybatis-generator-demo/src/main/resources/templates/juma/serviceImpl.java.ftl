@@ -4,6 +4,7 @@ import com.giants.common.exception.BusinessException;
 import com.giants.common.tools.Page;
 import com.giants.common.tools.PageCondition;
 import com.google.common.collect.Lists;
+import com.juma.auth.employee.domain.LoginEmployee;
 import ${package.entity}.${table.entityName};
 import ${package.mapper}.${table.mapperName};
 import ${package.service}.${table.serviceName};

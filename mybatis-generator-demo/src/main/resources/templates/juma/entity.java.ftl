@@ -67,7 +67,7 @@ public class ${table.entityName} implements Serializable {
     }
 
         <#if strategy.entityBuilderModel>
-    public ${table.entity} set${field.propertyName?cap_first}(${field.columnType.type} ${field.propertyName}) {
+    public ${table.entityName} set${field.propertyName?cap_first}(${field.columnType.type} ${field.propertyName}) {
         <#else>
     public void set${field.propertyName?cap_first}(${field.columnType.type} ${field.propertyName}) {
         </#if>
