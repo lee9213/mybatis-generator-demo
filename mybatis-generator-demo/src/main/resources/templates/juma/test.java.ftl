@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.giants.common.tools.Page;
 import com.giants.common.tools.PageCondition;
 import com.juma.auth.employee.domain.LoginEmployee;
+import com.juma.scm.server.test.BaseTest;
 import ${package.service}.${table.serviceName};
 import ${package.entity}.${table.entityName};
 import ${package.vo}.${table.voName};
@@ -22,7 +23,7 @@ import ${pkg};
  * @since ${global.date}
  */
 
-public class ${table.testName} {
+public class ${table.testName} extends BaseTest{
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -52,7 +53,7 @@ public class ${table.testName} {
     <#list table.commonFields as field>
         ${table.voName?uncap_first}.set${field.propertyName?cap_first}();
     </#list>
-        ${table.entityName} ${table.entityName?uncap_first} = workOrderService.add(${table.voName?uncap_first},null);
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.serviceName?uncap_first}.add(${table.voName?uncap_first},null);
         id = ${table.entityName?uncap_first}.getId();
         logger.info("添加成功【{}】",JSONObject.toJSONString(${table.entityName?uncap_first}));
     }
