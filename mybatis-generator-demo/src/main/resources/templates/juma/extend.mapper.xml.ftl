@@ -6,35 +6,37 @@
     <!-- 开启二级缓存 -->
     <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
 </#if>
-    <!-- 通用查询映射结果 -->
+    <#--
+    <!-- 通用查询映射结果 &ndash;&gt;
     <resultMap id="BaseResultMapExtend" type="${package.entity}.${table.entityName}">
     <#list table.fields as field>
-        <#if field.keyFlag><#--生成主键排在第一位-->
+        <#if field.keyFlag>&lt;#&ndash;生成主键排在第一位&ndash;&gt;
         <id column="${field.name}" property="${field.propertyName}" jdbcType="${field.type}"/>
         <#else>
         <result column="${field.name}" property="${field.propertyName}" jdbcType="${field.type}"/>
         </#if>
     </#list>
-    <#list table.commonFields as field><#--生成公共字段 -->
+    <#list table.commonFields as field>&lt;#&ndash;生成公共字段 &ndash;&gt;
         <result column="${field.name}" property="${field.propertyName}" jdbcType="${field.type}"/>
     </#list>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
+    <!-- 通用查询结果列 &ndash;&gt;
     <sql id="Base_Column_ListExtend">
         <#assign fieldLength=table.fields?size/>
         <#assign commonFieldLength=table.commonFields?size/>
         <#list table.fields as field><#if field.keywordFlag>`</#if>${field.name}<#if field.keywordFlag>`</#if><#if field_index?number lt fieldLength-1>, </#if></#list>
         <#if commonFieldLength?number gt 0>,<#list table.commonFields as field><#if field.keywordFlag>`</#if>${field.name}<#if field.keywordFlag>`</#if><#if field_index?number lt commonFieldLength-1>, </#if></#list></#if>
     </sql>
+    -->
 
     <sql id="selectWhere">
     </sql>
 
-    <select id="selectByPageCondition" resultMap="BaseResultMapExtend"
+    <select id="selectByPageCondition" resultMap="BaseResultMap"
             parameterType="com.giants.common.tools.PageCondition">
         select
-        <include refid="Base_Column_ListExtend"/>
+        <include refid="Base_Column_List"/>
         from ${table.name}
         <include refid="selectWhere"/>
         order by id desc

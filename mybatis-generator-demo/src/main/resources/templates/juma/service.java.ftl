@@ -24,7 +24,7 @@ public interface ${table.serviceName} {
 
 
     /**
-	* 新增接口
+	* 新增${table.comment!}
 	*
 	* @param ${table.voName?uncap_first}
 	* @param loginEmployee
@@ -32,7 +32,7 @@ public interface ${table.serviceName} {
 	${table.entityName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
-	* 详情接口
+	* 获取${table.comment!}详情
 	*
 	* @param id
 	* @param loginEmployee
@@ -40,7 +40,7 @@ public interface ${table.serviceName} {
 	${table.voName} detail(Integer id, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
-	* 更新接口
+	* 修改${table.comment!}
 	*
 	* @param ${table.voName?uncap_first}
 	* @param loginEmployee
@@ -48,7 +48,7 @@ public interface ${table.serviceName} {
 	void update(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
-	* 删除接口
+	* 删除${table.comment!}
 	*
 	* @param id
 	* @param loginEmployee
@@ -56,7 +56,7 @@ public interface ${table.serviceName} {
 	void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException ;
 
 	/**
-	* 列表
+	* 获取${table.comment!}列表
 	*
 	* @param pageCondition
 	* @param loginEmployee

@@ -67,5 +67,6 @@ public class GlobalProperties {
     private String serviceName = "%sService";
     private String serviceImplName = "%sServiceImpl";
     private String controllerName = "%sController";
+    private String testName = "%sTest";
     private String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 }

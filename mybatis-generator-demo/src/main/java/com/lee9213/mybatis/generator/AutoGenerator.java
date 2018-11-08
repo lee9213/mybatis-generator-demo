@@ -72,6 +72,8 @@ public class AutoGenerator {
             generatorFileChain.addGenerator(new ServiceImplFileGenerator());
             // 添加生成Controller
             generatorFileChain.addGenerator(new ControllerFileGenerator());
+            // 添加生成Test
+            generatorFileChain.addGenerator(new TestFileGenerator());
 
             // 添加扩展生成器
             Map<String, Object> extendGenerators = ApplicationContextUtil.getBeansWithAnnotation(ExtendGenerator.class);

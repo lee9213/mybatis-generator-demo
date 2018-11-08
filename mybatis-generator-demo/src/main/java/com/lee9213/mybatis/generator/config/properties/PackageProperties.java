@@ -64,4 +64,9 @@ public class PackageProperties {
      * Controller包名
      */
     private String controller = "controller";
+
+    /**
+     * Test包名
+     */
+    private String test = "test";
 }

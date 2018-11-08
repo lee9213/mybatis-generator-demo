@@ -24,4 +24,5 @@ public class PackageInfo {
     private String service;
     private String serviceImpl;
     private String controller;
+    private String test;
 }

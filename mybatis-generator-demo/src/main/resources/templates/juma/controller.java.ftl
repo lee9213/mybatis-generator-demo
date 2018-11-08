@@ -22,7 +22,7 @@ import ${strategy.superControllerClass};
 </#if>
 
 /**
- * <p>${table.comment!} 前端控制器</p>
+ * <p>${table.comment!}Controller</p>
  *
  * @author ${global.author}
  * @since ${global.date}
@@ -43,62 +43,97 @@ public class ${table.controllerName} {
     private ${table.serviceName} ${table.serviceName?uncap_first};
 
     /**
-     * add 新增接口
+     * 新增${table.comment!}
      *
      * @param ${table.voName?uncap_first}
      */
+    <#if !strategy.restControllerStyle>
     @RequestMapping(value = "/add")
     @ResponseBody
     public ${table.entityName} add(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.add(${table.voName?uncap_first}, loginEmployee);
     }
+    <#else>
+    @RequestMapping(value = "/add")
+    public ${table.entityName} add(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+        return ${table.serviceName?uncap_first}.add(${table.voName?uncap_first}, loginEmployee);
+    }
+    </#if>
 
     /**
-     * detail 详情接口
+     * 获取${table.comment!}详情
      *
      * @param id
      */
+    <#if !strategy.restControllerStyle>
     @RequestMapping(value = "/detail")
     @ResponseBody
     public ${table.voName} detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.detail(id, loginEmployee);
     }
+    <#else>
+    @RequestMapping(value = "/detail")
+    public ${table.voName} detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
+        return ${table.serviceName?uncap_first}.detail(id, loginEmployee);
+    }
+    </#if>
+
 
     /**
-     * update 更新接口
+     * 修改${table.comment!}
      *
      * @param ${table.voName?uncap_first}
      */
+    <#if !strategy.restControllerStyle>
     @RequestMapping(value = "/update")
     @ResponseBody
+    <#else>
+    @RequestMapping(value = "/update")
     public void update(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
         ${table.serviceName?uncap_first}.update(${table.voName?uncap_first}, loginEmployee);
     }
+    </#if>
 
 
     /**
-     * delete  删除接口
+     * 删除${table.comment!}
      *
      * @param id
      */
+    <#if !strategy.restControllerStyle>
     @RequestMapping(value = "/delete")
     @ResponseBody
     public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         ${table.serviceName?uncap_first}.delete(id, loginEmployee);
     }
+    <#else>
+    @RequestMapping(value = "/delete")
+    public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
+        ${table.serviceName?uncap_first}.delete(id, loginEmployee);
+    }
+    </#if>
+
 
 
     /**
-     * 列表
+     * 获取${table.comment!}列表
      *
      * @param pageCondition
      * @param loginEmployee
      * @return
      */
+    <#if !strategy.restControllerStyle>
     @RequestMapping(value = "/list")
     @ResponseBody
     public Page<${table.voName}> list(@RequestBody PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
-    return ${table.serviceName?uncap_first}.list(pageCondition, loginEmployee);
+        return ${table.serviceName?uncap_first}.list(pageCondition, loginEmployee);
     }
+    <#else>
+    @RequestMapping(value = "/list")
+    public Page<${table.voName}> list(@RequestBody PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
+        return ${table.serviceName?uncap_first}.list(pageCondition, loginEmployee);
+    }
+    </#if>
+
 }
 

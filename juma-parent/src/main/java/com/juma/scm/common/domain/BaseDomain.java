@@ -24,7 +24,7 @@ public class BaseDomain {
         return isDelete;
     }
 
-    public void setIsDelete(boolean isDelete) {
+    public void setDelete(boolean isDelete) {
         this.isDelete = isDelete;
     }
 

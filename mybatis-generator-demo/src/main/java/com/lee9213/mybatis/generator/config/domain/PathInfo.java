@@ -23,6 +23,7 @@ public class PathInfo {
     private String servicePath;
     private String serviceImplPath;
     private String controllerPath;
+    private String testPath;
 
 
 }
