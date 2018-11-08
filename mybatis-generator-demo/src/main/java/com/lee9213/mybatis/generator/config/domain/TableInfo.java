@@ -62,6 +62,11 @@ public class TableInfo {
      * Controller名字
      */
     private String controllerName;
+
+    /**
+     * Test名字
+     */
+    private String testName;
     /**
      * 表的字段列表
      */

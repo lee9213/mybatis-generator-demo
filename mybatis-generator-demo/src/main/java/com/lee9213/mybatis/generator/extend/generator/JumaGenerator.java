@@ -13,6 +13,6 @@ public class JumaGenerator extends AbstractFileGenerator {
 
     @Override
     protected void doGenerator(TableInfo tableInfo) throws Exception {
-        System.err.println("juma extend generator " + tableInfo.getName());
+
     }
 }

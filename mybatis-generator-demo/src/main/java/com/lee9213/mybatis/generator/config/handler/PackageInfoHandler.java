@@ -28,7 +28,8 @@ public class PackageInfoHandler implements Handler {
                 .setExtendMapperXml(joinPackage(packageProperties.getParent(), packageProperties.getExtendMapperXml()))
                 .setService(joinPackage(packageProperties.getParent(), packageProperties.getService()))
                 .setServiceImpl(joinPackage(packageProperties.getParent(), packageProperties.getServiceImpl()))
-                .setController(joinPackage(packageProperties.getParent(), packageProperties.getController()));
+                .setController(joinPackage(packageProperties.getParent(), packageProperties.getController()))
+                .setTest(joinPackage(packageProperties.getParent(), packageProperties.getTest()));
         configuration.setPackageInfo(packageInfo);
     }
 

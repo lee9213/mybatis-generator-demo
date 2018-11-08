@@ -105,6 +105,12 @@ public class TableInfoHandler implements Handler {
                         tableInfo.setControllerName(entityName + Constant.CONTROLLER);
                     }
 
+                    if (StringUtils.isNotEmpty(globalProperties.getTestName())) {
+                        tableInfo.setTestName(String.format(globalProperties.getTestName(), entityName));
+                    } else {
+                        tableInfo.setControllerName(entityName + Constant.CONTROLLER);
+                    }
+
                     if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {
                         tableInfo.setSuperEntityClass(strategyProperties.getSuperEntityClass());
                     }

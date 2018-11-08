@@ -91,12 +91,12 @@
             <table tableName="${table.name}" domainObjectName="${table.entityName}"
                    enableInsert = "true"
                    enableSelectByPrimaryKey = "true"
-                   enableSelectByExample = "true"
+                   enableSelectByExample = "false"
                    enableUpdateByPrimaryKey = "true"
                    enableDeleteByPrimaryKey = "true"
-                   enableDeleteByExample = "true"
-                   enableCountByExample="true"
-                   enableUpdateByExample="true"
+                   enableDeleteByExample = "false"
+                   enableCountByExample="false"
+                   enableUpdateByExample="false"
                    mapperName="${table.mapperName}">
                 <#if strategy.underlineToCamelColumnNames == "true">
                 <property name="useActualColumnNames" value="false"/>
