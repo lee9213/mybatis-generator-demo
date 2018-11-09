@@ -58,7 +58,6 @@ public class AutoGenerator {
             MybatisFileGenerator mybatisGenerator = new MybatisFileGenerator();
             mybatisGenerator.generator();
 
-
             GeneratorFileChain generatorFileChain = new GeneratorFileChain();
             // 添加生成Entity
             generatorFileChain.addGenerator(new EntityFileGenerator());

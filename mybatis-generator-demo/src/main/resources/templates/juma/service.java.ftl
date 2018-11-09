@@ -29,7 +29,7 @@ public interface ${table.serviceName} {
 	* @param ${table.voName?uncap_first}
 	* @param loginEmployee
 	*/
-	${table.entityName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee)  throws BusinessException;
+	${table.voName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee)  throws BusinessException;
 
 	/**
 	* 获取${table.comment!}详情

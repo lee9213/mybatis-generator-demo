@@ -16,7 +16,10 @@ import org.springframework.stereotype.Controller;
 </#if>
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+<#if !strategy.restControllerStyle>
 import org.springframework.web.bind.annotation.ResponseBody;
+</#if>
 <#if strategy.superControllerClass?default("")?length gt 1>
 import ${strategy.superControllerClass};
 </#if>
@@ -48,14 +51,14 @@ public class ${table.controllerName} {
      * @param ${table.voName?uncap_first}
      */
     <#if !strategy.restControllerStyle>
-    @RequestMapping(value = "/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ${table.entityName} add(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+    public ${table.voName} add(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.add(${table.voName?uncap_first}, loginEmployee);
     }
     <#else>
-    @RequestMapping(value = "/add")
-    public ${table.entityName} add(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ${table.voName} add(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.add(${table.voName?uncap_first}, loginEmployee);
     }
     </#if>
@@ -66,13 +69,13 @@ public class ${table.controllerName} {
      * @param id
      */
     <#if !strategy.restControllerStyle>
-    @RequestMapping(value = "/detail")
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
     public ${table.voName} detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.detail(id, loginEmployee);
     }
     <#else>
-    @RequestMapping(value = "/detail")
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public ${table.voName} detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.detail(id, loginEmployee);
     }
@@ -85,10 +88,10 @@ public class ${table.controllerName} {
      * @param ${table.voName?uncap_first}
      */
     <#if !strategy.restControllerStyle>
-    @RequestMapping(value = "/update")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     <#else>
-    @RequestMapping(value = "/update")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public void update(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
         ${table.serviceName?uncap_first}.update(${table.voName?uncap_first}, loginEmployee);
     }
@@ -101,13 +104,13 @@ public class ${table.controllerName} {
      * @param id
      */
     <#if !strategy.restControllerStyle>
-    @RequestMapping(value = "/delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
     public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         ${table.serviceName?uncap_first}.delete(id, loginEmployee);
     }
     <#else>
-    @RequestMapping(value = "/delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         ${table.serviceName?uncap_first}.delete(id, loginEmployee);
     }
@@ -123,13 +126,13 @@ public class ${table.controllerName} {
      * @return
      */
     <#if !strategy.restControllerStyle>
-    @RequestMapping(value = "/list")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public Page<${table.voName}> list(@RequestBody PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.list(pageCondition, loginEmployee);
     }
     <#else>
-    @RequestMapping(value = "/list")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Page<${table.voName}> list(@RequestBody PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.list(pageCondition, loginEmployee);
     }

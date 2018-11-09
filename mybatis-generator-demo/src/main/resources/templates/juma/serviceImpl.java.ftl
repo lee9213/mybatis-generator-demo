@@ -50,13 +50,13 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * @param loginEmployee
      */
     @Override
-    public ${table.entityName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+    public ${table.voName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
         if (${table.voName?uncap_first} == null) {
             throw new BusinessException("add.${table.entityName?uncap_first}.error", "新增内容为空");
         }
         ${table.entityName} ${table.entityName?uncap_first} = convert(${table.voName?uncap_first});
         ${table.mapperName?uncap_first}.insertSelective(${table.entityName?uncap_first});
-        return ${table.entityName?uncap_first};
+        return convert(${table.entityName?uncap_first});
     }
 
     /**
@@ -139,7 +139,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     pageCondition.getFilters().put("tenantCode", loginEmployee.getTenantCode());
     		return new Page<>(pageCondition.getPageNo(), pageCondition.getPageSize(),
     			${table.mapperName?uncap_first}.countByPageCondition(pageCondition),
-    			convert${table.entityName}List(${table.mapperName?uncap_first}.selectByPageCondition(pageCondition)));
+    			convertList(${table.mapperName?uncap_first}.selectByPageCondition(pageCondition)));
     }
 
     /**
@@ -175,7 +175,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      *
      * @param ${table.entityName?uncap_first}List
      */
-    private List<${table.voName}> convert${table.entityName}List(List<${table.entityName}> ${table.entityName?uncap_first}List) {
+    private List<${table.voName}> convertList(List<${table.entityName}> ${table.entityName?uncap_first}List) {
     List<${table.voName}> ${table.voName?uncap_first}List = Lists.newArrayList();
         for (${table.entityName} ${table.entityName?uncap_first} : ${table.entityName?uncap_first}List) {
             ${table.voName?uncap_first}List.add(convert(${table.entityName?uncap_first}));
