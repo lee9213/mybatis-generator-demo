@@ -1,5 +1,6 @@
 package ${package.serviceImpl};
 
+import com.giants.common.collections.CollectionUtils;
 import com.giants.common.exception.BusinessException;
 import com.giants.common.tools.Page;
 import com.giants.common.tools.PageCondition;
@@ -135,11 +136,13 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      */
     @Override
     public Page<${table.voName}> list(PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
-    pageCondition.getFilters().put("tenant_id", loginEmployee.getTenantId());
-    pageCondition.getFilters().put("tenantCode", loginEmployee.getTenantCode());
-    		return new Page<>(pageCondition.getPageNo(), pageCondition.getPageSize(),
-    			${table.mapperName?uncap_first}.countByPageCondition(pageCondition),
-    			convertList(${table.mapperName?uncap_first}.selectByPageCondition(pageCondition)));
+        pageCondition.getFilters().put("tenantId", loginEmployee.getTenantId());
+        int count = ${table.mapperName?uncap_first}.countByPageCondition(pageCondition);
+        if (count <= 0) {
+            return new Page<>(pageCondition.getPageNo(), pageCondition.getPageSize(), 0, null);
+        }
+        List<${table.voName}> ${table.voName?uncap_first}List = convertList(${table.mapperName?uncap_first}.selectByPageCondition(pageCondition));
+        return new Page<>(pageCondition.getPageNo(), pageCondition.getPageSize(), count, ${table.voName?uncap_first}List);
     }
 
     /**
@@ -150,9 +153,10 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      */
     private ${table.entityName} convert(${table.voName} ${table.voName?uncap_first}) {
         ${table.entityName} ${table.entityName?uncap_first} = new ${table.entityName}();
-        if (${table.voName?uncap_first} != null) {
-            BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});
+        if (${table.voName?uncap_first} == null) {
+            return ${table.entityName?uncap_first};
         }
+        BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});
         return ${table.entityName?uncap_first};
     }
 
@@ -164,9 +168,10 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      */
     private ${table.voName} convert(${table.entityName} ${table.entityName?uncap_first}) {
         ${table.voName} ${table.voName?uncap_first} = new ${table.voName}();
-        if (${table.entityName?uncap_first} != null) {
-            BeanUtils.copyProperties(${table.entityName?uncap_first}, ${table.voName?uncap_first});
+        if (${table.entityName?uncap_first} == null) {
+            return ${table.voName?uncap_first};
         }
+        BeanUtils.copyProperties(${table.entityName?uncap_first}, ${table.voName?uncap_first});
         return ${table.voName?uncap_first};
     }
 
@@ -176,7 +181,10 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * @param ${table.entityName?uncap_first}List
      */
     private List<${table.voName}> convertList(List<${table.entityName}> ${table.entityName?uncap_first}List) {
-    List<${table.voName}> ${table.voName?uncap_first}List = Lists.newArrayList();
+        List<${table.voName}> ${table.voName?uncap_first}List = Lists.newArrayList();
+        if (CollectionUtils.isEmpty(${table.entityName?uncap_first}List)) {
+            return ${table.voName?uncap_first}List;
+        }
         for (${table.entityName} ${table.entityName?uncap_first} : ${table.entityName?uncap_first}List) {
             ${table.voName?uncap_first}List.add(convert(${table.entityName?uncap_first}));
         }
