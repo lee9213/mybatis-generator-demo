@@ -48,4 +48,5 @@ dependencies {
     compile('org.projectlombok:lombok:1.16.20')
     compile('org.freemarker:freemarker:2.3.9')
     compile('org.mybatis:mybatis:3.4.6')
+    compile('io.swagger:swagger-annotations:1.5.10')
 }

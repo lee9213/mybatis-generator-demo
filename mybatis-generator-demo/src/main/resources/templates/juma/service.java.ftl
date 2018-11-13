@@ -24,7 +24,7 @@ public interface ${table.serviceName} {
 
 
     /**
-	* 新增${table.comment!}
+	* 添加${table.comment!}
 	*
 	* @param ${table.voName?uncap_first}
 	* @param loginEmployee

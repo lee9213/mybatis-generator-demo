@@ -10,6 +10,7 @@ import ${package.vo}.${table.voName};
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 <#if strategy.restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
@@ -50,14 +51,14 @@ public class ${table.controllerName} {
     private ${table.serviceName} ${table.serviceName?uncap_first};
 
     /**
-     * 新增${table.comment!}
+     * 创建${table.comment!}
      *
      * @param ${table.voName?uncap_first}
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     <#if global.swagger2>
-    @ApiOperation(value = "新增${table.comment!}")</#if>
-    public ${table.voName} add(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+    @ApiOperation(value = "创建${table.comment!}")</#if>
+    public ${table.voName} create(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.add(${table.voName?uncap_first}, loginEmployee);
     }
 
@@ -66,10 +67,10 @@ public class ${table.controllerName} {
      *
      * @param id
      */
-    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
     <#if global.swagger2>
     @ApiOperation(value = "获取${table.comment!}详情")</#if>
-    public ${table.voName} detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
+    public ${table.voName} detail(@PathVariable Integer id, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.detail(id, loginEmployee);
     }
 
@@ -79,7 +80,7 @@ public class ${table.controllerName} {
      *
      * @param ${table.voName?uncap_first}
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     <#if global.swagger2>
     @ApiOperation(value = "修改${table.comment!}")</#if>
     public void update(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
@@ -92,10 +93,10 @@ public class ${table.controllerName} {
      *
      * @param id
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE)
     <#if global.swagger2>
     @ApiOperation(value = "删除${table.comment!}")</#if>
-    public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
+    public void delete(@PathVariable Integer id, LoginEmployee loginEmployee) throws BusinessException {
         ${table.serviceName?uncap_first}.delete(id, loginEmployee);
     }
 
@@ -109,7 +110,7 @@ public class ${table.controllerName} {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     <#if global.swagger2>
-    @ApiOperation(value = "分页查询${table.comment!}",response = ${table.voName}.class,responseContainer = "List")</#if>
+    @ApiOperation(value = "分页查询${table.comment!}",response = ${table.voName}.class, responseContainer = "List")</#if>
     public Page<${table.voName}> list(@RequestBody PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.list(pageCondition, loginEmployee);
     }
