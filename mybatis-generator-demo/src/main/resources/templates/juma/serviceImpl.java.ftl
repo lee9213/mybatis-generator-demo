@@ -45,7 +45,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     private ${table.mapperName} ${table.mapperName?uncap_first};
 
     /**
-     * 新增${table.comment!}
+     * 添加${table.comment!}
      *
      * @param ${table.voName?uncap_first}
      * @param loginEmployee
@@ -87,7 +87,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      */
     @Override
     public void update(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
-        if (${table.voName?uncap_first} == null) {
+        if (${table.voName?uncap_first} == null  || ${table.voName?uncap_first}.getId() == null) {
             throw new BusinessException("update.${table.entityName?uncap_first}.error", "更新内容为空");
         }
 
