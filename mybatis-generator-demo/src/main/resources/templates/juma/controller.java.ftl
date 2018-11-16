@@ -69,7 +69,7 @@ public class ${table.controllerName} {
      */
     @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
     <#if global.swagger2>
-    @ApiOperation(value = "获取${table.comment!}详情")</#if>
+    @ApiOperation(value = "获取${table.comment!}详情",response = ${table.voName}.class)</#if>
     public ${table.voName} detail(@PathVariable Integer id, LoginEmployee loginEmployee) throws BusinessException {
         return ${table.serviceName?uncap_first}.detail(id, loginEmployee);
     }

@@ -53,7 +53,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     @Override
     public ${table.voName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
         if (${table.voName?uncap_first} == null) {
-            throw new BusinessException("add.${table.entityName?uncap_first}.error", "新增内容为空");
+            throw new BusinessException("add.${table.entityName}.error", "新增内容为空");
         }
         ${table.entityName} ${table.entityName?uncap_first} = convert(${table.voName?uncap_first});
         ${table.mapperName?uncap_first}.insertSelective(${table.entityName?uncap_first});
@@ -69,7 +69,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     @Override
     public ${table.voName} detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         if (id == null) {
-            throw new BusinessException("detail.${table.entityName?uncap_first}.error", "id为空");
+            throw new BusinessException("detail.${table.entityName}.error", "id为空");
         }
         ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
         if (${table.entityName?uncap_first} == null) {
@@ -87,15 +87,13 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      */
     @Override
     public void update(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
-        if (${table.voName?uncap_first} == null  || ${table.voName?uncap_first}.getId() == null) {
-            throw new BusinessException("update.${table.entityName?uncap_first}.error", "更新内容为空");
+        if (${table.voName?uncap_first} == null || ${table.voName?uncap_first}.getId() == null) {
+            throw new BusinessException("update.${table.entityName}.error", "更新内容为空");
         }
 
-        ${table.entityName} ${table.entityName?uncap_first} = convert(${table.voName?uncap_first});
-        <#if table.isLogicDelete>
-        ${table.entityName?uncap_first}.setLastUpdateUserId(loginEmployee.getUserId());
-        ${table.entityName?uncap_first}.setLastUpdateTime(new Date());
-        </#if>
+        ${table.entityName} ${table.entityName?uncap_first} = convert(${table.voName?uncap_first})
+                .setLastUpdateUserId(loginEmployee.getUserId())
+                .setLastUpdateTime(new Date());
         ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(${table.entityName?uncap_first});
     }
 
@@ -109,18 +107,18 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     @Override
     public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
         if (id == null) {
-            throw new BusinessException("delete.${table.entityName?uncap_first}.error", "id为空");
+            throw new BusinessException("delete.${table.entityName}.error", "id为空");
         }
         <#if table.isLogicDelete>
         ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
         if (${table.entityName?uncap_first} == null) {
-            throw new BusinessException("delete.${table.entityName?uncap_first}.error", "数据异常");
+            throw new BusinessException("delete.${table.entityName}.error", "数据异常");
         }
-		${table.entityName?uncap_first}.setLastUpdateTime(new Date());
-		${table.entityName?uncap_first}.setLastUpdateUserId(loginEmployee.getUserId());
-        // 默认逻辑删除
-		${table.entityName?uncap_first}.setDelete(true);
-        ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(${table.entityName?uncap_first});
+        ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(new ${table.entityName}()
+                .setId(${table.entityName?uncap_first}.getId())
+                .setLastUpdateUserId(loginEmployee.getUserId())
+                .setLastUpdateTime(new Date())
+                .setIsDelete(true));
         <#else>
         ${table.mapperName?uncap_first}.deleteByPrimaryKey(id);
         </#if>
@@ -156,7 +154,14 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
         if (${table.voName?uncap_first} == null) {
             return ${table.entityName?uncap_first};
         }
-        BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});
+
+        <#list table.fields as field>
+        <#if field_index == 0>${table.entityName?uncap_first}.set${field.propertyName?cap_first}(${table.voName?uncap_first}.get${field.propertyName?cap_first}())<#else>        .set${field.propertyName?cap_first}(${table.voName?uncap_first}.get${field.propertyName?cap_first}())</#if><#if !field_has_next>;</#if>
+        </#list>
+        <#--<#list table.commonFields as field>-->
+        <#--.set${field.propertyName?cap_first}();-->
+        <#--</#list>-->
+        <#--BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});-->
         return ${table.entityName?uncap_first};
     }
 
@@ -171,7 +176,10 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
         if (${table.entityName?uncap_first} == null) {
             return ${table.voName?uncap_first};
         }
-        BeanUtils.copyProperties(${table.entityName?uncap_first}, ${table.voName?uncap_first});
+        <#list table.fields as field>
+        <#if field_index == 0>${table.voName?uncap_first}.set${field.propertyName?cap_first}(${table.entityName?uncap_first}.get${field.propertyName?cap_first}())<#else>        .set${field.propertyName?cap_first}(${table.entityName?uncap_first}.get${field.propertyName?cap_first}())</#if><#if !field_has_next>;</#if>
+        </#list>
+        <#--BeanUtils.copyProperties(${table.entityName?uncap_first}, ${table.voName?uncap_first});-->
         return ${table.voName?uncap_first};
     }
 

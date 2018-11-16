@@ -23,16 +23,11 @@ import lombok.experimental.Accessors;
  */
 <#if strategy.entityLombokModel>
 @Data
-    <#if table.superEntityClass??>
-@EqualsAndHashCode(callSuper = true)
-    <#else>
-@EqualsAndHashCode
-    </#if>
 @Accessors(chain = true)
 </#if>
-<#if global.swagger2>
-@ApiModel(value="${table.voName}对象", description="${table.comment!}")
-</#if>
+<#--<#if global.swagger2>-->
+<#--@ApiModel(value="${table.voName}对象", description="${table.comment!}")-->
+<#--</#if>-->
 <#if table.superEntityClass??>
 public class ${table.entityName} extends ${table.superEntityClass?substring(table.superEntityClass?last_index_of(".")+1)} implements Serializable {
 
@@ -48,13 +43,13 @@ public class ${table.entityName} implements Serializable {
     </#if>
 
     <#if field.comment!?length gt 0>
-    <#if global.swagger2>
-    @ApiModelProperty(value = "${field.comment}")
-    <#else>
+    <#--<#if global.swagger2>-->
+    <#--@ApiModelProperty(value = "${field.comment}")-->
+    <#--<#else>-->
     /**
      * ${field.comment}
      */
-    </#if>
+    <#--</#if>-->
     </#if>
     private ${field.columnType.type} ${field.propertyName};
 </#list>
