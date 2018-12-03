@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 import ${strategy.superServiceImplClass};
 </#if>
 
-<#if table.isLogicDelete>
 import java.util.Date;
-</#if>
 import java.util.List;
 
 /**

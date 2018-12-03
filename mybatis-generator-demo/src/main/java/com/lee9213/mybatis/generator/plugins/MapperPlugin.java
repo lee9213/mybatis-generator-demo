@@ -2,12 +2,9 @@ package com.lee9213.mybatis.generator.plugins;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
-import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.*;
-import org.mybatis.generator.api.dom.xml.Document;
-import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,98 +65,6 @@ public class MapperPlugin extends PluginAdapter {
         return true;
     }
 
-    /**
-     * insert
-     *
-     * @param method
-     * @param interfaze
-     * @param introspectedTable
-     * @return
-     */
-    @Override
-    public boolean clientInsertMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
-        return false;
-    }
-
-    /**
-     * UpdateByPrimary
-     *
-     * @param method
-     * @param interfaze
-     * @param introspectedTable
-     * @return
-     */
-    @Override
-    public boolean clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
-        return false;
-    }
-
-    /**
-     * UpdateByExample
-     *
-     * @param method
-     * @param interfaze
-     * @param introspectedTable
-     * @return
-     */
-    @Override
-    public boolean clientUpdateByExampleWithoutBLOBsMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
-        return false;
-    }
-
-
-    @Override
-    public boolean sqlMapGenerated(GeneratedXmlFile sqlMap, IntrospectedTable introspectedTable) {
-        return true;
-    }
-
-    /**
-     * insert
-     *
-     * @param element
-     * @param introspectedTable
-     * @return
-     */
-    @Override
-    public boolean sqlMapInsertElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        return false;
-    }
-
-    /**
-     * updateByPrimaryKey
-     *
-     * @param element
-     * @param introspectedTable
-     * @return
-     */
-    @Override
-    public boolean sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        return false;
-    }
-
-    /**
-     * updateByExample
-     *
-     * @param element
-     * @param introspectedTable
-     * @return
-     */
-    @Override
-    public boolean sqlMapUpdateByExampleWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        return false;
-    }
-
-    /**
-     * xml生成
-     *
-     * @param document
-     * @param introspectedTable
-     * @return
-     */
-    @Override
-    public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
-        return super.sqlMapDocumentGenerated(document, introspectedTable);
-    }
 
     @Override
     public boolean validate(List<String> list) {
