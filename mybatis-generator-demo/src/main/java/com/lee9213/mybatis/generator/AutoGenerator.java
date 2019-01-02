@@ -57,21 +57,21 @@ public class AutoGenerator {
         try {
             logger.info("==========================准备生成文件...==========================");
             logger.debug("==========================配置准备中...==========================");
-            GlobalProperties globalProperties = (GlobalProperties)ApplicationContextUtil.getBean("globalProperties");
+            GlobalProperties globalProperties = (GlobalProperties) ApplicationContextUtil.getBean("globalProperties");
             TemplateProperties templateProperties =
-                (TemplateProperties)ApplicationContextUtil.getBean("templateProperties");
+                (TemplateProperties) ApplicationContextUtil.getBean("templateProperties");
             PackageProperties packageProperties =
-                (PackageProperties)ApplicationContextUtil.getBean("packageProperties");
+                (PackageProperties) ApplicationContextUtil.getBean("packageProperties");
             DataSourceProperties dataSourceProperties =
-                (DataSourceProperties)ApplicationContextUtil.getBean("dataSourceProperties");
+                (DataSourceProperties) ApplicationContextUtil.getBean("dataSourceProperties");
             StrategyProperties strategyProperties =
-                (StrategyProperties)ApplicationContextUtil.getBean("strategyProperties");
+                (StrategyProperties) ApplicationContextUtil.getBean("strategyProperties");
             // 初始化配置
             Configuration configuration = new Configuration(globalProperties, templateProperties, packageProperties,
                 dataSourceProperties, strategyProperties, templateEngine);
             logger.debug("==========================配置准备完成...==========================");
             // 将配置注入容器中
-            DefaultListableBeanFactory autowireCapableBeanFactory = (DefaultListableBeanFactory)ApplicationContextUtil
+            DefaultListableBeanFactory autowireCapableBeanFactory = (DefaultListableBeanFactory) ApplicationContextUtil
                 .getApplicationContext().getAutowireCapableBeanFactory();
             autowireCapableBeanFactory.registerSingleton("configuration", configuration);
 
