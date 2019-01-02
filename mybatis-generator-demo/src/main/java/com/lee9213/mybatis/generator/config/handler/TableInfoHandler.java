@@ -114,6 +114,10 @@ public class TableInfoHandler implements Handler {
                     if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {
                         tableInfo.setSuperEntityClass(strategyProperties.getSuperEntityClass());
                     }
+
+                    if (StringUtils.isNotEmpty(strategyProperties.getSuperVOClass())) {
+                        tableInfo.setSuperVOClass(strategyProperties.getSuperVOClass());
+                    }
                 } else {
                     throw new RuntimeException("数据库表数据异常");
                 }

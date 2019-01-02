@@ -62,6 +62,11 @@ public class StrategyProperties {
     private String superEntityClass;
 
     /**
+     * 自定义继承的Entity类全称，带包名
+     */
+    private String superVOClass;
+
+    /**
      * 自定义基础的Entity类，公共字段
      */
     private List<String> superEntityColumns;

@@ -160,8 +160,13 @@ public class Configuration {
     private void checkImportPackages(TableInfo tableInfo) {
         if (StringUtils.isNotEmpty(tableInfo.getSuperEntityClass())) {
             // 自定义父类
-            tableInfo.getImportPackages().add(tableInfo.getSuperEntityClass());
-        } /*else if (globalConfig.isActiveRecord()) {
+            tableInfo.getEntityImportPackages().add(tableInfo.getSuperEntityClass());
+        }
+        if (StringUtils.isNotEmpty(tableInfo.getSuperVOClass())) {
+            // 自定义父类
+            tableInfo.getVoImportPackages().add(tableInfo.getSuperVOClass());
+        }
+        /*else if (globalConfig.isActiveRecord()) {
             // 无父类开启 AR 模式
             tableInfo.getImportPackages().add(com.baomidou.mybatisplus.extension.activerecord.Model.class.getCanonicalName());
         }

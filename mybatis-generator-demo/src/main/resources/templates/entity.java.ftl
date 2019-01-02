@@ -3,17 +3,15 @@ package ${package.entity};
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
+<#list table.entityImportPackages as pkg>
+import ${pkg};
+</#list>
 
-import java.io.Serializable;
-<#if global.swagger2>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-</#if>
 <#if strategy.entityLombokModel>
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 </#if>
+import java.io.Serializable;
 
 /**
  * <p>${table.comment!}</p>
@@ -25,9 +23,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 </#if>
-<#--<#if global.swagger2>-->
-<#--@ApiModel(value="${table.voName}对象", description="${table.comment!}")-->
-<#--</#if>-->
 <#if table.superEntityClass??>
 public class ${table.entityName} extends ${table.superEntityClass?substring(table.superEntityClass?last_index_of(".")+1)} implements Serializable {
 

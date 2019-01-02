@@ -79,6 +79,8 @@ public class TableInfo {
      * 需要导入的包
      */
     private Set<String> importPackages = new HashSet<>();
+    private Set<String> entityImportPackages = new HashSet<>();
+    private Set<String> voImportPackages = new HashSet<>();
 
     /**
      * 是否是逻辑删除
@@ -89,6 +91,11 @@ public class TableInfo {
      * 父类
      */
     private String superEntityClass;
+
+    /**
+     * 父类
+     */
+    private String superVOClass;
 
     public void setEntityName(String entityName) {
         this.entityName = entityName;
