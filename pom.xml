@@ -101,16 +101,10 @@
             <version>1.5.10</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.lee9213</groupId>
+            <artifactId>als-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
-    <!--<dependencyManagement>-->
-    <!--<dependencies>-->
-    <!--<dependency>-->
-    <!--<groupId>org.springframework.boot</groupId>-->
-    <!--<artifactId>spring-boot-dependencies</artifactId>-->
-    <!--<version>2.0.5.RELEASE</version>-->
-    <!--<scope>import</scope>-->
-    <!--<type>pom</type>-->
-    <!--</dependency>-->
-    <!--</dependencies>-->
-    <!--</dependencyManagement>-->
 </project>
