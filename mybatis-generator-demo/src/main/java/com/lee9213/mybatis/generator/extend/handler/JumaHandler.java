@@ -14,21 +14,21 @@ public class JumaHandler implements Handler {
 
     @Override
     public void handler(Configuration configuration) {
-        configuration.getTableInfoList().forEach(tableInfo -> {
-            tableInfo.getFields().forEach(tableField -> {
-                if(tableField.getName().equalsIgnoreCase("is_delete")){
-                    tableInfo.setIsLogicDelete(true);
-                }
-            });
-            tableInfo.getCommonFields().forEach(tableField -> {
-                if(tableField.getName().equalsIgnoreCase("is_delete")){
-                    tableInfo.setIsLogicDelete(true);
-                }
-            });
-
-            if (!tableInfo.getIsLogicDelete()) {
-                tableInfo.setSuperEntityClass(null);
-            }
-        });
+//        configuration.getTableInfoList().forEach(tableInfo -> {
+//            tableInfo.getFields().forEach(tableField -> {
+//                if(tableField.getName().equalsIgnoreCase("is_delete")){
+//                    tableInfo.setIsLogicDelete(true);
+//                }
+//            });
+//            tableInfo.getCommonFields().forEach(tableField -> {
+//                if(tableField.getName().equalsIgnoreCase("is_delete")){
+//                    tableInfo.setIsLogicDelete(true);
+//                }
+//            });
+//
+//            if (!tableInfo.getIsLogicDelete()) {
+//                tableInfo.setSuperEntityClass(null);
+//            }
+//        });
     }
 }

@@ -10,7 +10,9 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * <p>数据库配置信息</p>
+ * <p>
+ * 数据库配置信息
+ * </p>
  *
  * @author lee9213@163.com
  * @version 1.0

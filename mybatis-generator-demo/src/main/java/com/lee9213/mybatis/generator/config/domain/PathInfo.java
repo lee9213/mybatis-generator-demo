@@ -24,6 +24,7 @@ public class PathInfo {
     private String serviceImplPath;
     private String controllerPath;
     private String testPath;
+    private String convertPath;
 
 
 }

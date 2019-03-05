@@ -5,7 +5,9 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * <p>包配置信息</p>
+ * <p>
+ * 包配置信息
+ * </p>
  *
  * @author lee9213@163.com
  * @version 1.0
@@ -69,4 +71,6 @@ public class PackageProperties {
      * Test包名
      */
     private String test = "test";
+
+    private String convert = "convert";
 }

@@ -20,9 +20,8 @@ public class Generator {
      */
     public static void main(String[] args) {
 
-        new SpringApplicationBuilder(Generator.class)
-                .web(WebApplicationType.NONE)
-                .bannerMode(Banner.Mode.OFF).run(args);
+        new SpringApplicationBuilder(Generator.class).web(WebApplicationType.NONE).bannerMode(Banner.Mode.OFF)
+            .run(args);
 
         AutoGenerator mpg = new AutoGenerator();
         mpg.execute();

@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * <p>策略配置信息</p>
+ * <p>
+ * 策略配置信息
+ * </p>
  *
  * @author lee9213@163.com
  * @version 1.0
@@ -100,6 +102,7 @@ public class StrategyProperties {
 
     /**
      * 生成 <code>@RestController</code> 控制器
+     * 
      * <pre>
      *  <code>@Controller</code> -> <code>@RestController</code>
      * </pre>
@@ -112,11 +115,9 @@ public class StrategyProperties {
     private String logicDeleteFieldName;
 
     public boolean includeSuperEntityColumns(String fieldName) {
-        if(StringUtils.isNotEmpty(fieldName) && CollectionUtils.isNotEmpty(superEntityColumns)) {
-            return superEntityColumns.stream()
-                    .map(key -> key.toLowerCase())
-                    .collect(Collectors.toList())
-                    .contains(fieldName.toLowerCase());
+        if (StringUtils.isNotEmpty(fieldName) && CollectionUtils.isNotEmpty(superEntityColumns)) {
+            return superEntityColumns.stream().map(key -> key.toLowerCase()).collect(Collectors.toList())
+                .contains(fieldName.toLowerCase());
         }
         return false;
     }

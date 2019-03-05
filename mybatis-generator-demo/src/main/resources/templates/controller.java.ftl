@@ -1,14 +1,11 @@
 package ${package.controller};
 
-
-import com.giants.common.exception.BusinessException;
-import com.giants.common.tools.Page;
-import com.giants.common.tools.PageCondition;
-import com.juma.auth.employee.domain.LoginEmployee;
 import ${package.service}.${table.serviceName};
 import ${package.vo}.${table.voName};
+<#if global.swagger2>
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+</#if>
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 <#if strategy.restControllerStyle>

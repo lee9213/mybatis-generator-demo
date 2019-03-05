@@ -29,7 +29,6 @@ repositories {
 
 dependencies {
     compile('junit:junit:4.12')
-    compile project(':juma-parent')
     compile('org.springframework.boot:spring-boot-starter-web'){
         exclude module: 'spring-boot-starter-json'
         exclude module: 'spring-boot-starter-tomcat'

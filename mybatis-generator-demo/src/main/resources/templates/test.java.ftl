@@ -3,8 +3,6 @@ package ${package.test};
 import com.alibaba.fastjson.JSONObject;
 import com.giants.common.tools.Page;
 import com.giants.common.tools.PageCondition;
-import com.juma.auth.employee.domain.LoginEmployee;
-import com.juma.scm.server.test.BaseTest;
 import ${package.service}.${table.serviceName};
 import ${package.entity}.${table.entityName};
 import ${package.vo}.${table.voName};

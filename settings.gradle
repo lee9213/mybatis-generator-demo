@@ -1,4 +1,3 @@
 rootProject.name = 'mybatis-generator'
 include 'mybatis-generator-demo'
-include 'juma-parent'
 

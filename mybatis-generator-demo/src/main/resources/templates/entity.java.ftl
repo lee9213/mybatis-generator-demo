@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if strategy.entityLombokModel>
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 </#if>
 

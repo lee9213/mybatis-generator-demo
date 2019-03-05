@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * <p>mapper生成器</p>
+ * <p>
+ * mapper生成器
+ * </p>
  *
  * @author lee9213@163.com
  * @version 1.0
@@ -44,31 +46,55 @@ public class MapperPlugin extends PluginAdapter {
      */
     @Override
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass,
-                                   IntrospectedTable introspectedTable) {
+        IntrospectedTable introspectedTable) {
         Configuration configuration = (Configuration) ApplicationContextUtil.getBean("configuration");
-        interfaze.addImportedType(new FullyQualifiedJavaType("java.util.List"));
-        interfaze.addImportedType(new FullyQualifiedJavaType("com.giants.common.tools.PageCondition"));
-        String entityName = configuration.getTableInfoList().stream().filter(tableInfo -> tableInfo.getName().equalsIgnoreCase(introspectedTable.getTableConfiguration().getTableName())).collect(Collectors.toList()).get(0).getEntityName();
-        interfaze.addImportedType(new FullyQualifiedJavaType(configuration.getPackageInfo().getEntity() + "." +entityName));
-        Method selectByPageCondition = new Method("selectByPageCondition");
-        selectByPageCondition.addParameter(new Parameter(new FullyQualifiedJavaType("PageCondition"),"pageCondition"));
-        FullyQualifiedJavaType list = new FullyQualifiedJavaType("List");
-        list.addTypeArgument(new FullyQualifiedJavaType(entityName));
-        selectByPageCondition.setReturnType(list);
-        interfaze.addMethod(selectByPageCondition);
-
-
-        Method countByPageCondition = new Method("countByPageCondition");
-        countByPageCondition.addParameter(new Parameter(new FullyQualifiedJavaType("PageCondition"),"pageCondition"));
-        countByPageCondition.setReturnType(new FullyQualifiedJavaType("int"));
-        interfaze.addMethod(countByPageCondition);
+//        interfaze.addImportedType(new FullyQualifiedJavaType("java.util.List"));
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository"));
+        interfaze.addAnnotation("@Repository");
+        String entityName = configuration.getTableInfoList().stream()
+            .filter(tableInfo -> tableInfo.getName()
+                .equalsIgnoreCase(introspectedTable.getTableConfiguration().getTableName()))
+            .collect(Collectors.toList()).get(0).getEntityName();
+        interfaze.addImportedType(new FullyQualifiedJavaType(configuration.getPackageInfo().getEntity() + "." + entityName));
+//        Method selectByPageCondition = new Method("selectByPageCondition");
+//        selectByPageCondition.addParameter(new Parameter(new FullyQualifiedJavaType("PageCondition"), "pageCondition"));
+//        FullyQualifiedJavaType list = new FullyQualifiedJavaType("List");
+//        list.addTypeArgument(new FullyQualifiedJavaType(entityName));
+//        selectByPageCondition.setReturnType(list);
+//        interfaze.addMethod(selectByPageCondition);
+//
+//        Method countByPageCondition = new Method("countByPageCondition");
+//        countByPageCondition.addParameter(new Parameter(new FullyQualifiedJavaType("PageCondition"), "pageCondition"));
+//        countByPageCondition.setReturnType(new FullyQualifiedJavaType("int"));
+//        interfaze.addMethod(countByPageCondition);
         return true;
     }
-
 
     @Override
     public boolean validate(List<String> list) {
         return true;
     }
 
+    @Override
+    public boolean clientInsertSelectiveMethodGenerated(Method method, Interface interfaze,
+        IntrospectedTable introspectedTable) {
+        return false;
+    }
+
+    @Override
+    public boolean clientUpdateByPrimaryKeySelectiveMethodGenerated(Method method, Interface interfaze,
+        IntrospectedTable introspectedTable) {
+        return false;
+    }
+
+//    @Override
+//    public boolean sqlMapInsertSelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean sqlMapUpdateByPrimaryKeySelectiveElementGenerated(XmlElement element,
+//        IntrospectedTable introspectedTable) {
+//        return false;
+//    }
 }

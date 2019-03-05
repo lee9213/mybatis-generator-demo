@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * <p>全局配置信息</p>
+ * <p>
+ * 全局配置信息
+ * </p>
  *
  * @author lee9213@163.com
  * @version 1.0
@@ -56,8 +58,7 @@ public class GlobalProperties {
     private DateType dateType = DateType.ONLY_DATE;
 
     /**
-     * 各层文件名称方式，例如： %sAction 生成 UserAction
-     * %s 为占位符
+     * 各层文件名称方式，例如： %sAction 生成 UserAction %s 为占位符
      */
     private String entityName = "%sEntity";
     private String voName = "%sVO";
@@ -68,5 +69,10 @@ public class GlobalProperties {
     private String serviceImplName = "%sServiceImpl";
     private String controllerName = "%sController";
     private String testName = "%sTest";
+    private String convertName = "%sConvert";
     private String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    private String exceptionName;
+    private String exceptionPackage;
+    private String exceptionCodeName;
+    private String exceptionCodePackage;
 }

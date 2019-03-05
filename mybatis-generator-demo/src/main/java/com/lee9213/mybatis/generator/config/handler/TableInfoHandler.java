@@ -20,13 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>表信息解析</p>
+ * <p>
+ * 表信息解析
+ * </p>
  *
  * @author libo
  * @date 2018/10/18 11:16
  */
 public class TableInfoHandler implements Handler {
-
 
     @Override
     public void handler(Configuration configuration) {
@@ -35,17 +36,19 @@ public class TableInfoHandler implements Handler {
         DataSourceProperties dataSourceProperties = configuration.getDataSourceProperties();
         List<String> includeTables = strategyProperties.getIncludeTables();
         ArrayList<String> includeTableList = Lists.newArrayList();
-        if(CollectionUtils.isNotEmpty(includeTables)) {
+        if (CollectionUtils.isNotEmpty(includeTables)) {
             includeTableList = Lists.newArrayList(includeTables);
         }
 
-        //所有的表信息
+        // 所有的表信息
         List<TableInfo> tableList = new ArrayList<>();
         IDbQuery dbQuery = dataSourceProperties.getDbQuery();
-        String tablesSql = dbQuery.tablesSql(strategyProperties.getIncludeTables(), strategyProperties.getIncludeTablePrefixs(), strategyProperties.getExcludeTables());
-        try (Connection connection = JDBCUtil.getConnection(dataSourceProperties.getUrl(), dataSourceProperties.getUsername(), dataSourceProperties.getPassword());
-             PreparedStatement preparedStatement = connection.prepareStatement(tablesSql);
-             ResultSet results = preparedStatement.executeQuery()) {
+        String tablesSql = dbQuery.tablesSql(strategyProperties.getIncludeTables(),
+            strategyProperties.getIncludeTablePrefixs(), strategyProperties.getExcludeTables());
+        try (Connection connection = JDBCUtil.getConnection(dataSourceProperties.getUrl(),
+                dataSourceProperties.getUsername(), dataSourceProperties.getPassword());
+            PreparedStatement preparedStatement = connection.prepareStatement(tablesSql);
+            ResultSet results = preparedStatement.executeQuery()) {
             GlobalProperties globalProperties = configuration.getGlobalProperties();
             TableInfo tableInfo;
             while (results.next()) {
@@ -61,7 +64,7 @@ public class TableInfoHandler implements Handler {
                     tableInfo.setName(tableName);
 
                     String entityName = StringUtils.capitalFirst(StringUtils.processName(tableName,
-                            strategyProperties.getUnderlineToCamelTableName(), strategyProperties.getTablePrefix()));
+                        strategyProperties.getUnderlineToCamelTableName(), strategyProperties.getTablePrefix()));
 
                     if (StringUtils.isNotEmpty(globalProperties.getEntityName())) {
                         tableInfo.setEntityName(String.format(globalProperties.getEntityName(), entityName));
@@ -84,7 +87,8 @@ public class TableInfoHandler implements Handler {
                         tableInfo.setMapperXmlName(entityName + Constant.MAPPER_XML);
                     }
                     if (StringUtils.isNotEmpty(globalProperties.getExtendMapperXmlName())) {
-                        tableInfo.setExtendMapperXmlName(String.format(globalProperties.getExtendMapperXmlName(), entityName));
+                        tableInfo.setExtendMapperXmlName(
+                            String.format(globalProperties.getExtendMapperXmlName(), entityName));
                     } else {
                         tableInfo.setExtendMapperXmlName(entityName + Constant.EXTEND_MAPPER_XML);
                     }
@@ -108,7 +112,13 @@ public class TableInfoHandler implements Handler {
                     if (StringUtils.isNotEmpty(globalProperties.getTestName())) {
                         tableInfo.setTestName(String.format(globalProperties.getTestName(), entityName));
                     } else {
-                        tableInfo.setControllerName(entityName + Constant.CONTROLLER);
+                        tableInfo.setTestName(entityName + Constant.TEST);
+                    }
+
+                    if (StringUtils.isNotEmpty(globalProperties.getConvertName())) {
+                        tableInfo.setConvertName(String.format(globalProperties.getConvertName(), entityName));
+                    } else {
+                        tableInfo.setConvertName(entityName + Constant.CONVERT);
                     }
 
                     if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {

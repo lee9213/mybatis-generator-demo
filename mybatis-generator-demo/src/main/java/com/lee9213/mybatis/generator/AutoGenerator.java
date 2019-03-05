@@ -73,6 +73,7 @@ public class AutoGenerator {
             generatorFileChain.addGenerator(new ControllerFileGenerator());
             // 添加生成Test
             generatorFileChain.addGenerator(new TestFileGenerator());
+            generatorFileChain.addGenerator(new ConvertFileGenerator());
 
             // 添加扩展生成器
             Map<String, Object> extendGenerators = ApplicationContextUtil.getBeansWithAnnotation(ExtendGenerator.class);
@@ -87,7 +88,7 @@ public class AutoGenerator {
 
             logger.info("==========================文件生成完成！！！==========================");
 
-            FileUtil.open(globalProperties.getOutputDir(),globalProperties.isOpen());
+            FileUtil.open(globalProperties.getOutputDir(), globalProperties.isOpen());
         } catch (Exception ex) {
             logger.error("无法创建文件，请检查配置信息！");
             ex.printStackTrace();
