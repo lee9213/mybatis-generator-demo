@@ -103,7 +103,6 @@
                 <#else>
                 <property name="useActualColumnNames" value="true"/>
                 </#if>
-                <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             </table>
         </#list>
     </context>
