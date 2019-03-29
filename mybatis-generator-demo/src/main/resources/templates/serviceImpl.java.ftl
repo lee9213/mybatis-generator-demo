@@ -1,20 +1,14 @@
 package ${package.serviceImpl};
 
-import com.giants.common.collections.CollectionUtils;
-import com.giants.common.exception.BusinessException;
-import com.giants.common.tools.Page;
-import com.giants.common.tools.PageCondition;
+import com.lee9213.als.common.exception.BusinessException;
 import com.google.common.collect.Lists;
-import com.juma.auth.employee.domain.LoginEmployee;
 import ${package.entity}.${table.entityName};
 import ${package.mapper}.${table.mapperName};
 import ${package.service}.${table.serviceName};
 import ${package.vo}.${table.voName};
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 <#if strategy.superServiceImplClass?default("")?length gt 1>
 import ${strategy.superServiceImplClass};
 </#if>
@@ -30,14 +24,13 @@ import java.util.List;
  * @author ${global.author}
  * @since ${global.date}
  */
+@Slf4j
 @Service
 <#if strategy.superServiceImplClass?default("")?length gt 1>
 public class ${table.serviceImplName} extends ${strategy.superServiceImplClass}<${table.mapperName}, ${table.entityName}> implements ${table.serviceName} {
 <#else>
 public class ${table.serviceImplName} implements ${table.serviceName} {
 </#if>
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private ${table.mapperName} ${table.mapperName?uncap_first};
@@ -46,15 +39,14 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * 添加${table.comment!}
      *
      * @param ${table.voName?uncap_first}
-     * @param loginEmployee
      */
     @Override
-    public ${table.voName} add(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+    public ${table.voName} add(${table.voName} ${table.voName?uncap_first}) throws BusinessException {
         if (${table.voName?uncap_first} == null) {
             throw new BusinessException("add.${table.entityName}.error", "新增内容为空");
         }
         ${table.entityName} ${table.entityName?uncap_first} = convert(${table.voName?uncap_first});
-        ${table.mapperName?uncap_first}.insertSelective(${table.entityName?uncap_first});
+        ${table.mapperName?uncap_first}.insert(${table.entityName?uncap_first});
         return convert(${table.entityName?uncap_first});
     }
 
@@ -62,10 +54,9 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * 获取${table.comment!}详情
      *
      * @param id
-     * @param loginEmployee
      */
     @Override
-    public ${table.voName} detail(Integer id, LoginEmployee loginEmployee) throws BusinessException {
+    public ${table.voName} detail(Integer id) throws BusinessException {
         if (id == null) {
             throw new BusinessException("detail.${table.entityName}.error", "id为空");
         }
@@ -81,10 +72,9 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * 修改${table.comment!}
      *
      * @param ${table.voName?uncap_first}
-     * @param loginEmployee
      */
     @Override
-    public void update(${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
+    public void update(${table.voName} ${table.voName?uncap_first}) throws BusinessException {
         if (${table.voName?uncap_first} == null || ${table.voName?uncap_first}.getId() == null) {
             throw new BusinessException("update.${table.entityName}.error", "更新内容为空");
         }
@@ -100,10 +90,9 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * 删除${table.comment!}
      *
      * @param id
-     * @param loginEmployee
      */
     @Override
-    public void delete(Integer id, LoginEmployee loginEmployee) throws BusinessException {
+    public void delete(Integer id) throws BusinessException {
         if (id == null) {
             throw new BusinessException("delete.${table.entityName}.error", "id为空");
         }
@@ -127,11 +116,10 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
      * 获取${table.comment!}列表
      *
      * @param pageCondition
-     * @param loginEmployee
      * @return
      */
     @Override
-    public Page<${table.voName}> list(PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
+    public Page<${table.voName}> list(PageCondition pageCondition) throws BusinessException {
         pageCondition.getFilters().put("tenantId", loginEmployee.getTenantId());
         int count = ${table.mapperName?uncap_first}.countByPageCondition(pageCondition);
         if (count <= 0) {

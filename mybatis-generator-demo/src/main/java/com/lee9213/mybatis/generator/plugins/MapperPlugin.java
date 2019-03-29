@@ -52,7 +52,6 @@ public class MapperPlugin extends PluginAdapter {
         interfaze.getMethods().removeIf(e -> true);
         Configuration configuration = (Configuration) SpringContextUtil.getBean("configuration");
         interfaze.addImportedType(new FullyQualifiedJavaType("java.util.List"));
-        interfaze.addImportedType(new FullyQualifiedJavaType("com.giants.common.tools.PageCondition"));
         String superMapperClass = configuration.getStrategyProperties().getSuperMapperClass();
         interfaze.addImportedType(new FullyQualifiedJavaType(superMapperClass));
         String entityName = configuration.getTableInfoList().stream()
