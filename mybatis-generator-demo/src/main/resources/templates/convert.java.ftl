@@ -23,19 +23,11 @@ public final class ${table.convertName} {
      * @return ${table.comment!}
      */
     public static ${table.entityName} convert(${table.voName} ${table.voName?uncap_first}) {
-        ${table.entityName} ${table.entityName?uncap_first} = new ${table.entityName}();
         if (Objects.isNull(${table.voName?uncap_first})) {
-            return ${table.entityName?uncap_first};
+            return ${table.entityName}.builder().build();
         }
 
-        <#list table.fields as field>
-        <#if field_index == 0>${table.entityName?uncap_first}.set${field.propertyName?cap_first}(${table.voName?uncap_first}.get${field.propertyName?cap_first}())<#else>        .set${field.propertyName?cap_first}(${table.voName?uncap_first}.get${field.propertyName?cap_first}())</#if><#if !field_has_next>;</#if>
-        </#list>
-        <#--<#list table.commonFields as field>-->
-        <#--.set${field.propertyName?cap_first}();-->
-        <#--</#list>-->
-        <#--BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});-->
-        return ${table.entityName?uncap_first};
+        return <#list table.fields as field><#if field_index == 0>${table.entityName}.builder().${field.propertyName}(${table.voName?uncap_first}.get${field.propertyName?cap_first}())<#else>.${field.propertyName}(${table.voName?uncap_first}.get${field.propertyName?cap_first}())</#if><#if !field_has_next>.build();</#if></#list>
     }
 
     /**
@@ -45,15 +37,11 @@ public final class ${table.convertName} {
      * @return ${table.comment!}VO
      */
     public static ${table.voName} convert(${table.entityName} ${table.entityName?uncap_first}) {
-        ${table.voName} ${table.voName?uncap_first} = new ${table.voName}();
         if (Objects.isNull(${table.entityName?uncap_first})) {
-            return ${table.voName?uncap_first};
+            return ${table.voName}.builder().build();
         }
-        <#list table.fields as field>
-        <#if field_index == 0>${table.voName?uncap_first}.set${field.propertyName?cap_first}(${table.entityName?uncap_first}.get${field.propertyName?cap_first}())<#else>        .set${field.propertyName?cap_first}(${table.entityName?uncap_first}.get${field.propertyName?cap_first}())</#if><#if !field_has_next>;</#if>
-        </#list>
+        return <#list table.fields as field><#if field_index == 0>${table.voName}.builder().${field.propertyName}(${table.entityName?uncap_first}.get${field.propertyName?cap_first}())<#else>.${field.propertyName}(${table.entityName?uncap_first}.get${field.propertyName?cap_first}())</#if><#if !field_has_next>.build();</#if></#list>
         <#--BeanUtils.copyProperties(${table.entityName?uncap_first}, ${table.voName?uncap_first});-->
-        return ${table.voName?uncap_first};
     }
 
     /**

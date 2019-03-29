@@ -1,10 +1,6 @@
 package ${package.controller};
 
 
-import com.giants.common.exception.BusinessException;
-import com.giants.common.tools.Page;
-import com.giants.common.tools.PageCondition;
-import com.juma.auth.employee.domain.LoginEmployee;
 import ${package.service}.${table.serviceName};
 import ${package.vo}.${table.voName};
 import io.swagger.annotations.Api;
@@ -58,8 +54,8 @@ public class ${table.controllerName} {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     <#if global.swagger2>
     @ApiOperation(value = "创建${table.comment!}")</#if>
-    public ${table.voName} create(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
-        return ${table.serviceName?uncap_first}.add(${table.voName?uncap_first}, loginEmployee);
+    public ${table.voName} create(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
+        return ${table.serviceName?uncap_first}.add(${table.voName?uncap_first});
     }
 
     /**
@@ -70,8 +66,8 @@ public class ${table.controllerName} {
     @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
     <#if global.swagger2>
     @ApiOperation(value = "获取${table.comment!}详情",response = ${table.voName}.class)</#if>
-    public ${table.voName} detail(@PathVariable Integer id, LoginEmployee loginEmployee) throws BusinessException {
-        return ${table.serviceName?uncap_first}.detail(id, loginEmployee);
+    public ${table.voName} detail(@PathVariable Long id) throws BusinessException {
+        return ${table.serviceName?uncap_first}.detail(id);
     }
 
 
@@ -83,8 +79,8 @@ public class ${table.controllerName} {
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     <#if global.swagger2>
     @ApiOperation(value = "修改${table.comment!}")</#if>
-    public void update(@RequestBody ${table.voName} ${table.voName?uncap_first}, LoginEmployee loginEmployee) throws BusinessException {
-        ${table.serviceName?uncap_first}.update(${table.voName?uncap_first}, loginEmployee);
+    public void update(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
+        ${table.serviceName?uncap_first}.update(${table.voName?uncap_first});
     }
 
 
@@ -96,8 +92,8 @@ public class ${table.controllerName} {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE)
     <#if global.swagger2>
     @ApiOperation(value = "删除${table.comment!}")</#if>
-    public void delete(@PathVariable Integer id, LoginEmployee loginEmployee) throws BusinessException {
-        ${table.serviceName?uncap_first}.delete(id, loginEmployee);
+    public void delete(@PathVariable Long id) throws BusinessException {
+        ${table.serviceName?uncap_first}.delete(id);
     }
 
 
@@ -105,14 +101,13 @@ public class ${table.controllerName} {
      * 获取${table.comment!}列表
      *
      * @param pageCondition
-     * @param loginEmployee
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     <#if global.swagger2>
     @ApiOperation(value = "分页查询${table.comment!}",response = ${table.voName}.class, responseContainer = "List")</#if>
-    public Page<${table.voName}> list(@RequestBody PageCondition pageCondition, LoginEmployee loginEmployee) throws BusinessException {
-        return ${table.serviceName?uncap_first}.list(pageCondition, loginEmployee);
+    public Page<${table.voName}> list(@RequestBody PageCondition pageCondition) throws BusinessException {
+        return ${table.serviceName?uncap_first}.list(pageCondition);
     }
 
 }

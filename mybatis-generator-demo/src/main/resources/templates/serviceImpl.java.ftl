@@ -45,7 +45,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
             throw new ${global.exceptionName}(${global.exceptionCodeName}.PARAM_NULL, "产品信息");
         }
         ${table.entityName} ${table.entityName?uncap_first} = ${table.convertName}.convert(${table.voName?uncap_first});
-        return ${table.mapperName?uncap_first}.insertSelective(${table.entityName?uncap_first});
+        return ${table.mapperName?uncap_first}.insert(${table.entityName?uncap_first});
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
         if (Objects.isNull(id)) {
             throw new ${global.exceptionName}(${global.exceptionCodeName}.PARAM_NULL, "产品ID");
         }
-        ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectById(id);
         if (Objects.isNull(${table.entityName?uncap_first})) {
             return new ${table.voName}();
         }
@@ -70,7 +70,7 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
         ${table.entityName} ${table.entityName?uncap_first} = ${table.convertName}.convert(${table.voName?uncap_first})
                 .setModifyUser()
                 .setModifyTime(new Date());
-        return ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(${table.entityName?uncap_first});
+        return ${table.mapperName?uncap_first}.updateById(${table.entityName?uncap_first});
     }
 
     @Override
@@ -83,13 +83,13 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
         if (Objects.isNull(${table.entityName?uncap_first})) {
             throw new ${global.exceptionName}("delete.${table.entityName}.error", "数据异常");
         }
-        ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(new ${table.entityName}()
+        ${table.mapperName?uncap_first}.updateById(new ${table.entityName}()
                 .setId(${table.entityName?uncap_first}.getId())
                 .setLastUpdateUserId(loginEmployee.getUserId())
                 .setLastUpdateTime(new Date())
                 .setIsDelete(true));
         <#else>
-        return ${table.mapperName?uncap_first}.deleteByPrimaryKey(id);
+        return ${table.mapperName?uncap_first}.deleteById(id);
         </#if>
 
     }
