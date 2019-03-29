@@ -6,12 +6,15 @@ import ${pkg};
 <#list table.entityImportPackages as pkg>
 import ${pkg};
 </#list>
+<#if strategy.superEntityClass??>
+<#else>
+import java.io.Serializable;
+</#if>
 
 <#if strategy.entityLombokModel>
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.Builder;
 </#if>
-import java.io.Serializable;
 
 /**
  * <p>${table.comment!}</p>
@@ -21,11 +24,10 @@ import java.io.Serializable;
  */
 <#if strategy.entityLombokModel>
 @Data
-@Accessors(chain = true)
+@Builder
 </#if>
-<#if table.superEntityClass??>
-public class ${table.entityName} extends ${table.superEntityClass?substring(table.superEntityClass?last_index_of(".")+1)} implements Serializable {
-
+<#if strategy.superEntityClass??>
+public class ${table.entityName} extends ${strategy.superEntityClass?substring(strategy.superEntityClass?last_index_of(".")+1)} {
 <#else>
 public class ${table.entityName} implements Serializable {
 </#if>

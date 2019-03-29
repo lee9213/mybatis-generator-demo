@@ -1,7 +1,7 @@
 package com.lee9213.mybatis.generator.plugins;
 
 import com.lee9213.mybatis.generator.config.Configuration;
-import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
+import com.lee9213.mybatis.generator.util.SpringContextUtil;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.*;
@@ -49,15 +49,24 @@ public class MapperPlugin extends PluginAdapter {
     @Override
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass,
         IntrospectedTable introspectedTable) {
-        Configuration configuration = (Configuration)ApplicationContextUtil.getBean("configuration");
+        interfaze.getMethods().removeIf(e -> true);
+        Configuration configuration = (Configuration) SpringContextUtil.getBean("configuration");
         interfaze.addImportedType(new FullyQualifiedJavaType("java.util.List"));
         interfaze.addImportedType(new FullyQualifiedJavaType("com.giants.common.tools.PageCondition"));
+        String superMapperClass = configuration.getStrategyProperties().getSuperMapperClass();
+        interfaze.addImportedType(new FullyQualifiedJavaType(superMapperClass));
         String entityName = configuration.getTableInfoList().stream()
             .filter(tableInfo -> tableInfo.getName()
                 .equalsIgnoreCase(introspectedTable.getTableConfiguration().getTableName()))
             .collect(Collectors.toList()).get(0).getEntityName();
-        interfaze
-            .addImportedType(new FullyQualifiedJavaType(configuration.getPackageInfo().getEntity() + "." + entityName));
+        FullyQualifiedJavaType entity = new FullyQualifiedJavaType(configuration.getPackageInfo().getEntity() + "." + entityName);
+        interfaze.addImportedType(entity);
+
+        FullyQualifiedJavaType superClass = new FullyQualifiedJavaType(superMapperClass);
+        superClass.addTypeArgument(entity);
+        interfaze.addSuperInterface(superClass);
+        interfaze.addAnnotation("@Mapper");
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
         Method selectByPageCondition = new Method("selectByPageCondition");
         selectByPageCondition.addParameter(new Parameter(new FullyQualifiedJavaType("PageCondition"), "pageCondition"));
         FullyQualifiedJavaType list = new FullyQualifiedJavaType("List");

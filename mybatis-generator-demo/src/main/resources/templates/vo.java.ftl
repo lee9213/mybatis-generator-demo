@@ -6,15 +6,18 @@ import ${pkg};
 <#list table.voImportPackages as pkg>
 import ${pkg};
 </#list>
-
+<#if strategy.superVOClass??>
+<#else>
 import java.io.Serializable;
+</#if>
+
 <#if global.swagger2>
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if strategy.entityLombokModel>
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.Builder;
 </#if>
 
 /**
@@ -25,13 +28,13 @@ import lombok.experimental.Accessors;
  */
 <#if strategy.entityLombokModel>
 @Data
-@Accessors(chain = true)
+@Builder
 </#if>
 <#if global.swagger2>
 @ApiModel(value = "${table.voName}", description = "${table.comment!}")
 </#if>
-<#if table.superEntityClass??>
-public class ${table.voName} extends ${table.superVOClass?substring(table.superVOClass?last_index_of(".")+1)} implements Serializable {
+<#if strategy.superVOClass??>
+public class ${table.voName} extends ${strategy.superVOClass?substring(strategy.superVOClass?last_index_of(".")+1)} {
 <#else>
 public class ${table.voName} implements Serializable {
 </#if>

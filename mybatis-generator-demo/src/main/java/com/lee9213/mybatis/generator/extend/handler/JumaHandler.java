@@ -25,10 +25,6 @@ public class JumaHandler implements Handler {
                     tableInfo.setIsLogicDelete(true);
                 }
             });
-
-            if (!tableInfo.getIsLogicDelete()) {
-                tableInfo.setSuperEntityClass(null);
-            }
         });
     }
 }

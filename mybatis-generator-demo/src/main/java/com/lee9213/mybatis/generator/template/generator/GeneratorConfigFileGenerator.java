@@ -1,7 +1,7 @@
 package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
-import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
+import com.lee9213.mybatis.generator.util.SpringContextUtil;
 import com.lee9213.mybatis.generator.util.Constant;
 import com.lee9213.mybatis.generator.util.FileUtil;
 
@@ -18,7 +18,7 @@ public class GeneratorConfigFileGenerator implements FileGenerator {
 
     @Override
     public void generator() throws Exception {
-        Configuration configuration = (Configuration) ApplicationContextUtil.getBean("configuration");
+        Configuration configuration = (Configuration) SpringContextUtil.getBean("configuration");
 
         String generatorPath = configuration.getPathInfo().getGeneratorPath();
         FileUtil.mkdir(generatorPath);

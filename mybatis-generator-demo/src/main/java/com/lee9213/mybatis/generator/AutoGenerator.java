@@ -19,7 +19,7 @@ import com.lee9213.mybatis.generator.template.generator.ServiceFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.ServiceImplFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.TestFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.VoFileGenerator;
-import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
+import com.lee9213.mybatis.generator.util.SpringContextUtil;
 import com.lee9213.mybatis.generator.util.FileUtil;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -57,21 +57,21 @@ public class AutoGenerator {
         try {
             logger.info("==========================准备生成文件...==========================");
             logger.debug("==========================配置准备中...==========================");
-            GlobalProperties globalProperties = (GlobalProperties) ApplicationContextUtil.getBean("globalProperties");
+            GlobalProperties globalProperties = (GlobalProperties) SpringContextUtil.getBean("globalProperties");
             TemplateProperties templateProperties =
-                (TemplateProperties) ApplicationContextUtil.getBean("templateProperties");
+                (TemplateProperties) SpringContextUtil.getBean("templateProperties");
             PackageProperties packageProperties =
-                (PackageProperties) ApplicationContextUtil.getBean("packageProperties");
+                (PackageProperties) SpringContextUtil.getBean("packageProperties");
             DataSourceProperties dataSourceProperties =
-                (DataSourceProperties) ApplicationContextUtil.getBean("dataSourceProperties");
+                (DataSourceProperties) SpringContextUtil.getBean("dataSourceProperties");
             StrategyProperties strategyProperties =
-                (StrategyProperties) ApplicationContextUtil.getBean("strategyProperties");
+                (StrategyProperties) SpringContextUtil.getBean("strategyProperties");
             // 初始化配置
             Configuration configuration = new Configuration(globalProperties, templateProperties, packageProperties,
                 dataSourceProperties, strategyProperties, templateEngine);
             logger.debug("==========================配置准备完成...==========================");
             // 将配置注入容器中
-            DefaultListableBeanFactory autowireCapableBeanFactory = (DefaultListableBeanFactory) ApplicationContextUtil
+            DefaultListableBeanFactory autowireCapableBeanFactory = (DefaultListableBeanFactory) SpringContextUtil
                 .getApplicationContext().getAutowireCapableBeanFactory();
             autowireCapableBeanFactory.registerSingleton("configuration", configuration);
 
@@ -123,7 +123,7 @@ public class AutoGenerator {
             }
 
             // 添加扩展生成器
-            Map<String, Object> extendGenerators = ApplicationContextUtil.getBeansWithAnnotation(ExtendGenerator.class);
+            Map<String, Object> extendGenerators = SpringContextUtil.getBeansWithAnnotation(ExtendGenerator.class);
             extendGenerators.values().forEach(object -> {
                 if (object instanceof AbstractFileGenerator) {
                     generatorFileChain.addGenerator((AbstractFileGenerator) object);

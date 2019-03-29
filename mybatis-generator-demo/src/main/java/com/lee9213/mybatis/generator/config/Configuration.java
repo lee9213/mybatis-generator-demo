@@ -8,7 +8,7 @@ import com.lee9213.mybatis.generator.config.handler.*;
 import com.lee9213.mybatis.generator.config.properties.*;
 import com.lee9213.mybatis.generator.template.engine.FreemarkerTemplateEngine;
 import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
-import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
+import com.lee9213.mybatis.generator.util.SpringContextUtil;
 import com.lee9213.mybatis.generator.util.StringUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -139,7 +139,7 @@ public class Configuration {
         configHandlerChain.addHandler(new TableInfoHandler());
         configHandlerChain.addHandler(new TableFieldHandler());
         // 添加扩展配置处理器
-        Map<String, Object> handlerMap = ApplicationContextUtil.getBeansWithAnnotation(ExtendHandler.class);
+        Map<String, Object> handlerMap = SpringContextUtil.getBeansWithAnnotation(ExtendHandler.class);
         handlerMap.values().forEach(handler -> {
             if (handler instanceof Handler) {
                 configHandlerChain.addHandler((Handler) handler);

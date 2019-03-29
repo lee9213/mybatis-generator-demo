@@ -14,7 +14,7 @@ import java.util.Map;
  * @date 2018-10-23 0:21
  */
 @Component
-public class ApplicationContextUtil implements ApplicationContextAware {
+public class SpringContextUtil implements ApplicationContextAware {
 
     /**
      * 上下文对象实例
@@ -23,8 +23,8 @@ public class ApplicationContextUtil implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (ApplicationContextUtil.applicationContext == null) {
-            ApplicationContextUtil.applicationContext = applicationContext;
+        if (SpringContextUtil.applicationContext == null) {
+            SpringContextUtil.applicationContext = applicationContext;
         }
     }
 

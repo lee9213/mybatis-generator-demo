@@ -2,7 +2,7 @@ package com.lee9213.mybatis.generator.internal;
 
 import com.google.common.base.Strings;
 import com.lee9213.mybatis.generator.config.properties.GlobalProperties;
-import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
+import com.lee9213.mybatis.generator.util.SpringContextUtil;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.Field;
@@ -46,7 +46,7 @@ public class CommentGenerator extends DefaultCommentGenerator {
      */
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        GlobalProperties globalProperties = (GlobalProperties) ApplicationContextUtil.getBean("globalProperties");
+        GlobalProperties globalProperties = (GlobalProperties) SpringContextUtil.getBean("globalProperties");
         topLevelClass.addJavaDocLine("/**");
         topLevelClass.addJavaDocLine(" * " + introspectedTable.getRemarks());
         topLevelClass.addJavaDocLine(" *");

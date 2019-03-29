@@ -2,7 +2,7 @@ package com.lee9213.mybatis.generator.template.generator;
 
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
-import com.lee9213.mybatis.generator.util.ApplicationContextUtil;
+import com.lee9213.mybatis.generator.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ public abstract class AbstractFileGenerator implements FileGenerator {
 
     @Override
     public void generator() throws Exception {
-        Configuration configuration = (Configuration) ApplicationContextUtil.getBean("configuration");
+        Configuration configuration = (Configuration) SpringContextUtil.getBean("configuration");
         List<TableInfo> tableInfoList = configuration.getTableInfoList();
         if (tableInfoList == null || tableInfoList.isEmpty()) {
             logger.error("没有数据");
