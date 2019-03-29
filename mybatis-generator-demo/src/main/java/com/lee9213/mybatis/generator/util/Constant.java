@@ -93,6 +93,8 @@ public interface Constant {
     String MAPPER_XML = "Mapper";
     String EXTEND_MAPPER_XML = "ExtendMapper";
     String CONTROLLER = "Controller";
+    String TEST = "Test";
+    String CONVERT = "Convert";
 
     String JAVA_TMPDIR = "java.io.tmpdir";
     String UTF8 = Charset.forName("UTF-8").name();

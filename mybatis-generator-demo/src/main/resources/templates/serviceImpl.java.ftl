@@ -1,20 +1,24 @@
 package ${package.serviceImpl};
 
-import com.lee9213.als.common.exception.BusinessException;
-import com.google.common.collect.Lists;
 import ${package.entity}.${table.entityName};
 import ${package.mapper}.${table.mapperName};
 import ${package.service}.${table.serviceName};
 import ${package.vo}.${table.voName};
+import ${package.convert}.${table.convertName};
+import ${global.exceptionPackage};
+import ${global.exceptionCodePackage};
+import lombok.extern.slf4j.Slf4j;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
 <#if strategy.superServiceImplClass?default("")?length gt 1>
 import ${strategy.superServiceImplClass};
 </#if>
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -35,71 +39,49 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
     @Autowired
     private ${table.mapperName} ${table.mapperName?uncap_first};
 
-    /**
-     * 添加${table.comment!}
-     *
-     * @param ${table.voName?uncap_first}
-     */
     @Override
-    public ${table.voName} add(${table.voName} ${table.voName?uncap_first}) throws BusinessException {
-        if (${table.voName?uncap_first} == null) {
-            throw new BusinessException("add.${table.entityName}.error", "新增内容为空");
+    public int add(${table.voName} ${table.voName?uncap_first}) throws ${global.exceptionName} {
+        if (Objects.isNull(${table.voName?uncap_first})) {
+            throw new ${global.exceptionName}(${global.exceptionCodeName}.PARAM_NULL, "产品信息");
         }
-        ${table.entityName} ${table.entityName?uncap_first} = convert(${table.voName?uncap_first});
-        ${table.mapperName?uncap_first}.insert(${table.entityName?uncap_first});
-        return convert(${table.entityName?uncap_first});
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.convertName}.convert(${table.voName?uncap_first});
+        return ${table.mapperName?uncap_first}.insertSelective(${table.entityName?uncap_first});
     }
 
-    /**
-     * 获取${table.comment!}详情
-     *
-     * @param id
-     */
     @Override
-    public ${table.voName} detail(Integer id) throws BusinessException {
-        if (id == null) {
-            throw new BusinessException("detail.${table.entityName}.error", "id为空");
+    public ${table.voName} detail(Long id) throws ${global.exceptionName} {
+        if (Objects.isNull(id)) {
+            throw new ${global.exceptionName}(${global.exceptionCodeName}.PARAM_NULL, "产品ID");
         }
         ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
-        if (${table.entityName?uncap_first} == null) {
+        if (Objects.isNull(${table.entityName?uncap_first})) {
             return new ${table.voName}();
         }
-        ${table.voName} ${table.voName?uncap_first} = convert(${table.entityName?uncap_first});
+        ${table.voName} ${table.voName?uncap_first} = ${table.convertName}.convert(${table.entityName?uncap_first});
         return ${table.voName?uncap_first};
     }
 
-    /**
-     * 修改${table.comment!}
-     *
-     * @param ${table.voName?uncap_first}
-     */
     @Override
-    public void update(${table.voName} ${table.voName?uncap_first}) throws BusinessException {
-        if (${table.voName?uncap_first} == null || ${table.voName?uncap_first}.getId() == null) {
-            throw new BusinessException("update.${table.entityName}.error", "更新内容为空");
+    public int update(${table.voName} ${table.voName?uncap_first}) throws ${global.exceptionName} {
+        if (Objects.isNull(${table.voName?uncap_first}) || Objects.isNull(${table.voName?uncap_first}.getId())) {
+            throw new ${global.exceptionName}(${global.exceptionCodeName}.PARAM_NULL, "产品信息");
         }
 
-        ${table.entityName} ${table.entityName?uncap_first} = convert(${table.voName?uncap_first})
-                .setLastUpdateUserId(loginEmployee.getUserId())
-                .setLastUpdateTime(new Date());
-        ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(${table.entityName?uncap_first});
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.convertName}.convert(${table.voName?uncap_first})
+                .setModifyUser()
+                .setModifyTime(new Date());
+        return ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(${table.entityName?uncap_first});
     }
 
-
-    /**
-     * 删除${table.comment!}
-     *
-     * @param id
-     */
     @Override
-    public void delete(Integer id) throws BusinessException {
-        if (id == null) {
-            throw new BusinessException("delete.${table.entityName}.error", "id为空");
+    public int delete(Long id) throws ${global.exceptionName} {
+        if (Objects.isNull(id)) {
+            throw new ${global.exceptionName}(${global.exceptionCodeName}.PARAM_NULL, "产品ID");
         }
         <#if table.isLogicDelete>
         ${table.entityName} ${table.entityName?uncap_first} = ${table.mapperName?uncap_first}.selectByPrimaryKey(id);
-        if (${table.entityName?uncap_first} == null) {
-            throw new BusinessException("delete.${table.entityName}.error", "数据异常");
+        if (Objects.isNull(${table.entityName?uncap_first})) {
+            throw new ${global.exceptionName}("delete.${table.entityName}.error", "数据异常");
         }
         ${table.mapperName?uncap_first}.updateByPrimaryKeySelective(new ${table.entityName}()
                 .setId(${table.entityName?uncap_first}.getId())
@@ -107,81 +89,15 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
                 .setLastUpdateTime(new Date())
                 .setIsDelete(true));
         <#else>
-        ${table.mapperName?uncap_first}.deleteByPrimaryKey(id);
+        return ${table.mapperName?uncap_first}.deleteByPrimaryKey(id);
         </#if>
 
     }
 
-    /**
-     * 获取${table.comment!}列表
-     *
-     * @param pageCondition
-     * @return
-     */
     @Override
-    public Page<${table.voName}> list(PageCondition pageCondition) throws BusinessException {
-        pageCondition.getFilters().put("tenantId", loginEmployee.getTenantId());
-        int count = ${table.mapperName?uncap_first}.countByPageCondition(pageCondition);
-        if (count <= 0) {
-            return new Page<>(pageCondition.getPageNo(), pageCondition.getPageSize(), 0, null);
-        }
-        List<${table.voName}> ${table.voName?uncap_first}List = convertList(${table.mapperName?uncap_first}.selectByPageCondition(pageCondition));
-        return new Page<>(pageCondition.getPageNo(), pageCondition.getPageSize(), count, ${table.voName?uncap_first}List);
-    }
-
-    /**
-     * 从${table.voName}转换到${table.entityName}
-     *
-     * @param ${table.voName?uncap_first}
-     * @return
-     */
-    private ${table.entityName} convert(${table.voName} ${table.voName?uncap_first}) {
-        ${table.entityName} ${table.entityName?uncap_first} = new ${table.entityName}();
-        if (${table.voName?uncap_first} == null) {
-            return ${table.entityName?uncap_first};
-        }
-
-        <#list table.fields as field>
-        <#if field_index == 0>${table.entityName?uncap_first}.set${field.propertyName?cap_first}(${table.voName?uncap_first}.get${field.propertyName?cap_first}())<#else>        .set${field.propertyName?cap_first}(${table.voName?uncap_first}.get${field.propertyName?cap_first}())</#if><#if !field_has_next>;</#if>
-        </#list>
-        <#--<#list table.commonFields as field>-->
-        <#--.set${field.propertyName?cap_first}();-->
-        <#--</#list>-->
-        <#--BeanUtils.copyProperties(${table.voName?uncap_first}, ${table.entityName?uncap_first});-->
-        return ${table.entityName?uncap_first};
-    }
-
-    /**
-     * 从${table.entityName}转换到${table.voName}
-     *
-     * @param ${table.entityName?uncap_first}
-     * @return
-     */
-    private ${table.voName} convert(${table.entityName} ${table.entityName?uncap_first}) {
-        ${table.voName} ${table.voName?uncap_first} = new ${table.voName}();
-        if (${table.entityName?uncap_first} == null) {
-            return ${table.voName?uncap_first};
-        }
-        <#list table.fields as field>
-        <#if field_index == 0>${table.voName?uncap_first}.set${field.propertyName?cap_first}(${table.entityName?uncap_first}.get${field.propertyName?cap_first}())<#else>        .set${field.propertyName?cap_first}(${table.entityName?uncap_first}.get${field.propertyName?cap_first}())</#if><#if !field_has_next>;</#if>
-        </#list>
-        <#--BeanUtils.copyProperties(${table.entityName?uncap_first}, ${table.voName?uncap_first});-->
-        return ${table.voName?uncap_first};
-    }
-
-    /**
-     * 从 List<${table.entityName}>	转换到 	List<${table.voName}>
-     *
-     * @param ${table.entityName?uncap_first}List
-     */
-    private List<${table.voName}> convertList(List<${table.entityName}> ${table.entityName?uncap_first}List) {
-        List<${table.voName}> ${table.voName?uncap_first}List = Lists.newArrayList();
-        if (CollectionUtils.isEmpty(${table.entityName?uncap_first}List)) {
-            return ${table.voName?uncap_first}List;
-        }
-        for (${table.entityName} ${table.entityName?uncap_first} : ${table.entityName?uncap_first}List) {
-            ${table.voName?uncap_first}List.add(convert(${table.entityName?uncap_first}));
-        }
-        return ${table.voName?uncap_first}List;
+    public PageInfo<${table.voName}> pageByCondition() throws ${global.exceptionName} {
+        PageHelper.startPage(pageSize, pageNum);
+        PageInfo<${table.entityName}> ${table.entityName?uncap_first}PageInfo = productInfoMapper.pageByCondition(productName, financDay);
+        return ${table.entityName}Convert.convertPage(${table.entityName?uncap_first}PageInfo);
     }
 }

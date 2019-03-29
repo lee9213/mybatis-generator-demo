@@ -68,5 +68,10 @@ public class GlobalProperties {
     private String serviceImplName = "%sServiceImpl";
     private String controllerName = "%sController";
     private String testName = "%sTest";
+    private String convertName = "%sConvert";
     private String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    private String exceptionName;
+    private String exceptionPackage;
+    private String exceptionCodeName;
+    private String exceptionCodePackage;
 }

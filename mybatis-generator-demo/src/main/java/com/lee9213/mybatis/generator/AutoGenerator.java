@@ -9,6 +9,7 @@ import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
 import com.lee9213.mybatis.generator.template.generator.AbstractFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.ControllerFileGenerator;
+import com.lee9213.mybatis.generator.template.generator.ConvertFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.EntityFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.ExtendGenerator;
 import com.lee9213.mybatis.generator.template.generator.ExtendMapperXmlFileGenerator;
@@ -19,8 +20,8 @@ import com.lee9213.mybatis.generator.template.generator.ServiceFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.ServiceImplFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.TestFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.VoFileGenerator;
-import com.lee9213.mybatis.generator.util.SpringContextUtil;
 import com.lee9213.mybatis.generator.util.FileUtil;
+import com.lee9213.mybatis.generator.util.SpringContextUtil;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.slf4j.Logger;
@@ -122,6 +123,11 @@ public class AutoGenerator {
                 generatorFileChain.addGenerator(new TestFileGenerator());
             }
 
+            URL convert = this.getClass().getResource(templateProperties.getConvert());
+            if (test != null && new File(convert.getPath()).exists()) {
+                // 添加生成Convert
+                generatorFileChain.addGenerator(new ConvertFileGenerator());
+            }
             // 添加扩展生成器
             Map<String, Object> extendGenerators = SpringContextUtil.getBeansWithAnnotation(ExtendGenerator.class);
             extendGenerators.values().forEach(object -> {

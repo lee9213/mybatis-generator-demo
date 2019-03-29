@@ -1,8 +1,10 @@
 package ${package.service};
 
-import com.lee9213.als.common.exception.BusinessException;
 import ${package.entity}.${table.entityName};
 import ${package.vo}.${table.voName};
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import ${global.exceptionPackage};
 <#if strategy.superServiceClass?default("")?length gt 1>
 import ${strategy.superServiceClass};
 </#if>
@@ -23,36 +25,43 @@ public interface ${table.serviceName} {
     /**
 	* 添加${table.comment!}
 	*
-	* @param ${table.voName?uncap_first}
+	* @param ${table.voName?uncap_first} ${table.comment!}
+	* @return ${table.comment!}
+	* @throws ${global.exceptionName} 统一异常
 	*/
-	${table.voName} add(${table.voName} ${table.voName?uncap_first})  throws BusinessException;
+	int add(${table.voName} ${table.voName?uncap_first}) throws ${global.exceptionName};
 
 	/**
 	* 获取${table.comment!}详情
 	*
-	* @param id
+	* @param id ${table.comment!}ID
+	* @return ${table.comment!}
+	* @throws ${global.exceptionName} 统一异常
 	*/
-	${table.voName} detail(Integer id)  throws BusinessException;
+	${table.voName} detail(Long id) throws ${global.exceptionName};
 
 	/**
 	* 修改${table.comment!}
 	*
-	* @param ${table.voName?uncap_first}
+	* @param ${table.voName?uncap_first} ${table.comment!}
+	* @return 修改记录数
+	* @throws ${global.exceptionName} 统一异常
 	*/
-	void update(${table.voName} ${table.voName?uncap_first})  throws BusinessException;
+	int update(${table.voName} ${table.voName?uncap_first}) throws ${global.exceptionName};
 
 	/**
 	* 删除${table.comment!}
 	*
-	* @param id
+	* @param id ${table.comment!}ID
+	* @return 删除记录数
+	* @throws ${global.exceptionName} 统一异常
 	*/
-	void delete(Integer id) throws BusinessException ;
+	int delete(Long id) throws ${global.exceptionName};
 
 	/**
-	* 获取${table.comment!}列表
-	*
-	* @param pageCondition
-	* @return
-	*/
-	Page<${table.voName}> list(PageCondition pageCondition) throws BusinessException;
+     * 获取${table.comment!}列表
+	 * @throws ${global.exceptionName} 统一异常
+     */
+    PageInfo<${table.voName}> pageByCondition() throws ${global.exceptionName};
+
 }

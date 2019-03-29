@@ -67,6 +67,12 @@ public class TableInfo {
      * Test名字
      */
     private String testName;
+
+    /**
+     * Convert名字
+     */
+    private String convertName;
+
     /**
      * 表的字段列表
      */

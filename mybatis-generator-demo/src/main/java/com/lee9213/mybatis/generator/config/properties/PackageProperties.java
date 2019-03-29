@@ -69,4 +69,6 @@ public class PackageProperties {
      * Test包名
      */
     private String test = "test";
+
+    private String convert = "convert";
 }

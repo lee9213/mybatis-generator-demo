@@ -29,7 +29,8 @@ public class PackageInfoHandler implements Handler {
                 .setService(joinPackage(packageProperties.getParent(), packageProperties.getService()))
                 .setServiceImpl(joinPackage(packageProperties.getParent(), packageProperties.getServiceImpl()))
                 .setController(joinPackage(packageProperties.getParent(), packageProperties.getController()))
-                .setTest(joinPackage(packageProperties.getParent(), packageProperties.getTest()));
+                .setTest(joinPackage(packageProperties.getParent(), packageProperties.getTest()))
+                .setConvert(joinPackage(packageProperties.getParent(), packageProperties.getConvert()));
         configuration.setPackageInfo(packageInfo);
     }
 
@@ -45,6 +46,9 @@ public class PackageInfoHandler implements Handler {
     private String joinPackage(String parent, String subPackage) {
         if (Strings.isNullOrEmpty(parent)) {
             return subPackage;
+        }
+        if (Strings.isNullOrEmpty(subPackage)) {
+            return parent;
         }
         return new StringBuilder(parent).append(Constant.DOT).append(subPackage).toString();
     }

@@ -23,7 +23,6 @@ public class TemplateProperties {
 
     private String entity = Constant.TEMPLATE_ENTITY_JAVA;
 
-    private String vo = Constant.TEMPLATE_VO_JAVA;
 
     private String service = Constant.TEMPLATE_SERVICE;
 
@@ -33,9 +32,9 @@ public class TemplateProperties {
 
     private String mapperXml = Constant.TEMPLATE_MAPPER_XML;
 
-    private String extendMapperXml = Constant.TEMPLATE_EXTEND_MAPPER_XML;
-
-    private String controller = Constant.TEMPLATE_CONTROLLER;
-
-    private String test = Constant.TEMPLATE_TEST;
+    private String vo;
+    private String extendMapperXml;
+    private String controller;
+    private String test;
+    private String convert;
 }

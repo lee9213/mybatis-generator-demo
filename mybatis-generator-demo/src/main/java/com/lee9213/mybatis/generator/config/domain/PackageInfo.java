@@ -25,4 +25,5 @@ public class PackageInfo {
     private String serviceImpl;
     private String controller;
     private String test;
+    private String convert;
 }
