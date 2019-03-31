@@ -20,7 +20,7 @@ public class MySqlTypeConvert implements ITypeConvert {
         } else if (t.contains("bigint")) {
             return DbColumnType.LONG;
         } else if (t.contains("tinyint(1)")) {
-            return DbColumnType.BOOLEAN;
+            return DbColumnType.INTEGER;
         }else if (t.contains("tinyint(4)")) {
             return DbColumnType.INTEGER;
         } else if (t.contains("int")) {

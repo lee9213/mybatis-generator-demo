@@ -5,12 +5,16 @@ import ${package.service}.${table.serviceName};
 import ${package.entity}.${table.entityName};
 import ${package.vo}.${table.voName};
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
  * <p>${table.comment!}</p>
@@ -19,14 +23,13 @@ import ${pkg};
  * @since ${global.date}
  */
 @Slf4j
-public class ${table.testName} extends BaseTest{
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = UserCenterServerApplication.class)
+@AutoConfigureMockMvc
+public class ${table.testName} {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
- 	@Autowired
-    private ${table.serviceName} ${table.serviceName?uncap_first};
-
-    private Integer id;
+    @Autowired
+    private MockMvc mvc;
 
     @Test
     public void test(){

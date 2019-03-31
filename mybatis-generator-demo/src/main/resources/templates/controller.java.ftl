@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 <#if strategy.superControllerClass?default("")?length gt 1>
 import ${strategy.superControllerClass};
 </#if>
+import ${global.exceptionPackage};
 
 /**
  * <p>${table.comment!}Controller</p>
@@ -51,11 +52,11 @@ public class ${table.controllerName} {
      *
      * @param ${table.voName?uncap_first}
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     <#if global.swagger2>
     @ApiOperation(value = "创建${table.comment!}")</#if>
-    public ${table.voName} create(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
-        return ${table.serviceName?uncap_first}.add(${table.voName?uncap_first});
+    public boolean save(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
+        return ${table.serviceName?uncap_first}.save(${table.voName?uncap_first});
     }
 
     /**
@@ -67,7 +68,7 @@ public class ${table.controllerName} {
     <#if global.swagger2>
     @ApiOperation(value = "获取${table.comment!}详情",response = ${table.voName}.class)</#if>
     public ${table.voName} detail(@PathVariable Long id) throws BusinessException {
-        return ${table.serviceName?uncap_first}.detail(id);
+        return ${table.serviceName?uncap_first}.getById(id);
     }
 
 
@@ -79,8 +80,8 @@ public class ${table.controllerName} {
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     <#if global.swagger2>
     @ApiOperation(value = "修改${table.comment!}")</#if>
-    public void update(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
-        ${table.serviceName?uncap_first}.update(${table.voName?uncap_first});
+    public boolean update(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
+        return ${table.serviceName?uncap_first}.updateById(${table.voName?uncap_first});
     }
 
 
@@ -92,8 +93,8 @@ public class ${table.controllerName} {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE)
     <#if global.swagger2>
     @ApiOperation(value = "删除${table.comment!}")</#if>
-    public void delete(@PathVariable Long id) throws BusinessException {
-        ${table.serviceName?uncap_first}.delete(id);
+    public boolean delete(@PathVariable Long id) throws BusinessException {
+        return ${table.serviceName?uncap_first}.removeById(id);
     }
 
 
