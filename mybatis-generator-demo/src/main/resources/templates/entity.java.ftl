@@ -12,8 +12,10 @@ import java.io.Serializable;
 </#if>
 
 <#if strategy.entityLombokModel>
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 </#if>
 
 /**
@@ -25,6 +27,8 @@ import lombok.Builder;
 <#if strategy.entityLombokModel>
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 </#if>
 <#if strategy.superEntityClass??>
 public class ${table.entityName} extends ${strategy.superEntityClass?substring(strategy.superEntityClass?last_index_of(".")+1)} {

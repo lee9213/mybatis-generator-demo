@@ -52,7 +52,7 @@ public class ${table.controllerName} {
      *
      * @param ${table.voName?uncap_first}
      */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     <#if global.swagger2>
     @ApiOperation(value = "创建${table.comment!}")</#if>
     public boolean save(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
@@ -64,7 +64,7 @@ public class ${table.controllerName} {
      *
      * @param id
      */
-    @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}/detail")
     <#if global.swagger2>
     @ApiOperation(value = "获取${table.comment!}详情",response = ${table.voName}.class)</#if>
     public ${table.voName} detail(@PathVariable Long id) throws BusinessException {
@@ -77,7 +77,7 @@ public class ${table.controllerName} {
      *
      * @param ${table.voName?uncap_first}
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @PutMapping(value = "/update")
     <#if global.swagger2>
     @ApiOperation(value = "修改${table.comment!}")</#if>
     public boolean update(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
@@ -90,7 +90,7 @@ public class ${table.controllerName} {
      *
      * @param id
      */
-    @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}/delete")
     <#if global.swagger2>
     @ApiOperation(value = "删除${table.comment!}")</#if>
     public boolean delete(@PathVariable Long id) throws BusinessException {
@@ -104,7 +104,7 @@ public class ${table.controllerName} {
      * @param pageCondition
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @PostMapping(value = "/list")
     <#if global.swagger2>
     @ApiOperation(value = "分页查询${table.comment!}",response = ${table.voName}.class, responseContainer = "List")</#if>
     public Page<${table.voName}> list(@RequestBody PageCondition pageCondition) throws BusinessException {

@@ -16,8 +16,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if strategy.entityLombokModel>
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 </#if>
 
 /**
@@ -29,6 +31,8 @@ import lombok.Builder;
 <#if strategy.entityLombokModel>
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 </#if>
 <#if global.swagger2>
 @ApiModel(value = "${table.voName}", description = "${table.comment!}")
