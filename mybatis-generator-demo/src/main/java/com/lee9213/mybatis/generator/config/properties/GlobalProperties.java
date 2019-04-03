@@ -69,6 +69,7 @@ public class GlobalProperties {
     private String controllerName = "%sController";
     private String testName = "%sTest";
     private String convertName = "%sConvert";
+    private String clientName = "%sClient";
     private String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     private String exceptionName;
     private String exceptionPackage;

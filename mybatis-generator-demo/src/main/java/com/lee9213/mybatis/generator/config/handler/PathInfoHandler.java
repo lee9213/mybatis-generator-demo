@@ -41,7 +41,8 @@ public class PathInfoHandler implements Handler {
                 .setServiceImplPath(getPathInfo(templateProperties.getServiceImpl(), outputDir, Constant.JAVA_PATH, packageInfo.getServiceImpl()))
                 .setControllerPath(getPathInfo(templateProperties.getController(), outputDir, Constant.JAVA_PATH, packageInfo.getController()))
                 .setTestPath(getPathInfo(templateProperties.getTest(), outputDir, Constant.JAVA_PATH, packageInfo.getTest()))
-                .setConvertPath(getPathInfo(templateProperties.getConvert(), outputDir, Constant.JAVA_PATH, packageInfo.getConvert()));
+                .setConvertPath(getPathInfo(templateProperties.getConvert(), outputDir, Constant.JAVA_PATH, packageInfo.getConvert()))
+                .setClientPath(getPathInfo(templateProperties.getClient(), outputDir, Constant.JAVA_PATH, packageInfo.getClient()));
         configuration.setPathInfo(pathInfo);
     }
 

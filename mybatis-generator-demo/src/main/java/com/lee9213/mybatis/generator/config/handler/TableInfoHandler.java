@@ -117,6 +117,12 @@ public class TableInfoHandler implements Handler {
                         tableInfo.setConvertName(entityName + Constant.CONVERT);
                     }
 
+                    if (StringUtils.isNotEmpty(globalProperties.getClientName())) {
+                        tableInfo.setClientName(String.format(globalProperties.getClientName(), entityName));
+                    } else {
+                        tableInfo.setClientName(entityName + Constant.CLIENT);
+                    }
+
                     if (StringUtils.isNotEmpty(strategyProperties.getSuperEntityClass())) {
                         tableInfo.setSuperEntityClass(strategyProperties.getSuperEntityClass());
                     }

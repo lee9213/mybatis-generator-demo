@@ -1,27 +1,21 @@
 package ${package.controller};
 
-
-import ${package.service}.${table.serviceName};
+import ${global.exceptionPackage};
+import com.lee9213.als.common.vo.Result;
+import ${package.client}.${table.clientName};
+import ${package.convert}.${table.convertName};
+import ${package.entity}.${table.entityName};
 import ${package.vo}.${table.voName};
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import ${package.service}.${table.serviceName};
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 <#if strategy.restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
 import org.springframework.stereotype.Controller;
 </#if>
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-<#if !strategy.restControllerStyle>
-import org.springframework.web.bind.annotation.ResponseBody;
-</#if>
 <#if strategy.superControllerClass?default("")?length gt 1>
 import ${strategy.superControllerClass};
 </#if>
-import ${global.exceptionPackage};
 
 /**
  * <p>${table.comment!}Controller</p>
@@ -34,80 +28,43 @@ import ${global.exceptionPackage};
 <#else>
 @Controller
 </#if>
-@RequestMapping("/${table.name?replace("_","/")}")
-<#if global.swagger2>
-@Api(value = "/${table.name?replace("_","/")}", description = "${table.comment!}")
-</#if>
 <#if strategy.superControllerClass?default("")?length gt 1>
-public class ${table.controllerName} extends ${strategy.superControllerClass} {
+public class ${table.controllerName} extends ${strategy.superControllerClass} implements ${table.clientName} {
 <#else>
-public class ${table.controllerName} {
+public class ${table.controllerName} implements ${table.clientName} {
 </#if>
 
     @Autowired
     private ${table.serviceName} ${table.serviceName?uncap_first};
 
-    /**
-     * 创建${table.comment!}
-     *
-     * @param ${table.voName?uncap_first}
-     */
-    @PostMapping(value = "/save")
-    <#if global.swagger2>
-    @ApiOperation(value = "创建${table.comment!}")</#if>
-    public boolean save(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
-        return ${table.serviceName?uncap_first}.save(${table.voName?uncap_first});
+    @Override
+    public Result save(${table.voName} ${table.voName?uncap_first}) throws BusinessException {
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.convertName}.convert(${table.voName?uncap_first});
+        return Result.success(${table.serviceName?uncap_first}.save(${table.entityName?uncap_first}));
     }
 
-    /**
-     * 获取${table.comment!}详情
-     *
-     * @param id
-     */
-    @GetMapping(value = "/{id}/detail")
-    <#if global.swagger2>
-    @ApiOperation(value = "获取${table.comment!}详情",response = ${table.voName}.class)</#if>
-    public ${table.voName} detail(@PathVariable Long id) throws BusinessException {
-        return ${table.serviceName?uncap_first}.getById(id);
+    @Override
+    public Result detail(Long id) throws BusinessException {
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.serviceName?uncap_first}.getById(id);
+        return Result.success(${table.convertName}.convert(${table.entityName?uncap_first}));
     }
 
 
-    /**
-     * 修改${table.comment!}
-     *
-     * @param ${table.voName?uncap_first}
-     */
-    @PutMapping(value = "/update")
-    <#if global.swagger2>
-    @ApiOperation(value = "修改${table.comment!}")</#if>
-    public boolean update(@RequestBody ${table.voName} ${table.voName?uncap_first}) throws BusinessException {
-        return ${table.serviceName?uncap_first}.updateById(${table.voName?uncap_first});
+    @Override
+    public Result update(${table.voName} ${table.voName?uncap_first}) throws BusinessException {
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.convertName}.convert(${table.voName?uncap_first});
+        return Result.success(${table.serviceName?uncap_first}.updateById(${table.entityName?uncap_first}));
     }
 
 
-    /**
-     * 删除${table.comment!}
-     *
-     * @param id
-     */
-    @DeleteMapping(value = "/{id}/delete")
-    <#if global.swagger2>
-    @ApiOperation(value = "删除${table.comment!}")</#if>
-    public boolean delete(@PathVariable Long id) throws BusinessException {
-        return ${table.serviceName?uncap_first}.removeById(id);
+    @Override
+    public Result delete(Long id) throws BusinessException {
+        return Result.success(${table.serviceName?uncap_first}.removeById(id));
     }
 
 
-    /**
-     * 获取${table.comment!}列表
-     *
-     * @param pageCondition
-     * @return
-     */
-    @PostMapping(value = "/list")
-    <#if global.swagger2>
-    @ApiOperation(value = "分页查询${table.comment!}",response = ${table.voName}.class, responseContainer = "List")</#if>
-    public Page<${table.voName}> list(@RequestBody PageCondition pageCondition) throws BusinessException {
+    @Override
+    public Result list(PageCondition pageCondition) throws BusinessException {
         return ${table.serviceName?uncap_first}.list(pageCondition);
     }
 

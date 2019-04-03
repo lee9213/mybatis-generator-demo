@@ -71,4 +71,5 @@ public class PackageProperties {
     private String test = "test";
 
     private String convert = "convert";
+    private String client = "client";
 }

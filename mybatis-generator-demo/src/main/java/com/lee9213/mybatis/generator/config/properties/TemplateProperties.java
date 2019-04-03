@@ -37,4 +37,5 @@ public class TemplateProperties {
     private String controller;
     private String test;
     private String convert;
+    private String client;
 }

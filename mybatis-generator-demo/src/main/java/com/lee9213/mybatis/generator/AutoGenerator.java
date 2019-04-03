@@ -8,6 +8,7 @@ import com.lee9213.mybatis.generator.config.properties.StrategyProperties;
 import com.lee9213.mybatis.generator.config.properties.TemplateProperties;
 import com.lee9213.mybatis.generator.template.engine.TemplateEngine;
 import com.lee9213.mybatis.generator.template.generator.AbstractFileGenerator;
+import com.lee9213.mybatis.generator.template.generator.ClientFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.ControllerFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.ConvertFileGenerator;
 import com.lee9213.mybatis.generator.template.generator.EntityFileGenerator;
@@ -124,9 +125,15 @@ public class AutoGenerator {
             }
 
             URL convert = this.getClass().getResource(templateProperties.getConvert());
-            if (test != null && new File(convert.getPath()).exists()) {
+            if (convert != null && new File(convert.getPath()).exists()) {
                 // 添加生成Convert
                 generatorFileChain.addGenerator(new ConvertFileGenerator());
+            }
+
+            URL client = this.getClass().getResource(templateProperties.getClient());
+            if (client != null && new File(client.getPath()).exists()) {
+                // 添加生成Convert
+                generatorFileChain.addGenerator(new ClientFileGenerator());
             }
             // 添加扩展生成器
             Map<String, Object> extendGenerators = SpringContextUtil.getBeansWithAnnotation(ExtendGenerator.class);

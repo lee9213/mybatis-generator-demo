@@ -95,6 +95,7 @@ public interface Constant {
     String CONTROLLER = "Controller";
     String TEST = "Test";
     String CONVERT = "Convert";
+    String CLIENT = "Client";
 
     String JAVA_TMPDIR = "java.io.tmpdir";
     String UTF8 = Charset.forName("UTF-8").name();

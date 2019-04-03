@@ -74,6 +74,11 @@ public class TableInfo {
     private String convertName;
 
     /**
+     * Client名字
+     */
+    private String clientName;
+
+    /**
      * 表的字段列表
      */
     private List<TableField> fields;

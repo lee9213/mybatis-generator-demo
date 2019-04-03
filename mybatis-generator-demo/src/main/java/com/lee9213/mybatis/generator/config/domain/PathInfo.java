@@ -25,6 +25,7 @@ public class PathInfo {
     private String controllerPath;
     private String testPath;
     private String convertPath;
+    private String clientPath;
 
 
 }

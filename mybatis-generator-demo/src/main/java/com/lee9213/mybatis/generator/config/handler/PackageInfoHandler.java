@@ -30,7 +30,8 @@ public class PackageInfoHandler implements Handler {
                 .setServiceImpl(joinPackage(packageProperties.getParent(), packageProperties.getServiceImpl()))
                 .setController(joinPackage(packageProperties.getParent(), packageProperties.getController()))
                 .setTest(joinPackage(packageProperties.getParent(), packageProperties.getTest()))
-                .setConvert(joinPackage(packageProperties.getParent(), packageProperties.getConvert()));
+                .setConvert(joinPackage(packageProperties.getParent(), packageProperties.getConvert()))
+                .setClient(joinPackage(packageProperties.getParent(), packageProperties.getClient()));
         configuration.setPackageInfo(packageInfo);
     }
 
