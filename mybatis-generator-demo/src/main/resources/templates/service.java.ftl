@@ -15,7 +15,7 @@ import ${package.vo}.${table.voName};
  * @since ${global.date}
  */
 <#if strategy.superServiceClass?default("")?length gt 1>
-public interface ${table.serviceName} extends ${strategy.superServiceClass}<${table.entityName}> {
+public interface ${table.serviceName} extends ${strategy.superServiceClass?substring(strategy.superServiceClass?last_index_of(".")+1)}<${table.entityName}> {
 <#else>
 public interface ${table.serviceName} {
 </#if>

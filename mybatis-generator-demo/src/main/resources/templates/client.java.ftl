@@ -79,13 +79,14 @@ public interface ${table.clientName} {
     /**
      * 获取${table.comment!}列表
      *
-     * @param pageCondition
-     * @return
+     * @param pageRequest 分页请求对象
+     * @return 分页信息
+     * @throws BusinessException 统一异常
      */
     @PostMapping(value = "/list")
     <#if global.swagger2>
-    @ApiOperation(value = "分页查询${table.comment!}",response = ${table.voName}.class, responseContainer = "List")</#if>
-    public Result list(@RequestBody PageCondition pageCondition) throws BusinessException;
+    @ApiOperation(value = "分页查询${table.comment!}", response = ${table.voName}.class, responseContainer = "List")</#if>
+    Result page(@RequestBody PageRequest pageRequest) throws BusinessException;
 
 }
 

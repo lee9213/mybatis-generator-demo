@@ -64,8 +64,8 @@ public class ${table.controllerName} implements ${table.clientName} {
 
 
     @Override
-    public Result list(PageCondition pageCondition) throws BusinessException {
-        return ${table.serviceName?uncap_first}.list(pageCondition);
+    public Result page(PageRequest pageRequest) throws BusinessException {
+        return ${table.serviceName?uncap_first}.page(pageRequest.getPageNum(), pageRequest.getPageSize());
     }
 
 }
