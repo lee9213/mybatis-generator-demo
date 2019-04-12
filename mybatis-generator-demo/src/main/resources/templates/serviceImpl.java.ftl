@@ -3,7 +3,6 @@ package ${package.serviceImpl};
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${global.exceptionPackage};
-import com.lee9213.als.core.base.PageInfo;
 <#if strategy.superServiceImplClass?default("")?length gt 1>
 import ${strategy.superServiceImplClass};
 </#if>
@@ -34,8 +33,8 @@ public class ${table.serviceImplName} implements ${table.serviceName} {
 </#if>
 
     @Override
-    public PageInfo<${table.voName}> page(Long pageNum, Long pageSize) throws ${global.exceptionName} {
-        IPage<${table.entityName}> ${table.entityName?uncap_first}PageInfo = baseMapper.page(new Page(pageNum, pageSize));
-        return ${table.convertName}.convertPage(${table.entityName?uncap_first}PageInfo);
+    public IPage<${table.voName}> page(Long pageNum, Long pageSize) throws ${global.exceptionName} {
+        Page<${table.entityName}> page = new Page(pageNum, pageSize);
+        return ${table.convertName}.convertPageInfo(page.setRecords(baseMapper.page(page)));
     }
 }

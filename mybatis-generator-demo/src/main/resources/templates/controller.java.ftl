@@ -2,6 +2,7 @@ package ${package.controller};
 
 import ${global.exceptionPackage};
 import com.lee9213.als.common.vo.Result;
+import com.lee9213.als.core.base.vo.request.PageRequest;
 import ${package.client}.${table.clientName};
 import ${package.convert}.${table.convertName};
 import ${package.entity}.${table.entityName};
@@ -65,7 +66,7 @@ public class ${table.controllerName} implements ${table.clientName} {
 
     @Override
     public Result page(PageRequest pageRequest) throws BusinessException {
-        return ${table.serviceName?uncap_first}.page(pageRequest.getPageNum(), pageRequest.getPageSize());
+        return Result.success(${table.serviceName?uncap_first}.page(pageRequest.getPageNum(), pageRequest.getPageSize()));
     }
 
 }

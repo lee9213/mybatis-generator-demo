@@ -1,7 +1,7 @@
 package ${package.service};
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import ${global.exceptionPackage};
-import com.lee9213.als.core.base.PageInfo;
 <#if strategy.superServiceClass?default("")?length gt 1>
 import ${strategy.superServiceClass};
 </#if>
@@ -27,6 +27,6 @@ public interface ${table.serviceName} {
    * @param pageSize 每页显示条数
 	 * @throws ${global.exceptionName} 统一异常
 	 */
-	 PageInfo<${table.voName}> page(Long pageNum, Long pageSize) throws ${global.exceptionName};
+   IPage<${table.voName}> page(Long pageNum, Long pageSize) throws ${global.exceptionName};
 
 }

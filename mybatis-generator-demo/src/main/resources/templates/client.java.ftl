@@ -2,6 +2,7 @@ package ${package.client};
 
 import ${global.exceptionPackage};
 import com.lee9213.als.common.vo.Result;
+import com.lee9213.als.core.base.vo.request.PageRequest;
 import ${package.vo}.${table.voName};
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

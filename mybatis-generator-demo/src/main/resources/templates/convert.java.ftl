@@ -50,8 +50,8 @@ public final class ${table.convertName} {
      * @param pageInfo 分页信息
      * @return 分页信息VO
      */
-    public static PageInfo<${table.voName}> convertPageInfo(PageInfo<${table.entityName}> pageInfo) {
-        PageInfo<${table.voName}> page = new PageInfo<>();
+    public static IPage<${table.voName}> convertPageInfo(IPage<${table.entityName}> pageInfo) {
+        Page<${table.voName}> page = new Page<>();
         List<${table.voName}> ${table.voName?uncap_first}List = Lists.newArrayList();
         if (Objects.isNull(pageInfo) || CollectionUtils.isEmpty(pageInfo.getRecords())) {
             return page;
@@ -60,6 +60,11 @@ public final class ${table.convertName} {
             ${table.voName?uncap_first}List.add(convert(${table.entityName?uncap_first}));
         }
         page.setList(${table.voName?uncap_first}List);
+        page.setCurrent(pageInfo.getCurrent());
+        page.setSize(pageInfo.getSize());
+        page.setTotal(pageInfo.getTotal());
+        page.setPages(pageInfo.getPages());
+        page.setSearchCount(pageInfo.isSearchCount());
         return page;
     }
 }
