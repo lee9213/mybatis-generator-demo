@@ -30,22 +30,10 @@
     </sql>
     -->
 
-    <sql id="selectWhere">
-    </sql>
-
-    <select id="selectByPageCondition" resultMap="BaseResultMap"
-            parameterType="com.giants.common.tools.PageCondition">
+    <select id="page" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from ${table.name}
-        <include refid="selectWhere"/>
         order by id desc
-        limit ${r'#{startOffSet}'},${r'#{pageSize}'}
-    </select>
-
-    <select id="countByPageCondition" resultType="java.lang.Integer"
-            parameterType="com.giants.common.tools.PageCondition">
-        select count(1) from ${table.name}
-        <include refid="selectWhere"/>
     </select>
 </mapper>
