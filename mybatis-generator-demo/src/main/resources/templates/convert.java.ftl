@@ -1,7 +1,7 @@
 package ${package.convert};
 
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.lee9213.als.core.base.PageInfo;
 import ${package.vo}.${table.voName};
@@ -11,9 +11,11 @@ import java.util.Objects;
 import org.apache.commons.collections.CollectionUtils;
 
 /**
- * @author libo
- * @date 2019/2/19 18:41
- */
+  * <p>${table.comment!} 转换类</p>
+  *
+  * @author ${global.author}
+  * @since ${global.date}
+  */
 public final class ${table.convertName} {
 
     /**
@@ -59,7 +61,7 @@ public final class ${table.convertName} {
         for (${table.entityName} ${table.entityName?uncap_first} : pageInfo.getRecords()) {
             ${table.voName?uncap_first}List.add(convert(${table.entityName?uncap_first}));
         }
-        page.setList(${table.voName?uncap_first}List);
+        page.setRecords(${table.voName?uncap_first}List);
         page.setCurrent(pageInfo.getCurrent());
         page.setSize(pageInfo.getSize());
         page.setTotal(pageInfo.getTotal());

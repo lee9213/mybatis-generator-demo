@@ -70,16 +70,18 @@ public class MapperPlugin extends PluginAdapter {
         interfaze.addAnnotation("@Mapper");
         interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
         Method page = new Method("page");
-        page.addParameter(new Parameter(new FullyQualifiedJavaType("Page"), "page"));
-        FullyQualifiedJavaType list = new FullyQualifiedJavaType("IPage");
+        FullyQualifiedJavaType parameter = new FullyQualifiedJavaType("IPage");
+        parameter.addTypeArgument(new FullyQualifiedJavaType(entityName));
+        page.addParameter(new Parameter(parameter, "page"));
+        FullyQualifiedJavaType list = new FullyQualifiedJavaType("List");
         list.addTypeArgument(new FullyQualifiedJavaType(entityName));
         page.setReturnType(list);
         page.addJavaDocLine("/**");
-        page.addJavaDocLine("* 分页查询" + tableInfo.getComment() + "列表");
-        page.addJavaDocLine("*");
-        page.addJavaDocLine("* @param page 分页对象");
-        page.addJavaDocLine("* @return 分页信息");
-        page.addJavaDocLine("*/");
+        page.addJavaDocLine(" * 分页查询" + tableInfo.getComment() + "列表");
+        page.addJavaDocLine(" *");
+        page.addJavaDocLine(" * @param page 分页对象");
+        page.addJavaDocLine(" * @return 分页信息");
+        page.addJavaDocLine(" */");
 
         interfaze.addMethod(page);
 

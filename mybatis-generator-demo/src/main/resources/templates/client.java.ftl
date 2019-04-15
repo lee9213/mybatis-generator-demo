@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 /**
  * <p>${table.comment!}</p>
  *
@@ -48,7 +47,7 @@ public interface ${table.clientName} {
      */
     @GetMapping(value = "/{id}/detail")
     <#if global.swagger2>
-    @ApiOperation(value = "获取${table.comment!}详情",response = ${table.voName}.class)</#if>
+    @ApiOperation(value = "获取${table.comment!}详情", response = ${table.voName}.class)</#if>
     Result detail(@PathVariable Long id) throws BusinessException;
 
     /**
@@ -76,7 +75,6 @@ public interface ${table.clientName} {
     @ApiOperation(value = "删除${table.comment!}")</#if>
     Result delete(@PathVariable Long id) throws BusinessException;
 
-
     /**
      * 获取${table.comment!}列表
      *
@@ -84,7 +82,7 @@ public interface ${table.clientName} {
      * @return 分页信息
      * @throws BusinessException 统一异常
      */
-    @PostMapping(value = "/list")
+    @PostMapping(value = "/page")
     <#if global.swagger2>
     @ApiOperation(value = "分页查询${table.comment!}", response = ${table.voName}.class, responseContainer = "List")</#if>
     Result page(@RequestBody PageRequest pageRequest) throws BusinessException;

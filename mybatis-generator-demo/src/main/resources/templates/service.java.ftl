@@ -20,13 +20,13 @@ public interface ${table.serviceName} extends ${strategy.superServiceClass?subst
 public interface ${table.serviceName} {
 </#if>
 
-	/**
-   * 获取${table.comment!}列表
-   *
-   * @param pageNum 页码
-   * @param pageSize 每页显示条数
-	 * @throws ${global.exceptionName} 统一异常
-	 */
-   IPage<${table.voName}> page(Long pageNum, Long pageSize) throws ${global.exceptionName};
+    /**
+     * 获取${table.comment!}列表
+     *
+     * @param pageNum 页码
+     * @param pageSize 每页显示条数
+     * @throws ${global.exceptionName} 统一异常
+     */
+    IPage<${table.voName}> page(Long pageNum, Long pageSize) throws ${global.exceptionName};
 
 }

@@ -3,6 +3,7 @@ package ${package.controller};
 import ${global.exceptionPackage};
 import com.lee9213.als.common.vo.Result;
 import com.lee9213.als.core.base.vo.request.PageRequest;
+import com.lee9213.als.core.util.ObjectUtil;
 import ${package.client}.${table.clientName};
 import ${package.convert}.${table.convertName};
 import ${package.entity}.${table.entityName};
@@ -40,6 +41,8 @@ public class ${table.controllerName} implements ${table.clientName} {
 
     @Override
     public Result save(${table.voName} ${table.voName?uncap_first}) throws BusinessException {
+        ObjectUtil.isNull(${table.voName?uncap_first},
+            UserCenterBusinessException.error(UserCenterBusinessErrorCode.PARAMETER_NOT_NULL));
         ${table.entityName} ${table.entityName?uncap_first} = ${table.convertName}.convert(${table.voName?uncap_first});
         return Result.success(${table.serviceName?uncap_first}.save(${table.entityName?uncap_first}));
     }
@@ -50,24 +53,22 @@ public class ${table.controllerName} implements ${table.clientName} {
         return Result.success(${table.convertName}.convert(${table.entityName?uncap_first}));
     }
 
-
     @Override
     public Result update(${table.voName} ${table.voName?uncap_first}) throws BusinessException {
+        ObjectUtil.isNull(${table.voName?uncap_first},
+            UserCenterBusinessException.error(UserCenterBusinessErrorCode.PARAMETER_NOT_NULL));
         ${table.entityName} ${table.entityName?uncap_first} = ${table.convertName}.convert(${table.voName?uncap_first});
         return Result.success(${table.serviceName?uncap_first}.updateById(${table.entityName?uncap_first}));
     }
-
 
     @Override
     public Result delete(Long id) throws BusinessException {
         return Result.success(${table.serviceName?uncap_first}.removeById(id));
     }
 
-
     @Override
     public Result page(PageRequest pageRequest) throws BusinessException {
         return Result.success(${table.serviceName?uncap_first}.page(pageRequest.getPageNum(), pageRequest.getPageSize()));
     }
-
 }
 
