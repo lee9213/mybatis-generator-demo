@@ -9,7 +9,6 @@ import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
-import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
@@ -57,8 +56,6 @@ public class MapperPlugin extends PluginAdapter {
                                    IntrospectedTable introspectedTable) {
         interfaze.getMethods().removeIf(e -> true);
         Configuration configuration = (Configuration) SpringContextUtil.getBean("configuration");
-        interfaze.addImportedType(new FullyQualifiedJavaType("java.util.List"));
-        interfaze.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.core.metadata.IPage"));
         String superMapperClass = configuration.getStrategyProperties().getSuperMapperClass();
         interfaze.addImportedType(new FullyQualifiedJavaType(superMapperClass));
         TableInfo tableInfo1 = configuration.getTableInfoList().stream().filter(
@@ -73,20 +70,20 @@ public class MapperPlugin extends PluginAdapter {
         interfaze.addSuperInterface(superClass);
         interfaze.addAnnotation("@Mapper");
         interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
-        Method pageMethod = new Method("page");
-        FullyQualifiedJavaType parameter = new FullyQualifiedJavaType("IPage");
-        parameter.addTypeArgument(entity);
-        pageMethod.addParameter(new Parameter(parameter, "page"));
-        FullyQualifiedJavaType list = new FullyQualifiedJavaType("List");
-        list.addTypeArgument(new FullyQualifiedJavaType(entityName));
-        pageMethod.setReturnType(list);
-        pageMethod.addJavaDocLine("/**");
-        pageMethod.addJavaDocLine(" * 分页查询" + tableInfo1.getComment() + "列表");
-        pageMethod.addJavaDocLine(" *");
-        pageMethod.addJavaDocLine(" * @param page 分页对象");
-        pageMethod.addJavaDocLine(" * @return 分页信息");
-        pageMethod.addJavaDocLine(" */");
-        interfaze.addMethod(pageMethod);
+//        Method pageMethod = new Method("page");
+//        FullyQualifiedJavaType parameter = new FullyQualifiedJavaType("IPage");
+//        parameter.addTypeArgument(entity);
+//        pageMethod.addParameter(new Parameter(parameter, "page"));
+//        FullyQualifiedJavaType list = new FullyQualifiedJavaType("List");
+//        list.addTypeArgument(new FullyQualifiedJavaType(entityName));
+//        pageMethod.setReturnType(list);
+//        pageMethod.addJavaDocLine("/**");
+//        pageMethod.addJavaDocLine(" * 分页查询" + tableInfo1.getComment() + "列表");
+//        pageMethod.addJavaDocLine(" *");
+//        pageMethod.addJavaDocLine(" * @param page 分页对象");
+//        pageMethod.addJavaDocLine(" * @return 分页信息");
+//        pageMethod.addJavaDocLine(" */");
+//        interfaze.addMethod(pageMethod);
 
         return true;
     }
