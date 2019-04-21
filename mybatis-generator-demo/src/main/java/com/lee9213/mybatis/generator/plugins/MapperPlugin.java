@@ -3,9 +3,14 @@ package com.lee9213.mybatis.generator.plugins;
 import com.lee9213.mybatis.generator.config.Configuration;
 import com.lee9213.mybatis.generator.config.domain.TableInfo;
 import com.lee9213.mybatis.generator.util.SpringContextUtil;
+
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
-import org.mybatis.generator.api.dom.java.*;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.java.Interface;
+import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.api.dom.java.Parameter;
+import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.slf4j.Logger;
@@ -49,41 +54,39 @@ public class MapperPlugin extends PluginAdapter {
      */
     @Override
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass,
-        IntrospectedTable introspectedTable) {
+                                   IntrospectedTable introspectedTable) {
         interfaze.getMethods().removeIf(e -> true);
         Configuration configuration = (Configuration) SpringContextUtil.getBean("configuration");
         interfaze.addImportedType(new FullyQualifiedJavaType("java.util.List"));
+        interfaze.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.core.metadata.IPage"));
         String superMapperClass = configuration.getStrategyProperties().getSuperMapperClass();
         interfaze.addImportedType(new FullyQualifiedJavaType(superMapperClass));
-        TableInfo tableInfo = configuration.getTableInfoList().stream()
-            .filter(table -> table.getName()
-                .equalsIgnoreCase(introspectedTable.getTableConfiguration().getTableName()))
-            .collect(Collectors.toList()).get(0);
-        String entityName = tableInfo.getEntityName();
+        TableInfo tableInfo1 = configuration.getTableInfoList().stream().filter(
+                tableInfo -> tableInfo.getName().equalsIgnoreCase(introspectedTable.getTableConfiguration().getTableName()))
+                .collect(Collectors.toList()).get(0);
+        String entityName = tableInfo1.getEntityName();
         FullyQualifiedJavaType entity = new FullyQualifiedJavaType(configuration.getPackageInfo().getEntity() + "." + entityName);
         interfaze.addImportedType(entity);
-        interfaze.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.core.metadata.IPage"));
-        interfaze.addImportedType(new FullyQualifiedJavaType("com.baomidou.mybatisplus.extension.plugins.pagination.Page"));
+
         FullyQualifiedJavaType superClass = new FullyQualifiedJavaType(superMapperClass);
         superClass.addTypeArgument(entity);
         interfaze.addSuperInterface(superClass);
         interfaze.addAnnotation("@Mapper");
         interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
-        Method page = new Method("page");
+        Method pageMethod = new Method("page");
         FullyQualifiedJavaType parameter = new FullyQualifiedJavaType("IPage");
-        parameter.addTypeArgument(new FullyQualifiedJavaType(entityName));
-        page.addParameter(new Parameter(parameter, "page"));
+        parameter.addTypeArgument(entity);
+        pageMethod.addParameter(new Parameter(parameter, "page"));
         FullyQualifiedJavaType list = new FullyQualifiedJavaType("List");
         list.addTypeArgument(new FullyQualifiedJavaType(entityName));
-        page.setReturnType(list);
-        page.addJavaDocLine("/**");
-        page.addJavaDocLine(" * 分页查询" + tableInfo.getComment() + "列表");
-        page.addJavaDocLine(" *");
-        page.addJavaDocLine(" * @param page 分页对象");
-        page.addJavaDocLine(" * @return 分页信息");
-        page.addJavaDocLine(" */");
-
-        interfaze.addMethod(page);
+        pageMethod.setReturnType(list);
+        pageMethod.addJavaDocLine("/**");
+        pageMethod.addJavaDocLine(" * 分页查询" + tableInfo1.getComment() + "列表");
+        pageMethod.addJavaDocLine(" *");
+        pageMethod.addJavaDocLine(" * @param page 分页对象");
+        pageMethod.addJavaDocLine(" * @return 分页信息");
+        pageMethod.addJavaDocLine(" */");
+        interfaze.addMethod(pageMethod);
 
         return true;
     }
@@ -95,7 +98,7 @@ public class MapperPlugin extends PluginAdapter {
 
     @Override
     public boolean clientSelectByPrimaryKeyMethodGenerated(Method method, Interface interfaze,
-        IntrospectedTable introspectedTable) {
+                                                           IntrospectedTable introspectedTable) {
         method.setName("selectById");
         return super.clientSelectByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable);
     }
@@ -109,7 +112,7 @@ public class MapperPlugin extends PluginAdapter {
 
     @Override
     public boolean clientDeleteByPrimaryKeyMethodGenerated(Method method, Interface interfaze,
-        IntrospectedTable introspectedTable) {
+                                                           IntrospectedTable introspectedTable) {
         method.setName("deleteById");
         return super.clientDeleteByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable);
     }
@@ -123,14 +126,14 @@ public class MapperPlugin extends PluginAdapter {
 
     @Override
     public boolean clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(Method method, Interface interfaze,
-        IntrospectedTable introspectedTable) {
+                                                                       IntrospectedTable introspectedTable) {
         method.setName("updateById");
         return super.clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method, interfaze, introspectedTable);
     }
 
     @Override
     public boolean sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(XmlElement element,
-        IntrospectedTable introspectedTable) {
+                                                                        IntrospectedTable introspectedTable) {
         element.getAttributes().removeIf(attribute -> "id".equals(attribute.getName()));
         element.addAttribute(new Attribute("id", "updateById"));
         return super.sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(element, introspectedTable);
@@ -151,19 +154,19 @@ public class MapperPlugin extends PluginAdapter {
 
     @Override
     public boolean sqlMapUpdateByPrimaryKeySelectiveElementGenerated(XmlElement element,
-        IntrospectedTable introspectedTable) {
+                                                                     IntrospectedTable introspectedTable) {
         return false;
     }
 
     @Override
     public boolean clientInsertSelectiveMethodGenerated(Method method, Interface interfaze,
-        IntrospectedTable introspectedTable) {
+                                                        IntrospectedTable introspectedTable) {
         return false;
     }
 
     @Override
     public boolean clientUpdateByPrimaryKeySelectiveMethodGenerated(Method method, Interface interfaze,
-        IntrospectedTable introspectedTable) {
+                                                                    IntrospectedTable introspectedTable) {
         return false;
     }
 
