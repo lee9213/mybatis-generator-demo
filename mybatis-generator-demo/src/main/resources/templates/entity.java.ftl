@@ -1,5 +1,8 @@
 package ${package.entity};
 
+<#if global.logicDelete??>
+import com.baomidou.mybatisplus.annotation.TableLogic;
+</#if>
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
@@ -10,7 +13,6 @@ import ${pkg};
 <#else>
 import java.io.Serializable;
 </#if>
-
 <#if strategy.entityLombokModel>
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +53,11 @@ public class ${table.entityName} implements Serializable {
      * ${field.comment}
      */
     <#--</#if>-->
+    </#if>
+    <#if global.logicDelete??>
+       <#if field.propertyName == 'isDelete'>
+    @TableLogic
+        </#if>
     </#if>
     private ${field.columnType.type} ${field.propertyName};
 </#list>

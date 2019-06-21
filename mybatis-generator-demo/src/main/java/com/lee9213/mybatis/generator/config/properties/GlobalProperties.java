@@ -1,12 +1,14 @@
 package com.lee9213.mybatis.generator.config.properties;
 
 import com.lee9213.mybatis.generator.config.sql.enums.DateType;
-import lombok.Data;
+
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import lombok.Data;
 
 /**
  * <p>全局配置信息</p>
@@ -75,4 +77,9 @@ public class GlobalProperties {
     private String exceptionPackage;
     private String exceptionCodeName;
     private String exceptionCodePackage;
+
+    /**
+     * 逻辑删除
+     */
+    private boolean logicDelete;
 }

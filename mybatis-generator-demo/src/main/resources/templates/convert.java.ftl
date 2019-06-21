@@ -6,9 +6,10 @@ import com.google.common.collect.Lists;
 import com.lee9213.als.core.base.PageInfo;
 import ${package.vo}.${table.voName};
 import ${package.entity}.${table.entityName};
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.List;
 import java.util.Objects;
-import org.apache.commons.collections4.CollectionUtils;
 
 /**
   * <p>${table.comment!} 转换类</p>
