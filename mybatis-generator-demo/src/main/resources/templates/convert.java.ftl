@@ -8,13 +8,13 @@ import ${package.vo}.${table.voName};
 import ${package.entity}.${table.entityName};
 import java.util.List;
 import java.util.Objects;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
   * <p>${table.comment!} 转换类</p>
   *
   * @author ${global.author}
-  * @since ${global.date}
+  * @date ${global.date}
   */
 public final class ${table.convertName} {
 
@@ -24,7 +24,7 @@ public final class ${table.convertName} {
      * @param ${table.voName?uncap_first} ${table.comment!}VO
      * @return ${table.comment!}
      */
-    public static ${table.entityName} convert(${table.voName} ${table.voName?uncap_first}) {
+    public static ${table.entityName} convertVO(${table.voName} ${table.voName?uncap_first}) {
         if (Objects.isNull(${table.voName?uncap_first})) {
             return ${table.entityName}.builder().build();
         }
@@ -38,7 +38,7 @@ public final class ${table.convertName} {
      * @param ${table.entityName?uncap_first} ${table.comment!}
      * @return ${table.comment!}VO
      */
-    public static ${table.voName} convert(${table.entityName} ${table.entityName?uncap_first}) {
+    public static ${table.voName} convertDO(${table.entityName} ${table.entityName?uncap_first}) {
         if (Objects.isNull(${table.entityName?uncap_first})) {
             return ${table.voName}.builder().build();
         }
@@ -59,7 +59,7 @@ public final class ${table.convertName} {
             return page;
         }
         for (${table.entityName} ${table.entityName?uncap_first} : pageInfo.getRecords()) {
-            ${table.voName?uncap_first}List.add(convert(${table.entityName?uncap_first}));
+            ${table.voName?uncap_first}List.add(convertDO(${table.entityName?uncap_first}));
         }
         page.setRecords(${table.voName?uncap_first}List);
         page.setCurrent(pageInfo.getCurrent());

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
  * <p>${table.comment!}</p>
  *
  * @author ${global.author}
- * @since ${global.date}
+ * @date ${global.date}
  */
 <#if strategy.entityLombokModel>
 @Data
